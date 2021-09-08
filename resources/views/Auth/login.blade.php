@@ -1,6 +1,9 @@
 @extends('/layouts/layout')
+@push('styles')
+    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+@endpush
 @section('content')
-<x-guest-layout>
+{{-- <x-guest-layout>
     <x-auth-card>
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -49,5 +52,44 @@
             </div>
         </form>
     </x-auth-card>
-</x-guest-layout>
+</x-guest-layout> --}}
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+  
+      <!-- Icon -->
+      <x-auth-session-status class="mb-4" :status="session('status')" />
+
+      <!-- Validation Errors -->
+      <x-auth-validation-errors class="mb-4" :errors="$errors" />
+      <!-- Login Form -->
+      <form method="POST" action="{{ route('login') }}">
+        @csrf
+        <div class="mt-4 d-flex justify-content-center flex-column">
+            <x-label for="email" class="text-center" :value="__('Email')" />
+
+            <x-input id="email" class="fadeIn first email-input" type="email" name="email" :value="old('email')" required autofocus />
+        </div>
+
+        <!-- Password -->
+        <div class="mt-4 d-flex justify-content-center flex-column">
+            <x-label for="password" class="text-center" :value="__('Password')" />
+
+            <x-input id="password" class="fadeIn second password-input"
+                            type="password"
+                            name="password"
+                            required autocomplete="current-password" />
+        </div>
+        <input type="submit" class="fadeIn third" value="{{ __('Log in') }}">
+      </form>
+  
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        @if (Route::has('password.request'))
+        <a class="underlineHoverPass forgot-pass" href="{{ route('password.request') }}">Forgot Password?</a>
+        @endif
+      </div>
+  
+    </div>
+  </div>
 @endsection
