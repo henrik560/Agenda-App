@@ -6,3 +6,35 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+#navbar-wrapper {
+    nav {
+        background-color: $themeColor !important;
+
+        div.container-fluid {
+            background-color: $themeColorAccent !important;
+
+            a.navbar-brand {
+                width: fit-content;
+            }
+        }
+    }
+}
+
+@media (max-width: 991.98px) {
+    .container-margin {
+        padding-left: 15px !important;
+    }
+}
+
+@media (max-width: 215px) and (min-width: 200px) {
+    .navbar-brand {
+        font-size: 1.2rem !important;
+    }
+}
+
+@media (max-width: 200px) {
+    .navbar-brand {
+        font-size: 1rem !important;
+    }
+}

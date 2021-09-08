@@ -13,5 +13,6 @@ export default function App() {
     <FullCalendar defaultView="dayGridMonth" plugins={[dayGridPlugin]} events={events} />
   );
 }
-
-ReactDOM.render(<App />, document.getElementById("calendar-wrapper"));
+if(document.getElementById("calendar-wrapper")) {
+  ReactDOM.render(<App />, document.getElementById("calendar-wrapper"));
+}
