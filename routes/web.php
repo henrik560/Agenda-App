@@ -13,6 +13,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
+// Route::get('/', function () {
+//     return view('app');
+// });
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
+Route::group(["middleware" => ["auth"]], function () {
+    Route::get("/", function () {
+        return view("app");
+    });
+    Route::get("/home", function () {
+        return view("app");
+    });
+    Route::get("/login", function () {
+        return view("Auth.login");
+    });
 });
+
+// Route::prefix("/")->group(function () {
+//     Route::get("/", function () {
+//         return view("app");
+//     });
+//     Route::get("/login", function () {
+//         return view("Auth.login");
+//     });
+// });
+
+require __DIR__ . '/auth.php';
