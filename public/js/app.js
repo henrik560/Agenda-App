@@ -13128,7 +13128,6 @@ function App() {
     title: "today's event",
     date: new Date()
   }];
-  console.log('test');
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_fullcalendar_react__WEBPACK_IMPORTED_MODULE_1__["default"], {
     defaultView: "dayGridMonth",
     plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__["default"]],
