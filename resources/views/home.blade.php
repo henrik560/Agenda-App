@@ -1,4 +1,4 @@
-@extends('Base_Layout/layout')
+@extends('layouts/layout')
 @push('styles')
     <link href="{{ asset('css/index.css') }}" rel="stylesheet">
 @endpush

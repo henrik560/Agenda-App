@@ -26,7 +26,25 @@
     @stack('styles')
 </head>
 <body> 
-    <div id="navbar-wrapper"></div>
+    <div id="navbar-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid container-margin">
+                <a class="navbar-brand fs-3" href="#">Pkn Rhenen</a>
+                <button class="navbar-toggler mr-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse float-end" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link ml-1 fs-6 active" aria-current="page" href="#">Agenda</a>
+                    <a class="nav-link ml-1 fs-6" href="#">Gebouwen</a>
+                    <a class="nav-link ml-1 fs-6" href="#">Gebruikers</a>
+                    <a class="nav-link ml-1 fs-6" href="#">Exporteren</a>
+                    <a class="nav-link ml-1 fs-6" href="#">Uitloggen</a>
+                </div>
+                </div>
+            </div>
+            </nav>
+    </div>
     @yield('content')
 </body>
     @stack('script')

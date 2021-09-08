@@ -13,4 +13,3 @@ require('./bootstrap');
  */
 
 require('./components/calendar');
-require('./components/navbar');
