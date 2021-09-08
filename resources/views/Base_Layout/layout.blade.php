@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- <meta name="og:description" content="De beste oplossing in ruwvoermachines!" />
-    <meta name="og:title" content="Budding - Ruwvoermachines" />
-    <meta name="og:url" content="BuddingTechniek.nl" />
-    <meta name="og:description" content="Verkoop van ruwvoermachines." />
-    <meta name="og:image" content="https://i.ibb.co/YWLpr1D/image-removebg-preview.png" />
+    <meta name="og:description" content="Dit is een agenda app waar u uw ruimtes en middelen kunt reserveren" />
+    <meta name="og:title" content="Pkn Rhenen - Agenda" />
+    <meta name="og:url" content="{{url('/')}}" />
+    <meta name="og:image" content="https://pknrhenen.nl/wp-content/themes/pknrhenen/external/images/logo.png" />
     <meta name="og:image:width" content="2048" />
     <meta name="og:image:height" content="1146" />
     <meta property="locale" content="nl_NL" />
-    <meta property="og:site_name" content="" /> TODo ->> --}}
+    <meta property="og:site_name" content="Pkn Rhenen" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/7ea4a14f9b.js" crossorigin="anonymous"></script>

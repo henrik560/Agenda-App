@@ -4,8 +4,4 @@
 @endpush
 
 @section('content')
-    <div id="calendar-wrapper"></div>
-    @push('script')
-    <script src="{{ asset('js/app.js') }}"></script>
-@endpush
 @endsection
