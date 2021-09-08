@@ -28,8 +28,20 @@ Route::group(["middleware" => ["auth"]], function () {
         return view("app");
     });
     Route::get("/login", function () {
-        return view("Auth.login");
+        return view("app");
     });
+    Route::get("/agenda", function () {
+        return view("app");
+    })->name("agenda");
+    Route::get("/buildings", function () {
+        return view("app");
+    })->name("buildings");
+    Route::get("/users", function () {
+        return view("app");
+    })->name("users");
+    Route::get("/export", function () {
+        return view("app");
+    })->name("export");
 });
 
 // Route::prefix("/")->group(function () {
