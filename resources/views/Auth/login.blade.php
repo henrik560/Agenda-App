@@ -65,14 +65,14 @@
       <!-- Login Form -->
       <form method="POST" action="{{ route('login') }}">
         @csrf
-        <div class="mt-4 d-flex justify-content-center flex-column">
+        <div class="mt-4 d-flex justify-content-center align-items-center flex-column">
             <x-label for="email" class="text-center" :value="__('Email')" />
 
             <x-input id="email" class="fadeIn first email-input" type="email" name="email" :value="old('email')" required autofocus />
         </div>
 
         <!-- Password -->
-        <div class="mt-4 d-flex justify-content-center flex-column">
+        <div class="mt-4 d-flex justify-content-center align-items-center flex-column">
             <x-label for="password" class="text-center" :value="__('Password')" />
 
             <x-input id="password" class="fadeIn second password-input"

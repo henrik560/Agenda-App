@@ -157,8 +157,8 @@ input[type=submit] {
     display: inline-block;
     text-transform: uppercase;
     font-size: 13px;
-    -webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-    box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
+    -webkit-box-shadow: 0 10px 30px 0 rgba(236, 155, 79, 0.4);
+    box-shadow: 0 10px 30px 0 rgba(236, 155, 79, 0.4);
     -webkit-border-radius: 5px 5px 5px 5px;
     border-radius: 5px 5px 5px 5px;
     margin: 5px 20px 40px 20px;
@@ -317,4 +317,15 @@ input[type=reset] {
 .forgot-pass {
     color: $themeColor !important;
     text-decoration: none !important;
+}
+
+@media (max-width: 315px) and (min-width: 190px) {
+    input[type=submit] {
+        padding: 15px 10%;
+    }
+}
+@media (max-width: 190px) {
+    input[type=submit] {
+        padding: 15px 5%;
+    }
 }
