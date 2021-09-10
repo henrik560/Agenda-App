@@ -25,6 +25,7 @@
 .navbar-toggler {
     margin-right: 15px !important;
     font-size: 20px !important;
+    box-shadow: none !important;
 }
 
 #navbarSupportedContent {
@@ -162,6 +163,10 @@
         -ms-flex-preferred-size: auto;
         flex-basis: auto;
     }
+}
+
+.collapsing {
+    overflow: hidden !important;
 }
 
 

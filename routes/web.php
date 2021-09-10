@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\BuildingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,24 +24,21 @@ Route::group(["middleware" => ["auth"]], function () {
     Route::get("/", function () {
         return view("app");
     });
-    Route::get("/home", function () {
-        return view("app");
-    });
     Route::get("/login", function () {
         return view("app");
     });
     Route::get("/agenda", function () {
         return view("app");
-    })->name("agenda");
-    Route::get("/buildings", function () {
-        return view("app");
-    })->name("buildings");
+    });
+    Route::group(["prefix" => "/buildings"], function () {
+        Route::get("/overview", [BuildingController::class, "getAllBuildings"]);
+    });
     Route::get("/users", function () {
         return view("app");
-    })->name("users");
+    });
     Route::get("/export", function () {
         return view("app");
-    })->name("export");
+    });
 });
 
 // Route::prefix("/")->group(function () {

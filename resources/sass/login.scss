@@ -218,7 +218,8 @@ input[type=reset] {
 .password-input,
 .email-input {
     background-color: rgba($color: #ec9b4f, $alpha: 0.1) !important;
-    border: none;
+    border: none !important;
+    outline: none !important;
     color: #0d0d0d;
     padding: 15px 32px;
     text-align: center;
