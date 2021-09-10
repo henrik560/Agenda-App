@@ -148,7 +148,7 @@ input[type=button] {
 }
 
 input[type=submit] {
-    background-color: $themeColorAccent;
+    background-color: $themeColor;
     border: none;
     color: white;
     padding: 15px 80px;
@@ -217,7 +217,7 @@ input[type=reset] {
 
 .password-input,
 .email-input {
-    background-color: #f6f6f6;
+    background-color: rgba($color: #ec9b4f, $alpha: 0.1) !important;
     border: none;
     color: #0d0d0d;
     padding: 15px 32px;
@@ -227,7 +227,7 @@ input[type=reset] {
     font-size: 16px;
     margin: 5px;
     width: 85%;
-    border: 2px solid #f6f6f6;
+    border: 2px solid #e7b17f;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
@@ -237,7 +237,7 @@ input[type=reset] {
     border-radius: 5px 5px 5px 5px;
 
     &:focus {
-        background-color: #fff;
+        background-color: rgba($color: #ec9b4f, $alpha: 0.4);
         border-bottom: 2px solid $themeColor;
         border: none;
     }
@@ -324,6 +324,7 @@ input[type=reset] {
         padding: 15px 10%;
     }
 }
+
 @media (max-width: 190px) {
     input[type=submit] {
         padding: 15px 5%;
