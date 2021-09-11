@@ -64,7 +64,6 @@ jQuery(document).ready(function ($) {
     path = basePath + 'agenda';
   }
 
-  console.log(path);
   var target = $('#navbarSupportedContent ul li a[href="' + path + '"]'); // Add active class to target link
 
   target.parent().addClass('active');
@@ -74,6 +73,6 @@ jQuery(document).ready(function ($) {
 });
 setTimeout(function () {
   changeNavbar();
-}, 500);
+}, 1500);
 /******/ })()
 ;

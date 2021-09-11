@@ -12,6 +12,8 @@
     "devDependencies": {
         "@babel/preset-react": "^7.13.13",
         "@tailwindcss/forms": "^0.2.1",
+        "@types/react": "^17.0.20",
+        "@types/react-dom": "^17.0.9",
         "alpinejs": "^2.7.3",
         "autoprefixer": "^10.1.0",
         "axios": "^0.21",
@@ -47,6 +49,7 @@
         "babel-cli": "^6.26.0",
         "babel-preset-react-app": "^3.1.2",
         "fullcalendar": "^5.9.0",
-        "react-dom": "^17.0.2"
+        "react-dom": "^17.0.2",
+        "ts-loader": "^9.2.5"
     }
 }
