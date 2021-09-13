@@ -37,7 +37,7 @@ function changeNavbar(){
   $(".navbar-toggler").click(function(){
     setTimeout(function(){ changeNavbar(); });
   });
-  
+
   // --------------add active class-on another-page move----------
   jQuery(document).ready(function($){
       // Get current path and find target link
@@ -54,4 +54,18 @@ function changeNavbar(){
       setTimeout(function(){ changeNavbar(); }, 500);
   });
 
-setTimeout(function(){ changeNavbar(); }, 1500);
+  $(document).ready(function () {
+    $("#navbar-toggler").on("click", function () {
+      var element = $("#navbarSupportedContent");
+      if($("#main-nav").css("borderBottomLeftRadius") == "25px" ) {
+        $("#main-nav").css({ borderBottomLeftRadius: "", borderBottomRightRadius: "" })
+      }else {
+        $("#main-nav").css({ borderBottomLeftRadius: "25px", borderBottomRightRadius: "25px" })
+      }
+      element.css({ height: '' })
+        setTimeout(function () {
+          changeNavbar()
+          element.css({ height: '' })
+        }, 500);
+      })
+  }); 

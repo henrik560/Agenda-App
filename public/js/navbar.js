@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
 /*!*******************************************!*\
-  !*** ./resources/js/components/navbar.js ***!
+  !*** ./resources/js/Components/navbar.js ***!
   \*******************************************/
 function changeNavbar() {
   var tabsNewAnim = $('#navbarSupportedContent');
@@ -71,8 +71,32 @@ jQuery(document).ready(function ($) {
     changeNavbar();
   }, 500);
 });
-setTimeout(function () {
-  changeNavbar();
-}, 1500);
+$(document).ready(function () {
+  $("#navbar-toggler").on("click", function () {
+    var element = $("#navbarSupportedContent");
+
+    if ($("#main-nav").css("borderBottomLeftRadius") == "25px") {
+      $("#main-nav").css({
+        borderBottomLeftRadius: "",
+        borderBottomRightRadius: ""
+      });
+    } else {
+      $("#main-nav").css({
+        borderBottomLeftRadius: "25px",
+        borderBottomRightRadius: "25px"
+      });
+    }
+
+    element.css({
+      height: ''
+    });
+    setTimeout(function () {
+      changeNavbar();
+      element.css({
+        height: ''
+      });
+    }, 500);
+  });
+});
 /******/ })()
 ;

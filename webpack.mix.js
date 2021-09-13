@@ -12,10 +12,8 @@ const mix = require("laravel-mix");
  */
 
 mix
-    .js([
-            "resources/js/app.js",
-            "resources/js/components/navbar"
-        ], "public/js")
+    .js("resources/js/app.js", "public/js")
+    .js("resources/js/Components/navbar.js", "public/js")
     .react()
     .sass("resources/sass/app.scss", "public/css")
     .sass("resources/sass/login.scss", "public/css")
