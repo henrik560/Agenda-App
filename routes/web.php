@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BuildingController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,13 +29,13 @@ Route::group(["middleware" => ["auth"]], function () {
         return view("app");
     });
     Route::get("/agenda", function () {
-        return view("app");
+        return view("agenda.overview");
     });
     Route::group(["prefix" => "/buildings"], function () {
         Route::get("/overview", [BuildingController::class, "getAllBuildings"]);
     });
-    Route::get("/users", function () {
-        return view("app");
+    Route::group(["prefix" => "/users"], function () {
+        Route::get("/overview", [UserController::class, "getAllUsers"]);
     });
     Route::get("/export", function () {
         return view("app");

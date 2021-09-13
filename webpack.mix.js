@@ -14,8 +14,11 @@ const mix = require("laravel-mix");
 mix
     .js("resources/js/app.js", "public/js")
     .js("resources/js/Components/navbar.js", "public/js")
+    .js("resources/js/Components/datatable.js", "public/js")
+    .js("resources/js/Components/agenda.js", "public/js")
     .react()
     .sass("resources/sass/app.scss", "public/css")
     .sass("resources/sass/login.scss", "public/css")
+    .sass("resources/sass/agenda.scss", "public/css")
     .sass("resources/sass/buildings.scss", "public/css")
     .ts("resources/js/Components/navbar-react.tsx", "public/js")

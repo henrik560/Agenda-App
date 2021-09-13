@@ -11,17 +11,23 @@
             <tr>
                 <th>ID</th>
                 <th>Naam</th>
-                <th>Beheerder</th>
-                <th>Beheerder Email</th>
+                <th>Email Adress</th>
+                <th>Gebouwen</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($Buildings as $building)
+            @foreach ($Users as $user)
                 <tr>
-                    <td>{{$building->id}}</td>
-                    <td>{{$building->name}}</td>
-                    <td>{{$building->user->name}}</td>
-                    <td>{{$building->user->email}}</td>
+                    <td>{{$user->id}}</td>
+                    <td>{{$user->name}}</td>
+                    <td>{{$user->email}}</td>
+                    <td>
+                        <ul>
+                            @foreach ($user->buildings as $building)
+                                <li>{{ $building->name }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
