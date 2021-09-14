@@ -161,7 +161,7 @@ input[type=submit] {
     box-shadow: 0 10px 30px 0 rgba(236, 155, 79, 0.4);
     -webkit-border-radius: 5px 5px 5px 5px;
     border-radius: 5px 5px 5px 5px;
-    margin: 5px 20px 40px 20px;
+    margin: 20px;
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
     -ms-transition: all 0.3s ease-in-out;
@@ -329,5 +329,16 @@ input[type=reset] {
 @media (max-width: 190px) {
     input[type=submit] {
         padding: 15px 5%;
+    }
+}
+
+.error-messages-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    .message-alert {
+        width: 70%;
+        text-align: center;
     }
 }

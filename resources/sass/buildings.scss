@@ -4,7 +4,7 @@
 // Variables
 @import 'variables';
 
-.datatable-wrapper {
+.datatable_wrapper {
     display: flex !important;
     width: 100% !important;
     justify-content: center !important;    
@@ -12,4 +12,8 @@
     .table {
         width: 90% !important;
     }
+}
+
+.paginate_button {
+    background-color: $themeColor !important;
 }

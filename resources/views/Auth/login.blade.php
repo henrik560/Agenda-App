@@ -55,14 +55,7 @@
 </x-guest-layout> --}}
 <div class="wrapper fadeInDown">
     <div id="formContent">
-      <!-- Tabs Titles -->
-  
-      <!-- Icon -->
       <x-auth-session-status class="mb-4" :status="session('status')" />
-
-      <!-- Validation Errors -->
-      <x-auth-validation-errors class="mb-4" :errors="$errors" />
-      <!-- Login Form -->
       <form method="POST" action="{{ route('login') }}">
         @csrf
         <div class="mt-4 d-flex justify-content-center align-items-center flex-column">
@@ -70,8 +63,6 @@
 
             <x-input id="email" class="fadeIn first email-input" type="email" name="email" :value="old('email')" required autofocus />
         </div>
-
-        <!-- Password -->
         <div class="mt-4 d-flex justify-content-center align-items-center flex-column">
             <x-label for="password" class="text-center" :value="__('Password')" />
 
@@ -80,10 +71,9 @@
                             name="password"
                             required autocomplete="current-password" />
         </div>
-        <input type="submit" class="fadeIn third" value="{{ __('Log in') }}">
+        <input type="submit" class="fadeIn third " value="{{ __('Log in') }}">
+        <x-auth-validation-errors class="mb-4" :errors="$errors" />
       </form>
-  
-      <!-- Remind Passowrd -->
       <div id="formFooter">
         @if (Route::has('password.request'))
         <a class="underlineHoverPass forgot-pass" href="{{ route('password.request') }}">Forgot Password?</a>

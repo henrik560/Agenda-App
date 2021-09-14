@@ -1,0 +1,44 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+.dropdown-menu-container {
+    width: 20%;
+    .dropdown-header {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        margin-top: 25px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.5rem;
+        background-color: $themeColor;
+        padding: .25rem 1rem;
+        color: white;
+    }
+    .dropdown-list-container {
+        background-color: $themeColor;
+        .dropdown-list {
+            text-align: center;
+            color: white;
+            padding: .75rem 1rem;
+            font-size: 1rem;
+            .list-item  {
+                padding: 5px 1px;
+                border-bottom: 1px solid $themeColorAccent;
+                transition: .35s ease-in-out;
+                &:hover {
+                    padding: .75px 0px;
+                    border-bottom: 2px solid white;
+                }
+            }
+        }
+    }
+}

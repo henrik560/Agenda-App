@@ -1,10 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
-.datatable-wrapper {
+.datatable_wrapper {
   display: flex !important;
   width: 100% !important;
   justify-content: center !important;
   align-items: center !important;
 }
-.datatable-wrapper .table {
+.datatable_wrapper .table {
   width: 90% !important;
+}
+
+.paginate_button {
+  background-color: #F27500 !important;
 }
