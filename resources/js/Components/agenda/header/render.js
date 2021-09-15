@@ -1,18 +1,30 @@
+import axios from 'axios';
+import { getJSON } from 'jquery';
 import React from 'react';
 import ReactDom from 'react-dom'; 
 
-export class header extends React.Component {
+export default class header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            buildings: console.log(this.fetchData()),
+            buildings: this.fetchBuildings,
         }
+        this.fetchBuildings = this.fetchBuildings.bind(this);
     }
 
-    fetchData() {
-        return fetch("https://jsonapi.org/").then(res => res.json());
+    fetchBuildings = async () => {
+        // axios.get('api/agenda/buildings/get').then(response => this.setState({buildings: response.data}))
+        axios.get('api/agenda/buildings/get').then(response => console.log(response.data))
     }
 
-    render() {}
+    render() {
+        return(
+            <div className="rooms-list-wrapper">
+                {/* {this.state.buildings.map((el, id) => {
+                    <div>{}</div>
+                }) } */}
+            </div>
+        )
+    }
 
 }

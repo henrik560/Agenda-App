@@ -38,6 +38,8 @@ Route::group(["middleware" => ["auth"]], function () {
     Route::get("/export", function () {
         return view("app");
     });
+
+    Route::resource('api/agenda/buildings/get', BuildingController::class);
 });
 
 // Route::prefix("/")->group(function () {
