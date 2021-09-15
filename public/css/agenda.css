@@ -10073,6 +10073,9 @@ h3 {
 #agenda-wrapper .agenda .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-thumb:hover {
   background: #ffff;
 }
+#agenda-wrapper .agenda .content-body {
+  color: currentColor;
+}
 
 @media screen and (max-width: 900px) {
   .dropdown-menu-container {

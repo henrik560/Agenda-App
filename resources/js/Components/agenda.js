@@ -46,7 +46,7 @@ class Agenda extends React.Component {
             </div>
             <div className="content-body">
                 <div className="content-body-header">
-                    <div className="rooms-list">
+                    <div className="buildings-list">
                         <Header />
                     </div>
                 </div>
