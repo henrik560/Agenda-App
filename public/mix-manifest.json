@@ -4,8 +4,8 @@
     "/js/datatable.js": "/js/datatable.js",
     "/js/agenda.js": "/js/agenda.js",
     "/js/navbar-react.js": "/js/navbar-react.js",
+    "/css/agenda.css": "/css/agenda.css",
     "/css/login.css": "/css/login.css",
     "/css/app.css": "/css/app.css",
-    "/css/buildings.css": "/css/buildings.css",
-    "/css/agenda.css": "/css/agenda.css"
+    "/css/buildings.css": "/css/buildings.css"
 }

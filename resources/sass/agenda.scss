@@ -7,38 +7,105 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+#agenda-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-.dropdown-menu-container {
-    width: 20%;
-    .dropdown-header {
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        margin-top: 25px;
+    .agenda {
         display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 1.5rem;
-        background-color: $themeColor;
-        padding: .25rem 1rem;
-        color: white;
-    }
-    .dropdown-list-container {
-        background-color: $themeColor;
-        .dropdown-list {
-            text-align: center;
-            color: white;
-            padding: .75rem 1rem;
-            font-size: 1rem;
-            .list-item  {
-                padding: 5px 1px;
-                border-bottom: 1px solid $themeColorAccent;
-                transition: .35s ease-in-out;
-                &:hover {
-                    padding: .75px 0px;
-                    border-bottom: 2px solid white;
+        width: 90%;
+        flex-direction: column;
+
+        .content-header {
+            display: flex;
+            justify-content: flex-start;
+            column-gap: 25px;
+            flex-direction: row;
+            width: 70%;
+
+            .dropdown-menu-container {
+                width: 20%;
+
+                .dropdown-header {
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
+                    margin-top: 25px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 1.2rem;
+                    background-color: $themeColor;
+                    padding: .20rem .75rem;
+                    color: white;
+                }
+
+                .dropdown-list-container {
+                    background-color: $themeColor;
+
+                    .dropdown-list {
+                        text-align: center;
+                        color: white;
+                        padding: .75rem 1rem;
+                        font-size: 1rem;
+
+                        .dropdown-items-wrapper {
+                            max-height: 300px;
+                            white-space: nowrap;
+                            overflow-y: auto;
+                            overflow-x: hidden;
+                            height: auto;
+
+                            .list-item {
+                                padding: 5px 1px;
+                                border-bottom: 2px solid $themeColorAccent;
+                                transition: .35s ease-in-out;
+
+                                &:hover {
+                                    border-bottom: 2px solid white;
+                                }
+                            }
+
+                            &::-webkit-scrollbar {
+                                width: 2px;
+                                margin-left: 1px;
+                            }
+
+                            &::-webkit-scrollbar-track {
+                                background: #F27500;
+                            }
+
+                            &::-webkit-scrollbar-thumb {
+                                background: #ffff;
+                            }
+
+                            &::-webkit-scrollbar-thumb:hover {
+                                background: #ffff;
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .dropdown-menu-container {
+        width: 100px !important;
+
+        .dropdown-header {
+            width: 100px;
+
+            .dropdown-menu-title {
+                font-size: 1rem;
+            }
+        }
+    }
+
+    .list-item {
+        font-size: .90rem;
+        width: 50px;
     }
 }

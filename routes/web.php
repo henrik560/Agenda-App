@@ -28,9 +28,7 @@ Route::group(["middleware" => ["auth"]], function () {
     Route::get("/login", function () {
         return view("app");
     });
-    Route::get("/agenda", function () {
-        return view("agenda.overview");
-    });
+    Route::get("/agenda", [BuildingController::class, "getAllBuildingsWithRooms"]);
     Route::group(["prefix" => "/buildings"], function () {
         Route::get("/overview", [BuildingController::class, "getAllBuildings"]);
     });

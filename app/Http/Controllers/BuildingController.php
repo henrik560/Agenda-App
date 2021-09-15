@@ -20,4 +20,16 @@ class BuildingController extends Controller
 
         return view("buildings.overview", $data);
     }
+
+    public function getAllBuildingsWithRooms()
+    {
+        $buildings = Building::with("rooms")->get();
+
+        $data = [
+            "Title" => "Agenda",
+            "Buildings" => $buildings
+        ];
+
+        return view("agenda.overview", $data);
+    }
 }

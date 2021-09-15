@@ -1,42 +1,56 @@
 import React from 'react';
 import ReactDom from 'react-dom'; 
 import Dropdown  from './agenda/dropdown';
+const moment = require('moment');
+moment.locale("nl")
+
+
 
 class Agenda extends React.Component {
     constructor(props) {
         super(props);
+        this.date = new Date(),
+        this.month = this.date.getMonth() + 1,
+        this.year = this.date.getFullYear(),
         this.state = {
-            current_year: new Date().getFullYear(),
-            current_month: new Date().toLocaleString('default', { month: 'long' }),
-            current_day: new Date().getDate(),
+            current_year: this.date.getFullYear(),
+            current_month: this.date.toLocaleString('default', { month: 'long' }),
+            current_day: this.date.getDate(),
             list_year : [
-                {
-                    name: new Date().getFullYear()
-                },
-                {
-                    name: new Date().getFullYear() + 1
-                },
-                {
-                    name: new Date().getFullYear() + 2
-                },
-                {
-                    name: new Date().getFullYear() + 3
-                },
+                this.date.getFullYear(),
+                this.date.getFullYear() + 1,
+                this.date.getFullYear() + 2,
+                this.date.getFullYear() + 3
             ],
-            list_month : [],
-            list_day : [],
+            list_month : moment.months(),
+            list_day : this.renderDaysInMonthArray(),
         }
+    }
+
+    renderDaysInMonthArray() {
+        var daysInMonthArray = []
+        for (let i = 1; i <= new Date(this.year, this.month + 1, 0).getDate(); i++) {
+            daysInMonthArray.push(i) 
+        }
+        return daysInMonthArray
     }
 
     render() {
         return (
         <div className="agenda"> 
             <div className="content-header">
-                <Dropdown list={this.state.list_year} titleName="Jaar"/>
-                <Dropdown list={this.state.list_month} titleName="Maand"/>
-                <Dropdown list={this.state.list_day} titleName="Dag"/>
-                <div className="month-selector">{this.state.current_month}</div>
-                <div className="day-selector">{this.state.current_day}</div>
+                <Dropdown list={this.state.list_year} dataTarget="year-dropdown" titleName="Jaar"/>
+                <Dropdown list={this.state.list_month} dataTarget="month-dropdown" titleName="Maand"/>
+                <Dropdown list={this.state.list_day} dataTarget="day-dropdown" titleName="Dag"/>
+            </div>
+            <div className="content-body">
+                <div className="content-body-header">
+                    <div className="rooms-list">
+                        <span>CuneraKerk</span>
+                        <span>CuneraKerk</span>
+                        <span>CuneraKerk</span>
+                    </div>
+                </div>
             </div>
         </div>
         )

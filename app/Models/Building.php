@@ -14,4 +14,9 @@ class Building extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function rooms()
+    {
+        return $this->belongsTo(Room::class);
+    }
 }
