@@ -3263,7 +3263,7 @@ var header = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
 
     _defineProperty(_assertThisInitialized(_this), "fetchBuildings", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var buildings, buildingsElement;
+      var buildingsArray;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -3276,17 +3276,22 @@ var header = /*#__PURE__*/function (_React$Component) {
               });
 
             case 2:
-              buildings = [];
-              buildingsElement = [];
+              buildingsArray = [];
               Object.values(_this.state.buildings).flat().map(function (el, id) {
-                return buildings.push(el);
+                return buildingsArray.push(el);
               });
 
               _this.setState({
-                buildings: buildings
+                buildings: buildingsArray
               });
 
-            case 6:
+              console.log('333333333333333');
+              console.log(buildingsArray);
+              console.log('333333333333333');
+              console.log(_this.state.buildings);
+              console.log("333333333333333");
+
+            case 10:
             case "end":
               return _context.stop();
           }
@@ -3305,22 +3310,40 @@ var header = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(header, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {// let buildingsElements = this.state.buildings.map((element, index) => {
+      //     // return (
+      //         <div key={element.id}>
+      //             <div className="buildings-list-item-header">
+      //                 <span>{element.name}</span>
+      //             </div>   
+      //             <div className="rooms-list-item-">
+      //             </div>
+      //         </div>
+      //     // )
+      // })
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "buildings-list-wrapper",
-        children: this.state.buildings.forEach(function (element) {
+      if (this.state.buildings.length > 0) {
+        var buildingsElements = this.state.buildings.map(function (element, index) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "buildings-list-item-header",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                children: element["name"]
+                children: element.name
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "rooms-list-item-"
             })]
-          }, element["id"]);
-        })
+          }, element.id);
+        });
+      }
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "buildings-list-wrapper",
+        children: buildingsElements || ""
       });
     }
   }]);
