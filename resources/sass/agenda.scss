@@ -17,71 +17,74 @@
         width: 90%;
         flex-direction: column;
 
-        .content-header {
-            display: flex;
-            justify-content: flex-start;
-            column-gap: 25px;
-            flex-direction: row;
-            width: 70%;
+        .content-header-wrapper {
+            .content-header {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                column-gap: 25px;
+                flex-direction: row;
+                width: 70%;
 
-            .dropdown-menu-container {
-                width: 20%;
+                .dropdown-menu-container {
+                    width: 20%;
 
-                .dropdown-header {
-                    border-top-left-radius: 5px;
-                    border-top-right-radius: 5px;
-                    margin-top: 25px;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    align-items: center;
-                    font-size: 1.2rem;
-                    background-color: $themeColor;
-                    padding: .20rem .75rem;
-                    color: white;
-                }
-
-                .dropdown-list-container {
-                    background-color: $themeColor;
-
-                    .dropdown-list {
-                        text-align: center;
+                    .dropdown-header {
+                        border-top-left-radius: 5px;
+                        border-top-right-radius: 5px;
+                        margin-top: 25px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+                        font-size: 1.2rem;
+                        background-color: $themeColor;
+                        padding: .20rem .75rem;
                         color: white;
-                        padding: .75rem 1rem;
-                        font-size: 1rem;
+                    }
 
-                        .dropdown-items-wrapper {
-                            max-height: 300px;
-                            white-space: nowrap;
-                            overflow-y: auto;
-                            overflow-x: hidden;
-                            height: auto;
+                    .dropdown-list-container {
+                        background-color: $themeColor;
 
-                            .list-item {
-                                padding: 5px 1px;
-                                border-bottom: 2px solid $themeColorAccent;
-                                transition: .35s ease-in-out;
+                        .dropdown-list {
+                            text-align: center;
+                            color: white;
+                            padding: .75rem 1rem;
+                            font-size: 1rem;
 
-                                &:hover {
-                                    border-bottom: 2px solid white;
+                            .dropdown-items-wrapper {
+                                max-height: 300px;
+                                white-space: nowrap;
+                                overflow-y: auto;
+                                overflow-x: hidden;
+                                height: auto;
+
+                                .list-item {
+                                    padding: 5px 1px;
+                                    border-bottom: 2px solid $themeColorAccent;
+                                    transition: .35s ease-in-out;
+
+                                    &:hover {
+                                        border-bottom: 2px solid white;
+                                    }
                                 }
-                            }
 
-                            &::-webkit-scrollbar {
-                                width: 2px;
-                                margin-left: 1px;
-                            }
+                                &::-webkit-scrollbar {
+                                    width: 2px;
+                                    margin-left: 1px;
+                                }
 
-                            &::-webkit-scrollbar-track {
-                                background: #F27500;
-                            }
+                                &::-webkit-scrollbar-track {
+                                    background: #F27500;
+                                }
 
-                            &::-webkit-scrollbar-thumb {
-                                background: #ffff;
-                            }
+                                &::-webkit-scrollbar-thumb {
+                                    background: #ffff;
+                                }
 
-                            &::-webkit-scrollbar-thumb:hover {
-                                background: #ffff;
+                                &::-webkit-scrollbar-thumb:hover {
+                                    background: #ffff;
+                                }
                             }
                         }
                     }

@@ -10012,18 +10012,19 @@ h3 {
   width: 90%;
   flex-direction: column;
 }
-#agenda-wrapper .agenda .content-header {
+#agenda-wrapper .agenda .content-header-wrapper .content-header {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
+  align-items: center;
   -moz-column-gap: 25px;
        column-gap: 25px;
   flex-direction: row;
   width: 70%;
 }
-#agenda-wrapper .agenda .content-header .dropdown-menu-container {
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container {
   width: 20%;
 }
-#agenda-wrapper .agenda .content-header .dropdown-menu-container .dropdown-header {
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-header {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   margin-top: 25px;
@@ -10036,41 +10037,41 @@ h3 {
   padding: 0.2rem 0.75rem;
   color: white;
 }
-#agenda-wrapper .agenda .content-header .dropdown-menu-container .dropdown-list-container {
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container {
   background-color: #F27500;
 }
-#agenda-wrapper .agenda .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list {
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list {
   text-align: center;
   color: white;
   padding: 0.75rem 1rem;
   font-size: 1rem;
 }
-#agenda-wrapper .agenda .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper {
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper {
   max-height: 300px;
   white-space: nowrap;
   overflow-y: auto;
   overflow-x: hidden;
   height: auto;
 }
-#agenda-wrapper .agenda .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper .list-item {
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper .list-item {
   padding: 5px 1px;
   border-bottom: 2px solid #ec9b4f;
   transition: 0.35s ease-in-out;
 }
-#agenda-wrapper .agenda .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper .list-item:hover {
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper .list-item:hover {
   border-bottom: 2px solid white;
 }
-#agenda-wrapper .agenda .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar {
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar {
   width: 2px;
   margin-left: 1px;
 }
-#agenda-wrapper .agenda .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-track {
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-track {
   background: #F27500;
 }
-#agenda-wrapper .agenda .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-thumb {
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-thumb {
   background: #ffff;
 }
-#agenda-wrapper .agenda .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-thumb:hover {
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-thumb:hover {
   background: #ffff;
 }
 #agenda-wrapper .agenda .content-body {

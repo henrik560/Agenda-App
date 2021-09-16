@@ -39,10 +39,17 @@ class Agenda extends React.Component {
     render() {
         return (
         <div className="agenda"> 
-            <div className="content-header">
-                <Dropdown list={this.state.list_year} dataTarget="year-dropdown" titleName="Jaar"/>
-                <Dropdown list={this.state.list_month} dataTarget="month-dropdown" titleName="Maand"/>
-                <Dropdown list={this.state.list_day} dataTarget="day-dropdown" titleName="Dag"/>
+            <div className="content-header-wrapper d-flex justify-content-between align-items-center">
+                <div className="d-flex w-10 fs-3">
+                    <span className="day mr-2">{this.date.getDate()}</span>
+                    <span className="month mr-2">{this.date.toLocaleString('default', { month: 'long' })}</span>
+                    <span className="year">{this.date.getFullYear()}</span>
+                </div>
+                <div className="content-header">
+                    <Dropdown list={this.state.list_year} dataTarget="year-dropdown" titleName="Jaar"/>
+                    <Dropdown list={this.state.list_month} dataTarget="month-dropdown" titleName="Maand"/>
+                    <Dropdown list={this.state.list_day} dataTarget="day-dropdown" titleName="Dag"/>
+                </div>
             </div>
             <div className="content-body">
                 <div className="content-body-header">

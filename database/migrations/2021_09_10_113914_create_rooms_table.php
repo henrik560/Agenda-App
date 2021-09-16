@@ -19,6 +19,7 @@ class CreateRoomsTable extends Migration
             $table->integer("max_persons_allowed");
             $table->integer("day_rate");
             $table->integer("external_use");
+            $table->integer("building_id");
             $table->timestamps();
         });
     }
