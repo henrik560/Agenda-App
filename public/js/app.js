@@ -3022,6 +3022,7 @@ function _defineProperty(obj, key, value) {
 
 
 
+
 var header = /*#__PURE__*/function (_React$Component) {
   _inherits(header, _React$Component);
 
@@ -3058,9 +3059,7 @@ var header = /*#__PURE__*/function (_React$Component) {
                 buildings: buildings
               });
 
-              buildings.map(function (element, index) {});
-
-            case 7:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -3082,7 +3081,19 @@ var header = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "buildings-list-wrapper"
+        className: "buildings-list-wrapper",
+        children: this.state.buildings.forEach(function (element) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "buildings-list-item-header",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                children: element["name"]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "rooms-list-item-"
+            })]
+          }, element["id"]);
+        })
       });
     }
   }]);

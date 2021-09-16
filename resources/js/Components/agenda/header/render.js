@@ -17,15 +17,24 @@ export default class header extends React.Component {
         var buildingsElement = [];
         Object.values(this.state.buildings).flat().map((el, id) => buildings.push(el))
         this.setState({buildings})
-        buildings.map((element, index) => {
-            
-        })
     }
 
     render() {
         return(
             <div className="buildings-list-wrapper">
-            </div>
+            { this.state.buildings.forEach(element => {
+                return (
+                    <div key={element["id"]}>
+                        <div className="buildings-list-item-header">
+                            <span>{element["name"]}</span>
+                        </div>   
+                        <div className="rooms-list-item-">
+                        
+                        </div>
+                    </div>
+                )
+            })}
+        </div>
         )
     }   
 
