@@ -2829,20 +2829,19 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./resources/js/Components/agenda/dropdown.js":
-/*!****************************************************!*\
-  !*** ./resources/js/Components/agenda/dropdown.js ***!
-  \****************************************************/
+/***/ "./resources/js/Components/agenda.js":
+/*!*******************************************!*\
+  !*** ./resources/js/Components/agenda.js ***!
+  \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ dropDown)
-/* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _agenda_dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./agenda/dropdown */ "./resources/js/Components/agenda/dropdown.js");
+/* harmony import */ var _agenda_header_render__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./agenda/header/render */ "./resources/js/Components/agenda/header/render.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -2967,6 +2966,271 @@ function _getPrototypeOf(o) {
 
 
 
+
+
+var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+
+moment.locale("nl");
+
+var Agenda = /*#__PURE__*/function (_React$Component) {
+  _inherits(Agenda, _React$Component);
+
+  var _super = _createSuper(Agenda);
+
+  function Agenda(props) {
+    var _this;
+
+    _classCallCheck(this, Agenda);
+
+    _this = _super.call(this, props);
+    _this.date = new Date(), _this.month = _this.date.getMonth() + 1, _this.year = _this.date.getFullYear(), _this.state = {
+      current_year: _this.date.getFullYear(),
+      current_month: _this.date.toLocaleString('default', {
+        month: 'long'
+      }),
+      current_day: _this.date.getDate(),
+      list_year: [_this.date.getFullYear(), _this.date.getFullYear() + 1, _this.date.getFullYear() + 2, _this.date.getFullYear() + 3],
+      list_month: moment.months(),
+      list_day: _this.renderDaysInMonthArray()
+    };
+    _this.renderDaysInMonthArray = _this.renderDaysInMonthArray.bind(_assertThisInitialized(_this));
+    _this.changeDate = _this.changeDate.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Agenda, [{
+    key: "renderDaysInMonthArray",
+    value: function renderDaysInMonthArray() {
+      var daysInMonthArray = [];
+
+      for (var i = 1; i <= new Date(this.year, this.month + 1, 0).getDate(); i++) {
+        daysInMonthArray.push(i);
+      }
+
+      return daysInMonthArray;
+    }
+  }, {
+    key: "changeDate",
+    value: function changeDate(dateType, newDate) {
+      var validTypes = ["current_year", "current_month", "current_day"];
+
+      if (validTypes.includes(dateType.toLowerCase()) && typeof newDate == "string") {
+        this.setState({
+          dateType: newDate
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "agenda d-flex justify-content-center",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "content-header-wrapper d-flex justify-content-between",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "header-date d-flex w-10 h-0 fs-3",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              className: "day mr-2",
+              children: this.state.current_day
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              className: "month mr-2",
+              children: this.state.current_day
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              className: "year",
+              children: this.state.current_year
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "content-header d-flex flex-row justify-content-between",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_agenda_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              list: this.state.list_year,
+              changeData: this.changeDate,
+              dataTarget: "year-dropdown",
+              dateType: "current_year",
+              titleName: "Jaar"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_agenda_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              list: this.state.list_month,
+              changeData: this.changeDate,
+              dataTarget: "month-dropdown",
+              dateType: "current_month",
+              titleName: "Maand"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_agenda_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              list: this.state.list_day,
+              changeData: this.changeDate,
+              dataTarget: "day-dropdown",
+              dateType: "current_day",
+              titleName: "Dag"
+            })]
+          })]
+        })
+      });
+    }
+  }]);
+
+  return Agenda;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+if (document.getElementById("agenda-wrapper")) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Agenda, {}), document.getElementById("agenda-wrapper"));
+}
+
+/***/ }),
+
+/***/ "./resources/js/Components/agenda/dropdown.js":
+/*!****************************************************!*\
+  !*** ./resources/js/Components/agenda/dropdown.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ dropDown)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _agenda__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../agenda */ "./resources/js/Components/agenda.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+        result;
+
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+
+    return _possibleConstructorReturn(this, result);
+  };
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  } else if (call !== void 0) {
+    throw new TypeError("Derived constructors may only return object or undefined");
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+
+  try {
+    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+
+
+
+
+
+
+
 var dropDown = /*#__PURE__*/function (_React$Component) {
   _inherits(dropDown, _React$Component);
 
@@ -2981,9 +3245,11 @@ var dropDown = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       menuToggled: false,
       title: _this.props.titleName,
-      list: _this.props.list
+      list: _this.props.list,
+      dateType: _this.props.dateType
     };
     _this.toggleState = _this.toggleState.bind(_assertThisInitialized(_this));
+    _this.toggleActive = _this.toggleActive.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2996,51 +3262,49 @@ var dropDown = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "toggleActive",
-    value: function toggleActive() {
-      //TODO edit setstate key to active list item
-      this.setState({
-        menuToggled: this.state.menuToggled ? !this.state.menuToggled : true
-      });
+    value: function toggleActive(newDate) {
+      this.props.changeData(this.state.dateType, newDate);
     }
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        className: "dropdown-menu-container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          className: "dropdown-header",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            className: "dropdown-menu-title",
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "dropdown-menu-container d-flex flex-column justify-content-center align-items-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "dropdown-first-child d-flex justify-content-around align-items-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "dropdown-menu-title fs-5",
             children: this.state.title
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             className: "dropdown-icon",
             "data-toggle": "collapse",
             "data-target": "#" + this.props.dataTarget,
             "aria-controls": "dropdown-list",
             "aria-expanded": "false",
             onClick: this.toggleState,
-            children: this.state.menuToggled ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-              className: "fas fa-arrow-down"
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-              className: "fas fa-arrow-up"
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+              className: "fas fa-arrow-down transition-350ms ".concat(this.state.menuToggled ? "rotate-180deg" : "rotate-0deg")
             })
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           id: "dropdown-list-container",
           className: "dropdown-list-container",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             id: this.props.dataTarget,
-            className: "dropdown-list collapse",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "dropdown-list bg-themeColor collapse position-absolute",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "dropdown-items-wrapper",
               children: this.state.list.map(function (element, index) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-                  className: "list-item text-truncate",
-                  onClick: _this2.toggleActive,
-                  children: element
-                }, "".concat(element, ".").concat(index));
+                var _jsx2;
+
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", (_jsx2 = {
+                  onClick: function onClick() {
+                    _this2.toggleActive();
+                  },
+                  className: "list-item text-truncate text-center"
+                }, _defineProperty(_jsx2, "onClick", _this2.toggleActive), _defineProperty(_jsx2, "children", element), _jsx2), "".concat(element, ".").concat(index));
               })
             })
           })
@@ -56122,242 +56386,11 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
-/*!*******************************************!*\
-  !*** ./resources/js/Components/agenda.js ***!
-  \*******************************************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _agenda_dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./agenda/dropdown */ "./resources/js/Components/agenda/dropdown.js");
-/* harmony import */ var _agenda_header_render__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./agenda/header/render */ "./resources/js/Components/agenda/header/render.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _createSuper(Derived) {
-  var hasNativeReflectConstruct = _isNativeReflectConstruct();
-
-  return function _createSuperInternal() {
-    var Super = _getPrototypeOf(Derived),
-        result;
-
-    if (hasNativeReflectConstruct) {
-      var NewTarget = _getPrototypeOf(this).constructor;
-
-      result = Reflect.construct(Super, arguments, NewTarget);
-    } else {
-      result = Super.apply(this, arguments);
-    }
-
-    return _possibleConstructorReturn(this, result);
-  };
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  } else if (call !== void 0) {
-    throw new TypeError("Derived constructors may only return object or undefined");
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _isNativeReflectConstruct() {
-  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-  if (Reflect.construct.sham) return false;
-  if (typeof Proxy === "function") return true;
-
-  try {
-    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-
-
-
-
-
-
-
-var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-
-moment.locale("nl");
-
-var Agenda = /*#__PURE__*/function (_React$Component) {
-  _inherits(Agenda, _React$Component);
-
-  var _super = _createSuper(Agenda);
-
-  function Agenda(props) {
-    var _this;
-
-    _classCallCheck(this, Agenda);
-
-    _this = _super.call(this, props);
-    _this.date = new Date(), _this.month = _this.date.getMonth() + 1, _this.year = _this.date.getFullYear(), _this.state = {
-      current_year: _this.date.getFullYear(),
-      current_month: _this.date.toLocaleString('default', {
-        month: 'long'
-      }),
-      current_day: _this.date.getDate(),
-      list_year: [_this.date.getFullYear(), _this.date.getFullYear() + 1, _this.date.getFullYear() + 2, _this.date.getFullYear() + 3],
-      list_month: moment.months(),
-      list_day: _this.renderDaysInMonthArray()
-    };
-    return _this;
-  }
-
-  _createClass(Agenda, [{
-    key: "renderDaysInMonthArray",
-    value: function renderDaysInMonthArray() {
-      var daysInMonthArray = [];
-
-      for (var i = 1; i <= new Date(this.year, this.month + 1, 0).getDate(); i++) {
-        daysInMonthArray.push(i);
-      }
-
-      return daysInMonthArray;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-        className: "agenda",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-          className: "content-header-wrapper d-flex justify-content-between align-items-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-            className: "d-flex w-10 fs-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
-              className: "day mr-2",
-              children: this.date.getDate()
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
-              className: "month mr-2",
-              children: this.date.toLocaleString('default', {
-                month: 'long'
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
-              className: "year",
-              children: this.date.getFullYear()
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-            className: "content-header",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_agenda_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              list: this.state.list_year,
-              dataTarget: "year-dropdown",
-              titleName: "Jaar"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_agenda_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              list: this.state.list_month,
-              dataTarget: "month-dropdown",
-              titleName: "Maand"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_agenda_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              list: this.state.list_day,
-              dataTarget: "day-dropdown",
-              titleName: "Dag"
-            })]
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-          className: "content-body",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            className: "content-body-header",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-              className: "buildings-list",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_agenda_header_render__WEBPACK_IMPORTED_MODULE_3__["default"], {})
-            })
-          })
-        })]
-      });
-    }
-  }]);
-
-  return Agenda;
-}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
-
-if (document.getElementById("agenda-wrapper")) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Agenda, {}), document.getElementById("agenda-wrapper"));
-}
-})();
-
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__("./resources/js/Components/agenda.js");
+/******/ 	
 /******/ })()
 ;

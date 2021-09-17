@@ -7,6 +7,45 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+.bg-themeColor {
+    background-color: $themeColor;
+}
+
+.bg-themeColorAccent {
+    background-color: $themeColorAccent;
+}
+
+.transition-500ms {
+    transition: 500ms ease-in-out !important;
+    -webkit-transition: 500ms ease-in-out !important;
+    -moz-transition: 500ms ease-in-out !important;
+    -ms-transition: 500ms ease-in-out !important;
+    -o-transition: 500ms ease-in-out !important;
+}
+
+.transition-350ms {
+    transition: 350ms ease-in-out !important;
+    -webkit-transition: 350ms ease-in-out !important;
+    -moz-transition: 350ms ease-in-out !important;
+    -ms-transition: 350ms ease-in-out !important;
+    -o-transition: 350ms ease-in-out !important;
+}
+
+.rotate-0deg {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+}
+
+.rotate-180deg {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+}
 
 .navbar {
     padding: 0px 0px !important;

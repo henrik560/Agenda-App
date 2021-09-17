@@ -11,6 +11,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 25px;
 
     .agenda {
         display: flex;
@@ -18,39 +19,37 @@
         flex-direction: column;
 
         .content-header-wrapper {
+            column-gap: 15px;
+
+            .header-date {
+                color: currentColor;
+            }
+
             .content-header {
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                column-gap: 25px;
-                flex-direction: row;
-                width: 70%;
+                column-gap: 15px;
 
                 .dropdown-menu-container {
-                    width: 20%;
+                    width: 10rem;
+                    min-width: 100px;
+                    background-color: $themeColor;
+                    color: white;
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
 
-                    .dropdown-header {
-                        border-top-left-radius: 5px;
-                        border-top-right-radius: 5px;
-                        margin-top: 25px;
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: space-between;
-                        align-items: center;
-                        font-size: 1.2rem;
-                        background-color: $themeColor;
-                        padding: .20rem .75rem;
-                        color: white;
+                    .dropdown-first-child {
+                        width: 10rem;
+                        min-width: 100px;
                     }
 
                     .dropdown-list-container {
-                        background-color: $themeColor;
-
                         .dropdown-list {
-                            text-align: center;
-                            color: white;
-                            padding: .75rem 1rem;
-                            font-size: 1rem;
+                            width: 10rem;
+                            min-width: 100px;
+                            transform: translateX(-50%);
+                            -webkit-transform: translateX(-50%);
+                            -moz-transform: translateX(-50%);
+                            -ms-transform: translateX(-50%);
+                            -o-transform: translateX(-50%);
 
                             .dropdown-items-wrapper {
                                 max-height: 300px;
@@ -63,9 +62,11 @@
                                     padding: 5px 1px;
                                     border-bottom: 2px solid $themeColorAccent;
                                     transition: .35s ease-in-out;
+                                    color: white;
 
                                     &:hover {
                                         border-bottom: 2px solid white;
+                                        color: white;
                                     }
                                 }
 
@@ -92,27 +93,102 @@
             }
         }
 
-        .content-body {
-            color: currentColor;
-        }
+        // .content-header-wrapper {
+        //     .content-header {
+        //         display: flex;
+        //         justify-content: flex-end;
+        //         align-items: center;
+        //         column-gap: 25px;
+        //         flex-direction: row;
+        //         width: 70%;
+
+        //         .dropdown-menu-container {
+        //             width: 20%;
+
+        //             .dropdown-header {
+        //                 border-top-left-radius: 5px;
+        //                 border-top-right-radius: 5px;
+        //                 margin-top: 25px;
+        //                 display: flex;
+        //                 flex-direction: row;
+        //                 justify-content: space-between;
+        //                 align-items: center;
+        //                 font-size: 1.2rem;
+        //                 background-color: $themeColor;
+        //                 padding: .20rem .75rem;
+        //                 color: white;
+        //             }
+
+        //             .dropdown-list-container {
+        //                 background-color: $themeColor;
+
+        //                 .dropdown-list {
+        //                     text-align: center;
+        //                     color: white;
+        //                     padding: .75rem 1rem;
+        //                     font-size: 1rem;
+
+        //                     .dropdown-items-wrapper {
+        //                         max-height: 300px;
+        //                         white-space: nowrap;
+        //                         overflow-y: auto;
+        //                         overflow-x: hidden;
+        //                         height: auto;
+
+        //                         .list-item {
+        //                             padding: 5px 1px;
+        //                             border-bottom: 2px solid $themeColorAccent;
+        //                             transition: .35s ease-in-out;
+
+        //                             &:hover {
+        //                                 border-bottom: 2px solid white;
+        //                             }
+        //                         }
+
+        //                         &::-webkit-scrollbar {
+        //                             width: 2px;
+        //                             margin-left: 1px;
+        //                         }
+
+        //                         &::-webkit-scrollbar-track {
+        //                             background: #F27500;
+        //                         }
+
+        //                         &::-webkit-scrollbar-thumb {
+        //                             background: #ffff;
+        //                         }
+
+        //                         &::-webkit-scrollbar-thumb:hover {
+        //                             background: #ffff;
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+        // .content-body {
+        //     color: currentColor;
+        // }
     }
 }
 
-@media screen and (max-width: 900px) {
-    .dropdown-menu-container {
-        width: 100px !important;
+// @media screen and (max-width: 900px) {
+//     .dropdown-menu-container {
+//         width: 100px !important;
 
-        .dropdown-header {
-            width: 100px;
+//         .dropdown-header {
+//             width: 100px;
 
-            .dropdown-menu-title {
-                font-size: 1rem;
-            }
-        }
-    }
+//             .dropdown-menu-title {
+//                 font-size: 1rem;
+//             }
+//         }
+//     }
 
-    .list-item {
-        font-size: .90rem;
-        width: 50px;
-    }
-}
+// .list-item {
+//     font-size: .90rem;
+//     width: 50px;
+// }
+// }

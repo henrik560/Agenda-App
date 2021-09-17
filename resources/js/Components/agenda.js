@@ -26,6 +26,8 @@ class Agenda extends React.Component {
             list_month : moment.months(),
             list_day : this.renderDaysInMonthArray(),
         }
+        this.renderDaysInMonthArray = this.renderDaysInMonthArray.bind(this)
+        this.changeDate = this.changeDate.bind(this)
     }
 
     renderDaysInMonthArray() {
@@ -36,28 +38,35 @@ class Agenda extends React.Component {
         return daysInMonthArray
     }
 
+    changeDate(dateType, newDate) {
+        var validTypes = ["current_year", "current_month", "current_day"]
+        if(validTypes.includes(dateType.toLowerCase()) && typeof newDate == "string") {
+            this.setState({dateType: newDate})
+        }
+    }
+
     render() {
         return (
-        <div className="agenda"> 
-            <div className="content-header-wrapper d-flex justify-content-between align-items-center">
-                <div className="d-flex w-10 fs-3">
-                    <span className="day mr-2">{this.date.getDate()}</span>
-                    <span className="month mr-2">{this.date.toLocaleString('default', { month: 'long' })}</span>
-                    <span className="year">{this.date.getFullYear()}</span>
+        <div className="agenda d-flex justify-content-center"> 
+            <div className="content-header-wrapper d-flex justify-content-between">
+                <div className="header-date d-flex w-10 h-0 fs-3">
+                    <span className="day mr-2">{this.state.current_day}</span>
+                    <span className="month mr-2">{this.state.current_day}</span>
+                    <span className="year">{this.state.current_year}</span>
                 </div>
-                <div className="content-header">
-                    <Dropdown list={this.state.list_year} dataTarget="year-dropdown" titleName="Jaar"/>
-                    <Dropdown list={this.state.list_month} dataTarget="month-dropdown" titleName="Maand"/>
-                    <Dropdown list={this.state.list_day} dataTarget="day-dropdown" titleName="Dag"/>
+                <div className="content-header d-flex flex-row justify-content-between">
+                    <Dropdown list={this.state.list_year} changeData={this.changeDate} dataTarget="year-dropdown" dateType="current_year" titleName="Jaar"/>
+                    <Dropdown list={this.state.list_month} changeData={this.changeDate} dataTarget="month-dropdown" dateType="current_month" titleName="Maand"/>
+                    <Dropdown list={this.state.list_day} changeData={this.changeDate} dataTarget="day-dropdown" dateType="current_day" titleName="Dag"/>
                 </div>
             </div>
-            <div className="content-body">
+            {/* <div className="content-body">
                 <div className="content-body-header">
                     <div className="buildings-list">
                         <Header />
                     </div>
                 </div>
-            </div>
+            </div>  */}
         </div>
         )
     }
