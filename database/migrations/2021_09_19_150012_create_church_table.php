@@ -16,7 +16,7 @@ class CreateChurchTable extends Migration
         Schema::create('church', function (Blueprint $table) {
             $table->id();
             $table->string("name", 45);
-            $table->integer("user_id");
+            $table->integer("users_id");
             $table->timestamps();
         });
     }
