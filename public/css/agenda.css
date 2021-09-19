@@ -10075,3 +10075,6 @@ h3 {
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-thumb:hover {
   background: #ffff;
 }
+#agenda-wrapper .agenda .content-body .content-body-header .buildings-list {
+  color: currentColor;
+}

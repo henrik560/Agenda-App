@@ -2858,6 +2858,21 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -3015,17 +3030,15 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
       var validTypes = ["current_year", "current_month", "current_day"];
 
       if (validTypes.includes(dateType.toLowerCase()) && typeof newDate == "string") {
-        this.setState({
-          dateType: newDate
-        });
+        this.setState(_defineProperty({}, dateType, newDate));
       }
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "agenda d-flex justify-content-center",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "content-header-wrapper d-flex justify-content-between",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "header-date d-flex w-10 h-0 fs-3",
@@ -3034,7 +3047,7 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               children: this.state.current_day
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
               className: "month mr-2",
-              children: this.state.current_day
+              children: this.state.current_month
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
               className: "year",
               children: this.state.current_year
@@ -3061,7 +3074,16 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               titleName: "Dag"
             })]
           })]
-        })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "content-body",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "content-body-header",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "buildings-list",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_agenda_header_render__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+            })
+          })
+        })]
       });
     }
   }]);
@@ -3262,8 +3284,9 @@ var dropDown = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "toggleActive",
-    value: function toggleActive(newDate) {
-      this.props.changeData(this.state.dateType, newDate);
+    value: function toggleActive(e) {
+      if (typeof e.target.innerHTML !== "string") return;
+      this.props.changeData(this.state.dateType, e.target.innerHTML);
     }
   }, {
     key: "render",
@@ -3300,8 +3323,8 @@ var dropDown = /*#__PURE__*/function (_React$Component) {
                 var _jsx2;
 
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", (_jsx2 = {
-                  onClick: function onClick() {
-                    _this2.toggleActive();
+                  onClick: function onClick(e) {
+                    _this2.toggleActive(e);
                   },
                   className: "list-item text-truncate text-center"
                 }, _defineProperty(_jsx2, "onClick", _this2.toggleActive), _defineProperty(_jsx2, "children", element), _jsx2), "".concat(element, ".").concat(index));
@@ -3586,7 +3609,7 @@ var header = /*#__PURE__*/function (_React$Component) {
       }
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "buildings-list-wrapper",
+        className: "buildings-list-wrapper d-flex flex-row justify-content-around",
         children: buildingsElements || ""
       });
     }

@@ -34,7 +34,7 @@ export default class header extends React.Component {
             })
         }
         return(
-            <div className="buildings-list-wrapper">{ buildingsElements || "" }</div>
+            <div className="buildings-list-wrapper d-flex flex-row justify-content-around">{ buildingsElements || "" }</div>
         )
     }   
 

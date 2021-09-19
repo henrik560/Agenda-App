@@ -21,8 +21,9 @@ export default class dropDown extends React.Component {
 
     }
 
-    toggleActive (newDate) {
-        this.props.changeData(this.state.dateType, newDate)
+    toggleActive (e) {
+        if(typeof e.target.innerHTML !== "string") return;
+        this.props.changeData(this.state.dateType, e.target.innerHTML);
     }
 
     render() {
@@ -38,7 +39,7 @@ export default class dropDown extends React.Component {
                     <div id={this.props.dataTarget} className="dropdown-list bg-themeColor collapse position-absolute">
                         <div className="dropdown-items-wrapper">
                             {this.state.list.map((element, index) => {
-                                return <div onClick={() => { this.toggleActive() }} className="list-item text-truncate text-center" key={`${element}.${index}`} onClick={this.toggleActive}>{element}</div>
+                                return <div onClick={(e) => { this.toggleActive(e) }} className="list-item text-truncate text-center" key={`${element}.${index}`} onClick={this.toggleActive}>{element}</div>
                             })}
                         </div>
                     </div>  

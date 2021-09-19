@@ -41,7 +41,7 @@ class Agenda extends React.Component {
     changeDate(dateType, newDate) {
         var validTypes = ["current_year", "current_month", "current_day"]
         if(validTypes.includes(dateType.toLowerCase()) && typeof newDate == "string") {
-            this.setState({dateType: newDate})
+            this.setState({[dateType]: newDate})
         }
     }
 
@@ -51,7 +51,7 @@ class Agenda extends React.Component {
             <div className="content-header-wrapper d-flex justify-content-between">
                 <div className="header-date d-flex w-10 h-0 fs-3">
                     <span className="day mr-2">{this.state.current_day}</span>
-                    <span className="month mr-2">{this.state.current_day}</span>
+                    <span className="month mr-2">{this.state.current_month}</span>
                     <span className="year">{this.state.current_year}</span>
                 </div>
                 <div className="content-header d-flex flex-row justify-content-between">
@@ -60,13 +60,13 @@ class Agenda extends React.Component {
                     <Dropdown list={this.state.list_day} changeData={this.changeDate} dataTarget="day-dropdown" dateType="current_day" titleName="Dag"/>
                 </div>
             </div>
-            {/* <div className="content-body">
+            <div className="content-body">
                 <div className="content-body-header">
                     <div className="buildings-list">
                         <Header />
                     </div>
                 </div>
-            </div>  */}
+            </div> 
         </div>
         )
     }

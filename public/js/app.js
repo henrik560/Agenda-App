@@ -3095,7 +3095,7 @@ var header = /*#__PURE__*/function (_React$Component) {
       }
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "buildings-list-wrapper",
+        className: "buildings-list-wrapper d-flex flex-row justify-content-around",
         children: buildingsElements || ""
       });
     }
