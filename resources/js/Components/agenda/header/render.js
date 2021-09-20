@@ -22,25 +22,22 @@ export default class header extends React.Component {
         if(this.state.buildings.length > 0) {
             var buildingsElements = this.state.buildings.map((element, index) => {
                 return (
-                <div className="d-inline-block w-full flex-grow-1">
-                    <div className="d-flex flex-column justify-content-center" key={element.id}>
-                        <div>
-                            <div className="buildings-list-item-header d-flex justify-content-center">
-                                <span>{element.name}</span>
-                            </div>  
-                            <div className="d-flex justify-content-around">
-                                {element.rooms.map(room => {
-                                    return (<span style={{width : "150px"}} className="d-flex justify-content-center">{room.name}</span>)
-                                })}
-                            </div> 
+                    // `#${element.hex}` || 
+                <div className="d-flex flex-column justify-content-center flex-grow-1 gap-1" key={element.id}>
+                        <div style={{backgroundColor: '#32a834'}} className="buildings-list-item-header d-flex justify-content-center">
+                            <span>{element.name}</span>
                         </div>  
-                    </div>
+                        <div className="d-flex justify-content-around gap-1">
+                            {element.rooms.map(room => {
+                                return (<span style={{backgroundColor: '#32a834'}} className="d-flex justify-content-center flex-grow-1">{room.name}</span>)
+                            })}
+                        </div> 
                 </div>
                 )
             })
         }
         return(
-            <div className="w-full h-full d-block">{ buildingsElements || "" }</div>
+            <div className="w-full h-full d-flex justify-content-between gap-1 border-white-3 border-top-none border-right-none">{ buildingsElements || "" }</div>
         )
     }   
 

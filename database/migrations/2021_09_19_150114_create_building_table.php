@@ -17,7 +17,7 @@ class CreateBuildingTable extends Migration
             $table->id();
             $table->string("name", 45);
             $table->integer("order");
-            $table->string("color_hex", 6);
+            $table->string("color_hex", 6)->nullable();
             $table->timestamps();
         });
     }

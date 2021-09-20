@@ -20,11 +20,11 @@ class CreateReservationTable extends Migration
             $table->time("endtime");
             $table->integer("space_id");
             $table->text("title");
-            $table->text("description");
+            $table->text("description")->nullable();
             $table->enum("status", ["final", "request"]);
             $table->integer("reserved_by_user_id");
-            $table->integer("approved_by_user_id");
-            $table->dateTime("approved_on");
+            $table->integer("approved_by_user_id")->nullable();
+            $table->dateTime("approved_on")->nullable();
             $table->timestamps();
         });
     }

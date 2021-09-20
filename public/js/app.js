@@ -3081,36 +3081,38 @@ var header = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       if (this.state.buildings.length > 0) {
         var buildingsElements = this.state.buildings.map(function (element, index) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "d-inline-block w-full flex-grow-1",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "d-flex flex-column justify-content-center",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: "buildings-list-item-header d-flex justify-content-center",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                    children: element.name
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: "d-flex justify-content-around",
-                  children: element.rooms.map(function (room) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                      style: {
-                        width: "150px"
-                      },
-                      className: "d-flex justify-content-center",
-                      children: room.name
-                    });
-                  })
-                })]
-              })
+          return (
+            /*#__PURE__*/
+            // `#${element.hex}` || 
+            (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "d-flex flex-column justify-content-center flex-grow-1 gap-1",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                style: {
+                  backgroundColor: '#32a834'
+                },
+                className: "buildings-list-item-header d-flex justify-content-center",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                  children: element.name
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "d-flex justify-content-around gap-1",
+                children: element.rooms.map(function (room) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                    style: {
+                      backgroundColor: '#32a834'
+                    },
+                    className: "d-flex justify-content-center flex-grow-1",
+                    children: room.name
+                  });
+                })
+              })]
             }, element.id)
-          });
+          );
         });
       }
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "w-full h-full d-block",
+        className: "w-full h-full d-flex justify-content-between gap-1 border-white-3 border-top-none border-right-none",
         children: buildingsElements || ""
       });
     }

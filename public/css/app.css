@@ -10002,12 +10002,76 @@ h3 {
     border-color: #dee2e6;
   }
 }
+.height-45px {
+  height: 45px !important;
+}
+
+.width-190px {
+  width: 190px !important;
+}
+
 .bg-themeColor {
   background-color: #F27500;
 }
 
 .bg-themeColorAccent {
   background-color: #ec9b4f;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.border-top-left-radius-10 {
+  border-top-left-radius: 10px;
+}
+
+.border-top-right-radius-10 {
+  border-top-right-radius: 10px;
+}
+
+.border-white-3 {
+  border: 3px solid white;
+}
+
+.border-white-2 {
+  border: 2px solid white;
+}
+
+.border-white-1 {
+  border: 1px solid white;
+}
+
+.border-themeColor-3 {
+  border: 3px solid #F27500;
+}
+
+.border-themeColor-2 {
+  border: 2px solid #F27500;
+}
+
+.border-themeColor-1 {
+  border: 1px solid #F27500;
+}
+
+.border-top-none {
+  border-top: none !important;
+}
+
+.border-bottom-none {
+  border-bottom: none !important;
+}
+
+.border-left-none {
+  border-left: none !important;
+}
+
+.border-right-none {
+  border-right: none !important;
+}
+
+.last-item-border-none:nth-last-child(1) {
+  border: none !important;
 }
 
 .transition-500ms {

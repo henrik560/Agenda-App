@@ -10,15 +10,19 @@ export default class AgendaBody extends React.Component {
         }
     }
 
-    // {this.state.day.map((time) => {
-    //     return (<div key={time}>{`${time}:00`}</div>)
-    // })}
-
     render() {
-
         return(
-            <div className="ml-7 buildings-wrapper">
-                <Header />
+            <div className="border-white-3">
+                <div className="buildings-wrapper">
+                    <Header />
+                </div>
+                <div className="agenda-content border-white-3 border-left-none border-bottom-none d-flex flex-row flex-grow-1" style={{width: "100px"}}>
+                    <div className="agenda-time-line d-flex flex-column gap-1 flex-grow-1">
+                        {this.state.day.map((time) => {
+                            return (<div className="last-item-border-none text-center border-white-2 border-top-none border-left-none border-right-none" key={time}>{`${time}:00`}</div>)
+                        })}
+                    </div>
+                </div>
             </div>
         )
     }

@@ -16,13 +16,13 @@ class CreateUserTable extends Migration
         Schema::create('user', function (Blueprint $table) {
             $table->id();
             $table->string("name", 255);
-            $table->string("email", 45);
-            $table->string("password", 75);
+            $table->string("email", 45)->nullable();
+            $table->string("password", 75)->nullable();
             $table->enum("role", ["admin", "manager", "internal_user", "external_user"]);
-            $table->string("phone_number", 25);
-            $table->string("iban", 34);
-            $table->integer("address_id");
-            $table->integer("invoice_address_id");
+            $table->string("phone_number", 25)->nullable();
+            $table->string("iban", 34)->nullable();
+            $table->integer("address_id")->nullable();
+            $table->integer("invoice_address_id")->nullable();
             $table->timestamps();
         });
     }

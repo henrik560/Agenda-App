@@ -3039,19 +3039,19 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "agenda d-flex justify-content-center",
+        className: "agenda mb-3 d-flex justify-content-center",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "content-header-wrapper d-flex justify-content-between",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-            className: "header-date d-flex w-10 h-0 fs-3",
+            className: "header-date d-flex w-10 width-190px justify-content-center align-items-center h-0 fs-5 bg-themeColor text-white border-top-left-radius-10 border-top-right-radius-10",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              className: "day mr-2",
+              className: "day mr-2 height-45px d-flex justify-content-center align-items-center",
               children: this.state.current_day
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              className: "month mr-2",
+              className: "month mr-2 height-45px d-flex justify-content-center align-items-center",
               children: this.state.current_month
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              className: "year",
+              className: "year height-45px d-flex justify-content-center align-items-center",
               children: this.state.current_year
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
@@ -3077,7 +3077,7 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "content-body",
+          className: "content-body mt-3 bg-themeColor border-bg border-themeColor-3",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_agenda_body_render__WEBPACK_IMPORTED_MODULE_4__["default"], {})
         })]
       });
@@ -3232,6 +3232,7 @@ function _getPrototypeOf(o) {
 
 
 
+
 var AgendaBody = /*#__PURE__*/function (_React$Component) {
   _inherits(AgendaBody, _React$Component);
 
@@ -3247,17 +3248,31 @@ var AgendaBody = /*#__PURE__*/function (_React$Component) {
       day: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"]
     };
     return _this;
-  } // {this.state.day.map((time) => {
-  //     return (<div key={time}>{`${time}:00`}</div>)
-  // })}
-
+  }
 
   _createClass(AgendaBody, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "ml-7 buildings-wrapper",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_header_render__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "border-white-3",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "buildings-wrapper",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_header_render__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "agenda-content border-white-3 border-left-none border-bottom-none d-flex flex-row flex-grow-1",
+          style: {
+            width: "100px"
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "agenda-time-line d-flex flex-column gap-1 flex-grow-1",
+            children: this.state.day.map(function (time) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "last-item-border-none text-center border-white-2 border-top-none border-left-none border-right-none",
+                children: "".concat(time, ":00")
+              }, time);
+            })
+          })
+        })]
       });
     }
   }]);
@@ -3751,36 +3766,38 @@ var header = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       if (this.state.buildings.length > 0) {
         var buildingsElements = this.state.buildings.map(function (element, index) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "d-inline-block w-full flex-grow-1",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "d-flex flex-column justify-content-center",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: "buildings-list-item-header d-flex justify-content-center",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                    children: element.name
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: "d-flex justify-content-around",
-                  children: element.rooms.map(function (room) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                      style: {
-                        width: "150px"
-                      },
-                      className: "d-flex justify-content-center",
-                      children: room.name
-                    });
-                  })
-                })]
-              })
+          return (
+            /*#__PURE__*/
+            // `#${element.hex}` || 
+            (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "d-flex flex-column justify-content-center flex-grow-1 gap-1",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                style: {
+                  backgroundColor: '#32a834'
+                },
+                className: "buildings-list-item-header d-flex justify-content-center",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                  children: element.name
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "d-flex justify-content-around gap-1",
+                children: element.rooms.map(function (room) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                    style: {
+                      backgroundColor: '#32a834'
+                    },
+                    className: "d-flex justify-content-center flex-grow-1",
+                    children: room.name
+                  });
+                })
+              })]
             }, element.id)
-          });
+          );
         });
       }
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "w-full h-full d-block",
+        className: "w-full h-full d-flex justify-content-between gap-1 border-white-3 border-top-none border-right-none",
         children: buildingsElements || ""
       });
     }
