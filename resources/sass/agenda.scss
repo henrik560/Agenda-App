@@ -4,9 +4,6 @@
 // Variables
 @import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
-
 #agenda-wrapper {
     display: flex;
     justify-content: center;
@@ -96,6 +93,7 @@
 
         .content-body {
             cursor: pointer;
+
             .buildings-wrapper {
                 margin-left: 100px;
             }

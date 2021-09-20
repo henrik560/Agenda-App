@@ -18,7 +18,7 @@ class BuildingController extends Controller
      */
     public function index(Request $request, Building $building)
     {
-        $buildings = $building::with("rooms")->get();
+        $buildings = $building::all();
         return response()->json([
             'buildings' => $buildings
         ]);
@@ -91,7 +91,7 @@ class BuildingController extends Controller
     }
     public function getAllBuildings()
     {
-        $buildings = Building::with("user")->get();
+        $buildings = Building::all();
 
         $data = [
             "Title" => "Building",

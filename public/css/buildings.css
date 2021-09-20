@@ -1,14 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
-.datatable_wrapper {
-  display: flex !important;
-  width: 100% !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
-.datatable_wrapper .table {
-  width: 90% !important;
-}
-
-.paginate_button {
-  background-color: #F27500 !important;
+#container-datatable {
+  width: clamp(50%, 700px, 90%);
+  height: clamp(50%, 700px, 50%);
+  margin-top: 100px;
+  background: radial-gradient(ellipse at center, #ffb33b 0%, #ff5221 100%);
 }
