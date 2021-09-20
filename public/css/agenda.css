@@ -10057,6 +10057,7 @@ h3 {
   border-bottom: 2px solid #ec9b4f;
   transition: 0.35s ease-in-out;
   color: white;
+  cursor: pointer;
 }
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper .list-item:hover {
   border-bottom: 2px solid white;
@@ -10075,6 +10076,9 @@ h3 {
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-thumb:hover {
   background: #ffff;
 }
-#agenda-wrapper .agenda .content-body .content-body-header .buildings-list {
-  color: currentColor;
+#agenda-wrapper .agenda .content-body {
+  cursor: pointer;
+}
+#agenda-wrapper .agenda .content-body .buildings-wrapper {
+  margin-left: 100px;
 }

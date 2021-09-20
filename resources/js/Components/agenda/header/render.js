@@ -22,19 +22,25 @@ export default class header extends React.Component {
         if(this.state.buildings.length > 0) {
             var buildingsElements = this.state.buildings.map((element, index) => {
                 return (
-                <div key={element.id}>
-                    <div className="buildings-list-item-header">
-                        <span>{element.name}</span>
-                    </div>   
-                    <div className="rooms-list-item-">
-                    
+                <div className="d-inline-block w-full flex-grow-1">
+                    <div className="d-flex flex-column justify-content-center" key={element.id}>
+                        <div>
+                            <div className="buildings-list-item-header d-flex justify-content-center">
+                                <span>{element.name}</span>
+                            </div>  
+                            <div className="d-flex justify-content-around">
+                                {element.rooms.map(room => {
+                                    return (<span style={{width : "150px"}} className="d-flex justify-content-center">{room.name}</span>)
+                                })}
+                            </div> 
+                        </div>  
                     </div>
                 </div>
                 )
             })
         }
         return(
-            <div className="buildings-list-wrapper d-flex flex-row justify-content-around">{ buildingsElements || "" }</div>
+            <div className="w-full h-full d-block">{ buildingsElements || "" }</div>
         )
     }   
 

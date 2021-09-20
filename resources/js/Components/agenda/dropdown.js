@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom'; 
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import Agenda from '../agenda';
 
 export default class dropDown extends React.Component {
@@ -39,7 +39,7 @@ export default class dropDown extends React.Component {
                     <div id={this.props.dataTarget} className="dropdown-list bg-themeColor collapse position-absolute">
                         <div className="dropdown-items-wrapper">
                             {this.state.list.map((element, index) => {
-                                return <div onClick={(e) => { this.toggleActive(e) }} className="list-item text-truncate text-center" key={`${element}.${index}`} onClick={this.toggleActive}>{element}</div>
+                                return <div onClick={(e) => { this.toggleActive(e) }} className="list-item text-truncate text-center" key={`${element}`}>{element}</div>
                             })}
                         </div>
                     </div>  

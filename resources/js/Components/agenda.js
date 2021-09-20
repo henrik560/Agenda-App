@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom'; 
 import Dropdown  from './agenda/dropdown';
 import Header from './agenda/header/render'
+import Body from './agenda/body/render'
 const moment = require('moment');
 moment.locale("nl")
 
@@ -61,11 +62,7 @@ class Agenda extends React.Component {
                 </div>
             </div>
             <div className="content-body">
-                <div className="content-body-header">
-                    <div className="buildings-list">
-                        <Header />
-                    </div>
-                </div>
+                <Body />
             </div> 
         </div>
         )
