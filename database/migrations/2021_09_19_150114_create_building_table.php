@@ -13,7 +13,7 @@ class CreateBuildingTable extends Migration
      */
     public function up()
     {
-        Schema::create('building', function (Blueprint $table) {
+        Schema::create('buildings', function (Blueprint $table) {
             $table->id();
             $table->string("name", 45);
             $table->integer("order");

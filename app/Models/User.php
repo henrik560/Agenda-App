@@ -43,8 +43,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $table = 'user';
-
     public function buildings()
     {
         return $this->hasMany(Building::class);

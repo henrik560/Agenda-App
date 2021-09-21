@@ -4,11 +4,87 @@
 // Variables
 @import 'variables';
 
-#container-datatable {
-    width: clamp(50%, 700px, 90%);
-    height: clamp(50%, 700px, 50%);
-    margin-top: 100px;
-    // background: radial-gradient(ellipse at center, $themeColorAccent 0%, $themeColor 100%);
-    // background: radial-gradient(ellipse at center, #ff5221 0%, #ffb33b 100%);
-    background: radial-gradient(ellipse at center, #ffb33b 0%, #ff5221 100%);
+#content-wrapper {
+    #container-datatable {
+        width: clamp(50%, 700px, 90%);
+        height: clamp(50%, 700px, 50%);
+        margin-top: 100px;
+        border-radius: 25px;
+        background: radial-gradient(ellipse at center, $themeColorAccent 0%, $themeColor 100%);
+        #table-head {
+            #searchbbar-input {
+                width: 150px;
+                height: 40px;
+                border-radius: 25px;
+                background-color: transparent;
+                padding-left: 15px;
+                outline: none;
+            }
+            #refresh-datatable {
+                width: 40px;
+                height: 40px;
+                border-radius: 25px;
+                background-color: transparent;
+            }
+        }
+        #table-content {
+            width: 100%;
+                #table-data {
+                width: 100%;
+                #table-head {
+                    width: 100%;
+                    #table-head-row {
+                        margin-top: 15px;
+                        width: 100%;
+                        text-overflow: ellipsis;
+                        .head-row-id {
+                            width: 10%;
+                        }
+                        .head-row-name {
+                            width: 25%;
+                        }
+                        .head-row-hex {
+                            width: 15%;
+                        }
+                        .head-row-added {
+                            width: 25%;
+                        }
+                        .head-row-edited {
+                            width: 25%;
+                        }
+                    }
+                }
+                #table-body {
+                    margin-top: 15px;
+                    width: 100%;
+                    #table-body-row {
+                        height: 40px;
+                        width: 100%;
+                        text-overflow: ellipsis;
+                        .body-row-id {
+                            width: 10%;
+                        }
+                        .body-row-name {
+                            width: 25%;
+                        }
+                        .body-row-hex {
+                            width: 15%;
+                        }
+                        .body-row-added {
+                            width: 25%;
+                        }
+                        .body-row-edited {
+                            width: 25%;
+                        }
+                        &:nth-child(odd) {
+                            background-color: rgba(255, 255, 255, 0.15);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+
+
+

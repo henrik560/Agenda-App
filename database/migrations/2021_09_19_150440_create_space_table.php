@@ -13,7 +13,7 @@ class CreateSpaceTable extends Migration
      */
     public function up()
     {
-        Schema::create('space', function (Blueprint $table) {
+        Schema::create('spaces', function (Blueprint $table) {
             $table->id();
             $table->string("name", 45);
             $table->integer("order");

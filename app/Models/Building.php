@@ -10,8 +10,6 @@ class Building extends Model
 {
     use HasFactory;
 
-    protected $table = 'building';
-
     public function user()
     {
         return $this->belongsTo(User::class);

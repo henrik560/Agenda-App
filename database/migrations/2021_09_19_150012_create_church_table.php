@@ -13,7 +13,7 @@ class CreateChurchTable extends Migration
      */
     public function up()
     {
-        Schema::create('church', function (Blueprint $table) {
+        Schema::create('churchs', function (Blueprint $table) {
             $table->id();
             $table->string("name", 45);
             $table->integer("user_id");

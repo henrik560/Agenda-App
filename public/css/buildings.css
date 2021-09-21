@@ -1,7 +1,78 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
-#container-datatable {
+#content-wrapper #container-datatable {
   width: clamp(50%, 700px, 90%);
   height: clamp(50%, 700px, 50%);
   margin-top: 100px;
-  background: radial-gradient(ellipse at center, #ffb33b 0%, #ff5221 100%);
+  border-radius: 25px;
+  background: radial-gradient(ellipse at center, #ec9b4f 0%, #F27500 100%);
+}
+#content-wrapper #container-datatable #table-head #searchbbar-input {
+  width: 150px;
+  height: 40px;
+  border-radius: 25px;
+  background-color: transparent;
+  padding-left: 15px;
+  outline: none;
+}
+#content-wrapper #container-datatable #table-head #refresh-datatable {
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+  background-color: transparent;
+}
+#content-wrapper #container-datatable #table-content {
+  width: 100%;
+}
+#content-wrapper #container-datatable #table-content #table-data {
+  width: 100%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-head {
+  width: 100%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-head #table-head-row {
+  margin-top: 15px;
+  width: 100%;
+  text-overflow: ellipsis;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-head #table-head-row .head-row-id {
+  width: 10%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-head #table-head-row .head-row-name {
+  width: 25%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-head #table-head-row .head-row-hex {
+  width: 15%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-head #table-head-row .head-row-added {
+  width: 25%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-head #table-head-row .head-row-edited {
+  width: 25%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-body {
+  margin-top: 15px;
+  width: 100%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row {
+  height: 40px;
+  width: 100%;
+  text-overflow: ellipsis;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row .body-row-id {
+  width: 10%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row .body-row-name {
+  width: 25%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row .body-row-hex {
+  width: 15%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row .body-row-added {
+  width: 25%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row .body-row-edited {
+  width: 25%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.15);
 }
