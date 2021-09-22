@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px;
+        }
+        .switch {
+            width: 200px;
+            height: 50px;
+            border-radius: 25px;
+            border: 2px solid rgb(197, 197, 197);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            background-color: whitesmoke;
+        }
+
+        .values {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-grow: 1;
+            z-index: 3;
+            background-color: transparent;
+        }
+
+        .val1, .val2 {
+            width: 100px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle  {
+            background-color: rgb(114, 114, 216);
+            width: 100px;
+            height: 50px;
+            position: absolute;
+            border-radius: 25px;
+            z-index: 2;
+            left: 0;
+            transition: 500ms;
+        }
+
+        .active {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="switch">
+        <div class="values">
+            <span id="v1" class="val1" onclick="test('v1')">Val 1</span>
+            <span id="v2" class="val2" onclick="test('v2')">Val 2</span>
+        </div>
+        <span id="circle" class="circle"></span>
+    </div>
+</body>
+    <script>
+        var val1 = document.querySelector("#v1")
+        var val2 = document.querySelector("#v2")
+        function test(e) {
+            var circle = document.getElementById("circle")
+            val1.classList.remove("active")
+            val2.classList.remove("active")
+            if(e == "v1") {
+                circle.style.left = "0px"
+                val1.classList.add("active")
+            }else {
+                circle.style.left = "100px"
+                val2.classList.add("active")
+            }
+        }
+    </script>
+</html>

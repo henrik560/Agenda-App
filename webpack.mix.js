@@ -16,6 +16,7 @@ mix
     .js("resources/js/Components/navbar.js", "public/js")
     .js("resources/js/Components/datatable.js", "public/js")
     .js("resources/js/Components/agenda.js", "public/js")
+    .js("resources/js/Components/buildings.js", "public/js")
     .react()
     .sass("resources/sass/app.scss", "public/css")
     .sass("resources/sass/login.scss", "public/css")

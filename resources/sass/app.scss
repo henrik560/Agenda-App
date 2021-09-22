@@ -19,7 +19,7 @@
     background-color: $themeColor;
 }
 
-.bg-themeColorAccent {  
+.bg-themeColorAccent {
     background-color: $themeColorAccent;
 }
 
@@ -36,15 +36,15 @@
 }
 
 .border-white-3 {
-    border: 3px solid white 
+    border: 3px solid white
 }
 
 .border-white-2 {
-    border: 2px solid white 
+    border: 2px solid white
 }
 
 .border-white-1 {
-    border: 1px solid white 
+    border: 1px solid white
 }
 
 .border-themeColor-3 {
@@ -62,12 +62,15 @@
 .border-top-none {
     border-top: none !important;
 }
+
 .border-bottom-none {
     border-bottom: none !important;
 }
+
 .border-left-none {
     border-left: none !important;
 }
+
 .border-right-none {
     border-right: none !important;
 }
@@ -92,6 +95,14 @@
     -o-transition: 350ms ease-in-out !important;
 }
 
+.transition-250ms {
+    transition: 250ms ease-in-out !important;
+    -webkit-transition: 250ms ease-in-out !important;
+    -moz-transition: 250ms ease-in-out !important;
+    -ms-transition: 250ms ease-in-out !important;
+    -o-transition: 250ms ease-in-out !important;
+}
+
 .rotate-0deg {
     transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
@@ -107,6 +118,7 @@
     -ms-transform: rotate(180deg);
     -o-transform: rotate(180deg);
 }
+
 
 .navbar {
     padding: 0px 0px !important;

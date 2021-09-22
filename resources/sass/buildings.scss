@@ -11,6 +11,7 @@
         margin-top: 100px;
         border-radius: 25px;
         background: radial-gradient(ellipse at center, $themeColorAccent 0%, $themeColor 100%);
+
         #table-head {
             #searchbbar-input {
                 width: 150px;
@@ -19,7 +20,35 @@
                 background-color: transparent;
                 padding-left: 15px;
                 outline: none;
+                color: white;
+
+                &::-webkit-input-placeholder {
+                    color: white;
+                }
+
+                &:-moz-placeholder {
+                    color: white;
+                    opacity: 1;
+                }
+
+                &::-moz-placeholder {
+                    color: white;
+                    opacity: 1;
+                }
+
+                &:-ms-input-placeholder {
+                    color: white;
+                }
+
+                &::-ms-input-placeholder {
+                    color: white;
+                }
+
+                &::placeholder {
+                    color: white;
+                }
             }
+
             #refresh-datatable {
                 width: 40px;
                 height: 40px;
@@ -27,57 +56,194 @@
                 background-color: transparent;
             }
         }
+
         #table-content {
             width: 100%;
-                #table-data {
+
+            #table-data {
                 width: 100%;
-                #table-head {
+
+                #table-content-head {
                     width: 100%;
+
                     #table-head-row {
                         margin-top: 15px;
                         width: 100%;
                         text-overflow: ellipsis;
+
                         .head-row-id {
                             width: 10%;
                         }
+
                         .head-row-name {
                             width: 25%;
                         }
+
                         .head-row-hex {
                             width: 15%;
                         }
+
                         .head-row-added {
                             width: 25%;
                         }
+
                         .head-row-edited {
                             width: 25%;
                         }
                     }
                 }
+
                 #table-body {
                     margin-top: 15px;
                     width: 100%;
+
                     #table-body-row {
                         height: 40px;
                         width: 100%;
                         text-overflow: ellipsis;
+
                         .body-row-id {
                             width: 10%;
                         }
+
                         .body-row-name {
                             width: 25%;
                         }
+
                         .body-row-hex {
                             width: 15%;
                         }
+
                         .body-row-added {
                             width: 25%;
                         }
+
                         .body-row-edited {
                             width: 25%;
                         }
+
                         &:nth-child(odd) {
                             background-color: rgba(255, 255, 255, 0.15);
+                        }
+
+                        &:hover {
+                            background-color: rgba(255, 255, 255, 0.2);
+                        }
+                    }
+                }
+
+                #table-footer {
+                    color: currentColor;
+
+                    #modal {
+                        margin-top: -113px;
+                        background-color: rgba(23, 23, 23, 0.82);
+                        border-radius: 15px;
+
+                        #modal-list {
+                            list-style: none;
+                            width: 100px;
+                            height: 100px;
+                            color: rgb(182, 182, 182);
+
+                            span {
+                                width: 100px;
+                                text-align: center;
+                                transition: 250ms;
+                                -webkit-transition: 250ms;
+                                -moz-transition: 250ms;
+                                -ms-transition: 250ms;
+                                -o-transition: 250ms;
+
+                                &:hover {
+                                    background-color: rgba(255, 255, 255, 0.15);
+                                    color: white;
+                                    border-radius: 15px;
+                                }
+                            }
+
+                            .selected {
+                                background-color: rgba(0, 0, 0, 0.82);
+                                border-radius: 15px;
+                                color: white;
+                            }
+                        }
+
+                        #modal-arrow-down-icon {
+                            border-top: 11px solid rgba(23, 23, 23, 0.73);
+                            border-left: 13px solid rgba(0, 0, 0, 0);
+                            border-right: 13px solid rgba(0, 0, 0, 0);
+                            border-bottom: none;
+                            position: absolute;
+                            top: 100px;
+                            left: 13px;
+                            width: 10px;
+                            height: 10px;
+                        }
+
+                        // &::after {
+                        //     border-top: 11px solid rgba(23, 23, 23, 0.73);
+                        //     border-left: 11px solid rgba(0, 0, 0, 0);
+                        //     border-right: 11px solid rgba(0, 0, 0, 0);
+                        //     border-bottom: none;
+                        //     content: "";
+                        //     display: inline-block;
+                        //     position: absolute;
+                        //     top: 100px;
+                        //     left: 13px;
+
+                        // }
+                    }
+
+                    #rows-visible {
+                        #rows-visible-container {
+                            #toggle-rows-button {
+                                width: 55px;
+                                height: 40px;
+                                border-radius: 20px;
+                                -webkit-border-radius: 20px;
+                                -moz-border-radius: 20px;
+                                -ms-border-radius: 20px;
+                                -o-border-radius: 20px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+
+                            }
+                        }
+                    }
+
+                    #pages-icons {
+                        width: 40%;
+
+                        #container {
+                            div {
+                                border: 1px solid transparent;
+                                width: 30px;
+                                cursor: context-menu;
+                                height: 30px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                border-radius: 25px;
+                                transition: 250ms;
+                                color: rgba(207, 207, 207, 0.61);
+                                font-weight: bold;
+                            }
+
+                            .border-white {
+                                border: 1px solid white;
+                                color: white !important;
+                            }
+
+                            #to-start,
+                            #to-end,
+                            #selectable-page {
+                                &:hover {
+                                    border: 1px solid white;
+                                    color: white !important;
+                                }
+                            }
                         }
                     }
                 }
@@ -85,6 +251,3 @@
         }
     }
 }
-
-
-

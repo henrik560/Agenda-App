@@ -39,7 +39,7 @@ Route::group(["middleware" => ["auth"]], function () {
         return view("app");
     });
 
-    Route::resource('api/agenda/buildings/get', BuildingController::class);
+    Route::resource('api/buildings/get', BuildingController::class);
 });
 
 // Route::prefix("/")->group(function () {

@@ -3042,7 +3042,7 @@ var header = /*#__PURE__*/function (_React$Component) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('api/agenda/buildings/get').then(function (response) {
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('api/buildings/get').then(function (response) {
                 return _this.setState({
                   buildings: response.data
                 });

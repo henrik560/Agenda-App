@@ -1,20 +1,37 @@
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid container-margin">
-                <a class="navbar-brand fs-3" href="#">Pkn Rhenen</a>
-                <button class="navbar-toggler mr-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse float-end" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link ml-1 fs-6 active" aria-current="page" href="{{ route("agenda") }}">Agenda</a>
-                    <a class="nav-link ml-1 fs-6" href="{{ route("buildings")}}">Gebouwen</a>
-                    <a class="nav-link ml-1 fs-6" href="{{ route("users")}}">Gebruikers</a>
-                    <a class="nav-link ml-1 fs-6" href="{{ route("export")}}">Exporteren</a>
-                    <a class="nav-link ml-1 fs-6" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Uitloggen</a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </div>
-                </div>
-            </div>
-        </nav>
+               <div id="table-body" className="d-flex flex-grow-1 flex-column">
+                        <div id="table-body-row" className="transition-250ms d-flex flex-grow-1 justify-content-around align-items-center">
+                            <div id="body-row" className="body-row-id text-white d-flex justify-content-center align-items-center">1</div>
+                            <div id="body-row" className="body-row-name text-white d-flex justify-content-center align-items-center">Admin</div>
+                            <div id="body-row" className="body-row-hex text-white d-flex justify-content-center align-items-center">#343446</div>
+                            <div id="body-row" className="body-row-added text-white d-flex justify-content-center align-items-center">23-04-2000</div>
+                            <div id="body-row" className="body-row-edited text-white d-flex justify-content-center align-items-center">
+                                <div>
+                                    <i className="fas fa-edit"></i>
+                                    <i className="far fa-trash-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="table-body-row" className="transition-250ms d-flex flex-grow-1 justify-content-around align-items-center">
+                            <div id="body-row" className="body-row-id text-white d-flex justify-content-center align-items-center">1</div>
+                            <div id="body-row" className="body-row-name text-white d-flex justify-content-center align-items-center">Admin</div>
+                            <div id="body-row" className="body-row-hex text-white d-flex justify-content-center align-items-center">#343446</div>
+                            <div id="body-row" className="body-row-added text-white d-flex justify-content-center align-items-center">23-04-2000</div>
+                            <div id="body-row" className="body-row-edited text-white d-flex justify-content-center align-items-center">
+                                <div>
+                                    <i className="fas fa-edit"></i>
+                                    <i className="far fa-trash-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="table-body-row" className="transition-250ms d-flex flex-grow-1 justify-content-around align-items-center">
+                            <div id="body-row" className="body-row-id text-white d-flex justify-content-center align-items-center">1</div>
+                            <div id="body-row" className="body-row-name text-white d-flex justify-content-center align-items-center">Admin</div>
+                            <div id="body-row" className="body-row-hex text-white d-flex justify-content-center align-items-center">#343446</div>
+                            <div id="body-row" className="body-row-added text-white d-flex justify-content-center align-items-center">23-04-2000</div>
+                            <div id="body-row" className="body-row-edited text-white d-flex justify-content-center align-items-center">
+                                <div>
+                                    <i className="fas fa-edit"></i>
+                                    <i className="far fa-trash-alt"></i>
+                                </div>
+                            </div>
+                        </div>

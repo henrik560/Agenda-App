@@ -10090,6 +10090,14 @@ h3 {
   -o-transition: 350ms ease-in-out !important;
 }
 
+.transition-250ms {
+  transition: 250ms ease-in-out !important;
+  -webkit-transition: 250ms ease-in-out !important;
+  -moz-transition: 250ms ease-in-out !important;
+  -ms-transition: 250ms ease-in-out !important;
+  -o-transition: 250ms ease-in-out !important;
+}
+
 .rotate-0deg {
   transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
