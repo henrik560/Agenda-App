@@ -17,6 +17,9 @@ class Buildings extends React.Component {
         this.setModalState = this.setModalState.bind(this)
         this.fetchBuildings = this.fetchBuildings.bind(this);
         this.fetchBuildings();
+        setTimeout(() => {
+            console.log(this.state.buildings)
+        }, 1000);
     }
 
     setModalState() {
@@ -27,7 +30,6 @@ class Buildings extends React.Component {
         var newAmount = parseInt(e.target.innerHTML)
         this.setState({listAmount : newAmount})
         this.setModalState()
-        this.fetchBuildings()
         this.setState({buildings: this.splitInChunks(this.state.buildings, newAmount)})
 
     }
