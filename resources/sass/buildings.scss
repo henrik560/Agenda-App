@@ -214,12 +214,14 @@
                     }
 
                     #pages-icons {
-                        width: 40%;
+                        margin-right: 10px;
 
                         #container {
                             div {
                                 border: 1px solid transparent;
-                                width: 30px;
+                                min-width: 30px;
+                                width: min-content;
+                                padding: 2px;
                                 cursor: context-menu;
                                 height: 30px;
                                 display: flex;

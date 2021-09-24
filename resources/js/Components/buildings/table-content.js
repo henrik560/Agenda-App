@@ -7,7 +7,7 @@ export default class TableContent extends React.Component {
     
     render() {
         var buildingsElement
-            if(this.props.buildings) {
+            if(this.props.buildings && this.props.buildings.length > 0) {
                 buildingsElement = this.props.buildings.map((element, index) => {
                     return (
                         <div id="table-body-row" key={index} className="transition-250ms d-flex flex-grow-1 justify-content-around align-items-center">
@@ -23,7 +23,9 @@ export default class TableContent extends React.Component {
                         </div>
                     </div>)
                 })
+            }else if(this.props.buildings && this.props.buildings.length == 0) {
+                return (<div>Geen resultaten gevonden</div>)
             }
-        return(buildingsElement ? buildingsElement : "loading...")
+        return(this.props.buildings ? buildingsElement : <div className="d-flex flex-grow-1 justify-content-center align-items-center transition-2s rotate-360-linair text-white fs-1"><i className="fas fa-spinner"></i></div>)
     }
 }

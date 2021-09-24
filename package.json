@@ -53,6 +53,7 @@
         "framer-motion": "^4.1.17",
         "fullcalendar": "^5.9.0",
         "moment": "^2.29.1",
+        "react-addons-update": "^15.6.3",
         "react-dom": "^17.0.2"
     }
 }

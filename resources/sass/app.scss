@@ -79,6 +79,14 @@
     border: none !important;
 }
 
+.transition-2s {
+    transition: 2s ease-in-out !important;
+    -webkit-transition: 2s ease-in-out !important;
+    -moz-transition: 2s ease-in-out !important;
+    -ms-transition: 2s ease-in-out !important;
+    -o-transition: 2s ease-in-out !important;
+}
+
 .transition-500ms {
     transition: 500ms ease-in-out !important;
     -webkit-transition: 500ms ease-in-out !important;
@@ -119,6 +127,31 @@
     -o-transform: rotate(180deg);
 }
 
+.rotate-360-linair {
+    animation: rotate360 1s infinite;
+}
+
+@keyframes rotate360 {
+    from {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+    }
+}
+
+* {
+    user-select: none;
+}
 
 .navbar {
     padding: 0px 0px !important;

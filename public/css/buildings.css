@@ -147,11 +147,15 @@
   align-items: center;
 }
 #content-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons {
-  width: 40%;
+  margin-right: 10px;
 }
 #content-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container div {
   border: 1px solid transparent;
-  width: 30px;
+  min-width: 30px;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  padding: 2px;
   cursor: context-menu;
   height: 30px;
   display: flex;

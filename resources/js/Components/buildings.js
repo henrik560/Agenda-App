@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import TableContent from './buildings/table-content';
 import TablePageSelector from './buildings/page-selector';
 import axios from 'axios';
+import update from 'react-addons-update';
 
 class Buildings extends React.Component {
     constructor(props) {
@@ -15,7 +16,11 @@ class Buildings extends React.Component {
             currentPage: 1,
             buildings: [],
             buildingsInChunks: [],
+            refresh: false,
         }
+    }
+
+    componentDidMount() {
         this.setModalState = this.setModalState.bind(this)
         this.fetchBuildings = this.fetchBuildings.bind(this);
         this.setCurrentPage = this.setCurrentPage.bind(this);
@@ -33,12 +38,13 @@ class Buildings extends React.Component {
     }
 
     fetchBuildings = async () => {
-        console.log("Test")
+        this.setState({ refresh: true })
         await axios.get('http://127.0.0.1:8000/api/buildings/get').then(response => {
             var buildings = [];
             Object.values(response.data).flat().map((el, id) => buildings.push(el))
             this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings, currentPage: 1, listAmount: 8 })
         })
+        this.setState({refresh: false})
     }
 
     splitInChunks(array, size) {
@@ -54,13 +60,25 @@ class Buildings extends React.Component {
         this.setState({currentPage: newPage})
     }
 
+    searchbar(e) {
+        var buildingsArray = this.state.buildings.filter((word) => word.name.startsWith(e.target.value)) || []
+        this.setState({buildingsInChunks: this.splitInChunks(buildingsArray, this.state.listAmount)})
+        // console.log(this.state.buildingsInChunks)
+        console.log(this.splitInChunks(buildingsArray, this.state.listAmount))
+        setTimeout(() => {
+            this.state.buildingsInChunks
+        }, 1000);
+    }
+
     render() {
         return (
             <div className="d-flex flex-column w-90 h-90" id="container-datatable">
             <div id="table-head" className="mt-3 w-full d-flex justify-content-end align-items-end">
                 <div id="table-buttons-container" className="d-flex justify-content-end align-items-end gap-3 pr-3">
-                    <input placeholder="Zoeken" className="border-white-1 text-white" id="searchbbar-input"></input>
-                    <div id="refresh-datatable" onClick={this.fetchBuildings} className="d-flex justify-content-center align-items-center border-white-1 text-white"><i className="fas fa-sync-alt"></i></div>
+                    <input placeholder="Zoeken" onChange={(e) => this.searchbar(e)} className="border-white-1 text-white" id="searchbbar-input"></input>
+                    <div id="refresh-datatable" onClick={this.fetchBuildings} className={`d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ${this.state.refresh ? `rotate-360-linair` : ``}`}>
+                        <i className="fas fa-sync-alt"></i>
+                    </div>
                 </div>
             </div>
             <div id="table-content" className="mt-2">
@@ -97,7 +115,7 @@ class Buildings extends React.Component {
                             <div id="rows-visible-container" className="d-flex flex-row gap-2 justify-content-center align-items-center text-white">
                                 <div id="toggle-rows-button" className="border-white-1 gap-1" onClick={this.setModalState}>
                                     <span className="text-white" id="number">{this.state.listAmount}</span>
-                                    <i className="fas fa-sort-down text-white mt-n1"></i>
+                                    <i className={`fas fa-sort-down text-white mt-n1 transition-250ms ${this.state.openModal ? 'rotate-180deg mt-1' : '' }`}></i>
                                 </div>
                                 <div>Aantal per pagina</div>
                             </div>
