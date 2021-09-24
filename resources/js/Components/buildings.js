@@ -25,6 +25,7 @@ class Buildings extends React.Component {
         this.fetchBuildings = this.fetchBuildings.bind(this);
         this.setCurrentPage = this.setCurrentPage.bind(this);
         this.fetchBuildings();
+        
     }
 
     setModalState() {
@@ -42,7 +43,7 @@ class Buildings extends React.Component {
         await axios.get('http://127.0.0.1:8000/api/buildings/get').then(response => {
             var buildings = [];
             Object.values(response.data).flat().map((el, id) => buildings.push(el))
-            this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings, currentPage: 1, listAmount: 8 })
+            this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings })
         })
         this.setState({refresh: false})
     }
@@ -63,11 +64,17 @@ class Buildings extends React.Component {
     searchbar(e) {
         var buildingsArray = this.state.buildings.filter((word) => word.name.startsWith(e.target.value)) || []
         this.setState({buildingsInChunks: this.splitInChunks(buildingsArray, this.state.listAmount)})
-        // console.log(this.state.buildingsInChunks)
-        console.log(this.splitInChunks(buildingsArray, this.state.listAmount))
-        setTimeout(() => {
-            this.state.buildingsInChunks
-        }, 1000);
+    }
+
+    filterContentAlphabetic(type, typeSort) {
+        const validTypes = ["name", "id", "created_at"]
+        if(validTypes.includes(type)) {
+            if(typeSort == "up") {
+                this.setState({buildingsInChunks: this.splitInChunks(this.state.buildings.sort((a,b) => (a[type] > b[type]) ? 1 : ((b[type] > a[type]) ? -1 : 0)), this.state.listAmount)} )
+            }else if(typeSort == "down") {
+                this.setState({buildingsInChunks: this.splitInChunks(this.state.buildings.sort((a,b) => (a[type] < b[type]) ? 1 : ((b[type] < a[type]) ? -1 : 0)), this.state.listAmount)} )
+            }    
+        }
     }
 
     render() {
@@ -85,20 +92,26 @@ class Buildings extends React.Component {
                 <div id="table-data" className="d-flex flex-grow-1 flex-column">
                     <div id="table-content-head" className="d-flex flex-grow-1">
                         <div id="table-head-row" className="d-flex flex-grow-1 justify-content-around align-items-center">
-                            <div id="head-row" className="head-row-id text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">ID</div>
+                            <div id="head-row" className="head-row-id text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
+                                <span>ID</span>
+                                <div id="div-filter-icons" className="d-flex flex-column justify-content-center align-items-center gap-2">
+                                    <i className={`fas fa-sort-up mb-n2`} onClick={(e) => {this.filterContentAlphabetic("id", "up")}}></i>
+                                    <i className={`fas fa-sort-down mt-n2`} onClick={(e) => {this.filterContentAlphabetic("id", "down")}}></i>
+                                </div>
+                            </div>
                             <div id="head-row" className="head-row-name text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
                                 <span>Naam</span>
-                                <div id="div-filter-icons" className="d-flex flex-column justify-content-center align-items-center">
-                                    <i className="fas fa-sort-up mb-n2"></i>
-                                    <i className="fas fa-sort-down mt-n2"></i>
+                                <div id="div-filter-icons" className="d-flex flex-column justify-content-center align-items-center gap-2">
+                                    <i className={`fas fa-sort-up mb-n2`} onClick={(e) => {this.filterContentAlphabetic("name", "up")}}></i>
+                                    <i className={`fas fa-sort-down mt-n2`} onClick={(e) => {this.filterContentAlphabetic("name", "down")}}></i>
                                 </div>
                             </div>
                             <div id="head-row" className="head-row-hex text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">Hex</div>
                             <div id="head-row" className="head-row-added text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
                                 <span>Toegevoed op</span>
-                                <div id="div-filter-icons" className="d-flex flex-column justify-content-center align-items-center">
-                                    <i className="fas fa-sort-up mb-n2"></i>
-                                    <i className="fas fa-sort-down mt-n2"></i>
+                                <div id="div-filter-icons" className="d-flex flex-column justify-content-center align-items-center gap-2">
+                                    <i className={`fas fa-sort-up mb-n2`} onClick={(e) => {this.filterContentAlphabetic("created_at", "up")}}></i>
+                                    <i className={`fas fa-sort-down mt-n2`} onClick={(e) => {this.filterContentAlphabetic("created_at", "down")}}></i>
                                 </div>
                             </div>
                             <div id="head-row" className="head-row-edited text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">

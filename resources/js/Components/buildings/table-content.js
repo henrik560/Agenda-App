@@ -1,8 +1,17 @@
 import React from 'react';
+import  { Link } from 'react-router-dom'
 
 export default class TableContent extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    redirect(id, type) {
+        if(type == "edit") {
+            return(<Link to={`/gebouwen/edit/${id}`} />)
+        }else if(type == "delete") {
+            return(<Link to={`/gebouwen/delete/${id}`} />)
+        }
     }
     
     render() {
@@ -17,8 +26,8 @@ export default class TableContent extends React.Component {
                         <div id="body-row" className="body-row-added text-white d-flex justify-content-center align-items-center">{element.created_at.split("T")[0]}</div>
                         <div id="body-row" className="body-row-edited text-white d-flex justify-content-center align-items-center">
                             <div className="d-flex gap-2">
-                                <i className="fas fa-edit"></i>
-                                <i className="far fa-trash-alt"></i>
+                                <i className="fas fa-edit" onClick={(e) => this.redirect(element.id, "edit")}></i>
+                                <i className="far fa-trash-alt" onClick={(e) => this.redirect(element.id, "edit")}></i>
                             </div>
                         </div>
                     </div>)

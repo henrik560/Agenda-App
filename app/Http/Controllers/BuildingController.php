@@ -9,7 +9,7 @@ class BuildingController extends Controller
 {
     public function index(Request $request, Building $building)
     {
-        $buildings = $building::all();
+        $buildings = $building::limit(100)->get();
         return response()->json([
             'buildings' => $buildings
         ]);
