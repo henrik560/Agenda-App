@@ -7,15 +7,6 @@ use App\Models\Building;
 
 class BuildingController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware("auth");
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request, Building $building)
     {
         $buildings = $building::all();

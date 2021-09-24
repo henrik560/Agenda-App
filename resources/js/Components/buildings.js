@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import { Modal } from './buildings/modal'
 import { motion } from "framer-motion"
 import TableContent from './buildings/table-content';
+import TablePageSelector from './buildings/page-selector';
 import axios from 'axios';
 
 class Buildings extends React.Component {
@@ -13,13 +14,12 @@ class Buildings extends React.Component {
             listAmount: 8,
             currentPage: 1,
             buildings: [],
+            buildingsInChunks: [],
         }
         this.setModalState = this.setModalState.bind(this)
         this.fetchBuildings = this.fetchBuildings.bind(this);
+        this.setCurrentPage = this.setCurrentPage.bind(this);
         this.fetchBuildings();
-        setTimeout(() => {
-            console.log(this.state.buildings)
-        }, 1000);
     }
 
     setModalState() {
@@ -28,27 +28,31 @@ class Buildings extends React.Component {
 
     setListAmount(e) {
         var newAmount = parseInt(e.target.innerHTML)
-        this.setState({listAmount : newAmount})
         this.setModalState()
-        this.setState({buildings: this.splitInChunks(this.state.buildings, newAmount)})
-
+        this.setState({buildingsInChunks: this.splitInChunks(this.state.buildings, newAmount), listAmount: newAmount, currentPage: 1})
     }
 
     fetchBuildings = async () => {
+        console.log("Test")
         await axios.get('http://127.0.0.1:8000/api/buildings/get').then(response => {
             var buildings = [];
             Object.values(response.data).flat().map((el, id) => buildings.push(el))
-            this.setState({ buildings: this.splitInChunks(buildings, this.state.listAmount) })
+            this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings, currentPage: 1, listAmount: 8 })
         })
     }
 
     splitInChunks(array, size) {
         var results = [];
-        while (array.length) {
-          results.push(array.splice(0, size));
+        for (let index = 0; index < Math.max(array.length / size); index++) {
+            results.push(array.slice(parseInt(index*size), parseInt(index*size + size)))
         }
         return results;
     };
+
+    setCurrentPage(newPage){
+        var newPage = parseInt(newPage)
+        this.setState({currentPage: newPage})
+    }
 
     render() {
         return (
@@ -56,7 +60,7 @@ class Buildings extends React.Component {
             <div id="table-head" className="mt-3 w-full d-flex justify-content-end align-items-end">
                 <div id="table-buttons-container" className="d-flex justify-content-end align-items-end gap-3 pr-3">
                     <input placeholder="Zoeken" className="border-white-1 text-white" id="searchbbar-input"></input>
-                    <div id="refresh-datatable" className="d-flex justify-content-center align-items-center border-white-1 text-white"><i className="fas fa-sync-alt"></i></div>
+                    <div id="refresh-datatable" onClick={this.fetchBuildings} className="d-flex justify-content-center align-items-center border-white-1 text-white"><i className="fas fa-sync-alt"></i></div>
                 </div>
             </div>
             <div id="table-content" className="mt-2">
@@ -85,7 +89,7 @@ class Buildings extends React.Component {
                         </div>
                     </div>
                     <div id="table-body" className="d-flex flex-grow-1 flex-column">
-                        <TableContent buildings={this.state.buildings[this.state.currentPage -1]} listAmount={this.state.listAmount} currentPage={this.state.currentPage}/>
+                        <TableContent buildings={this.state.buildingsInChunks[this.state.currentPage -1]} listAmount={this.state.listAmount} currentPage={this.state.currentPage}/>
                     </div>
                     <div id="table-footer" className="mt-3 ml-2 mb-3 d-flex flex-row justify-content-between">
                             <Modal openModal={this.state.openModal} setListAmount={(e) => {this.setListAmount(e)}} />
@@ -99,20 +103,7 @@ class Buildings extends React.Component {
                             </div>
                         </div>
                         <div id="pages-icons" className="d-flex">
-                            <div id="container" className="d-flex flex-row flex-grow-1 justify-content-around align-items-center text-white">
-                                <div id="to-start">
-                                    <i className="fas fa-angle-left"></i>
-                                </div>
-                                <div id="current" className="border-white">1</div>
-                                <div id="selectable-page">2</div>
-                                <div id="selectable-page">3</div>
-                                <div id="selectable-page">4</div>
-                                <div id="selectable-page">5</div>
-                                <div id="not-selectable">..</div>
-                                <div id="to-end">
-                                    <i className="fas fa-angle-right"></i>
-                                </div>
-                            </div>
+                            <TablePageSelector buildings={this.state.buildingsInChunks} currentPage={this.state.currentPage} setCurrentPage={(e) => { this.setCurrentPage(e) }} />
                         </div>
                     </div>
                 </div>

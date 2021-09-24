@@ -1,4 +1,4 @@
-import Reat from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 
 export const Modal = ({ openModal, setListAmount }) => {
