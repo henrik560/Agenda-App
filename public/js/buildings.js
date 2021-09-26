@@ -3106,18 +3106,10 @@ var TablePageSelector = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        id: "container",
-        className: "d-flex gap-2 flex-row w-100 justify-content-around align-items-center text-white",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          id: "to-start",
-          onClick: function onClick(e) {
-            return _this.props.setCurrentPage(_this.props.currentPage <= 1 ? 1 : _this.props.currentPage - 1);
-          },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-            className: "fas fa-angle-left"
-          })
-        }), this.props.buildings.map(function (element, index) {
+      var element = null;
+
+      if (!this.props.searchError) {
+        element = this.props.buildings.map(function (element, index) {
           index++;
           var first = _this.props.currentPage + 4 > _this.props.buildings.length ? _this.props.buildings.length - 4 <= 1 ? 1 : _this.props.buildings.length - 4 : _this.props.currentPage;
           var last = _this.props.currentPage + 4 > _this.props.buildings.length ? _this.props.buildings.length : _this.props.currentPage + 4;
@@ -3155,7 +3147,24 @@ var TablePageSelector = /*#__PURE__*/function (_React$Component) {
               }, index);
             }
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        });
+      }
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        id: "container",
+        className: "d-flex gap-2 flex-row w-100 justify-content-around align-items-center text-white",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          id: "to-start",
+          onClick: function onClick(e) {
+            return _this.props.setCurrentPage(_this.props.currentPage <= 1 ? 1 : _this.props.currentPage - 1);
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+            className: "fas fa-angle-left"
+          })
+        }), element ? element : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          id: "selectable-page",
+          children: "1"
+        }, "1"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           id: "to-end",
           onClick: function onClick(e) {
             return _this.props.setCurrentPage(_this.props.currentPage <= _this.props.buildings.length - 1 ? _this.props.currentPage + 1 : _this.props.buildings.length);
@@ -3344,59 +3353,64 @@ var TableContent = /*#__PURE__*/function (_React$Component) {
 
       var buildingsElement;
 
-      if (this.props.buildings && this.props.buildings.length > 0) {
-        buildingsElement = this.props.buildings.map(function (element, index) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            id: "table-body-row",
-            className: "transition-250ms d-flex flex-grow-1 justify-content-around align-items-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              id: "body-row",
-              className: "body-row-id text-white d-flex justify-content-center align-items-center",
-              children: element.id
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              id: "body-row",
-              className: "body-row-name text-white d-flex justify-content-center align-items-center",
-              children: element.name
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              id: "body-row",
-              className: "body-row-hex text-white d-flex justify-content-center align-items-center",
-              children: "#".concat(element.color_hex)
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              id: "body-row",
-              className: "body-row-added text-white d-flex justify-content-center align-items-center",
-              children: element.created_at.split("T")[0]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              id: "body-row",
-              className: "body-row-edited text-white d-flex justify-content-center align-items-center",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                className: "d-flex gap-2",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-                  className: "fas fa-edit",
-                  onClick: function onClick(e) {
-                    return _this.redirect(element.id, "edit");
-                  }
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-                  className: "far fa-trash-alt",
-                  onClick: function onClick(e) {
-                    return _this.redirect(element.id, "edit");
-                  }
-                })]
-              })
-            })]
-          }, index);
-        });
-      } else if (this.props.buildings && this.props.buildings.length == 0) {
+      if (this.props.searchError || this.props.buildings[this.props.currentPage]) {
+        if (!this.props.searchError || this.props.buildings[this.props.currentPage] && this.props.buildings[this.props.currentPage].length > 0) {
+          buildingsElement = this.props.buildings[this.props.currentPage].map(function (element, index) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              id: "table-body-row",
+              className: "transition-250ms d-flex flex-grow-1 justify-content-around align-items-center",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                id: "body-row",
+                className: "body-row-id text-white d-flex justify-content-center align-items-center",
+                children: element.id
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                id: "body-row",
+                className: "body-row-name text-white d-flex justify-content-center align-items-center",
+                children: element.name
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                id: "body-row",
+                className: "body-row-hex text-white d-flex justify-content-center align-items-center",
+                children: "#".concat(element.color_hex)
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                id: "body-row",
+                className: "body-row-added text-white d-flex justify-content-center align-items-center",
+                children: element.created_at.split("T")[0]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                id: "body-row",
+                className: "body-row-edited text-white d-flex justify-content-center align-items-center",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  className: "d-flex gap-2",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+                    className: "fas fa-edit",
+                    onClick: function onClick(e) {
+                      return _this.redirect(element.id, "edit");
+                    }
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+                    className: "far fa-trash-alt",
+                    onClick: function onClick(e) {
+                      return _this.redirect(element.id, "edit");
+                    }
+                  })]
+                })
+              })]
+            }, index);
+          });
+        } else {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "d-flex flex-grow-1 justify-content-center align-items-center text-white fs-1",
+            children: "Geen resultaten gevonden!"
+          });
+        }
+      } else {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          children: "Geen resultaten gevonden"
+          className: "d-flex flex-grow-1 justify-content-center align-items-center transition-2s rotate-360-linair text-white fs-1",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+            className: "fas fa-spinner"
+          })
         });
       }
 
-      return this.props.buildings ? buildingsElement : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: "d-flex flex-grow-1 justify-content-center align-items-center transition-2s rotate-360-linair text-white fs-1",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-          className: "fas fa-spinner"
-        })
-      });
+      return buildingsElement;
     }
   }]);
 
@@ -51097,16 +51111,58 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
 
-    _defineProperty(_assertThisInitialized(_this), "fetchBuildings", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+    _defineProperty(_assertThisInitialized(_this), "setListAmount", /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
+        var newAmount, buildingsInChunks;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                newAmount = parseInt(e.target.innerHTML);
+                _context.next = 3;
+                return _this.setModalState();
+
+              case 3:
+                _context.next = 5;
+                return _this.splitInChunks(_this.state.buildings, newAmount);
+
+              case 5:
+                buildingsInChunks = _context.sent;
+                _context.next = 8;
+                return _this.setState({
+                  buildingsInChunks: buildingsInChunks,
+                  listAmount: newAmount,
+                  currentPage: _this.state.currentPage <= buildingsInChunks.length ? _this.state.currentPage : buildingsInChunks.length
+                });
+
+              case 8:
+                _context.next = 10;
+                return _this.filterListOnKeyWord(_this.state.searchKeyWord);
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }());
+
+    _defineProperty(_assertThisInitialized(_this), "fetchBuildings", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
               _this.setState({
-                refresh: true
+                refresh: true,
+                buildingsInChunks: []
               });
 
-              _context.next = 3;
+              _context2.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_6___default().get('http://127.0.0.1:8000/api/buildings/get').then(function (response) {
                 var buildings = [];
                 Object.values(response.data).flat().map(function (el, id) {
@@ -51126,10 +51182,10 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
 
             case 4:
             case "end":
-              return _context.stop();
+              return _context2.stop();
           }
         }
-      }, _callee);
+      }, _callee2);
     })));
 
     _this.state = {
@@ -51138,7 +51194,9 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
       currentPage: 1,
       buildings: [],
       buildingsInChunks: [],
-      refresh: false
+      refresh: false,
+      noResults: false,
+      searchKeyWord: ''
     };
     return _this;
   }
@@ -51156,17 +51214,6 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
     value: function setModalState() {
       this.setState({
         openModal: this.state.openModal ? !this.state.openModal : true
-      });
-    }
-  }, {
-    key: "setListAmount",
-    value: function setListAmount(e) {
-      var newAmount = parseInt(e.target.innerHTML);
-      this.setModalState();
-      this.setState({
-        buildingsInChunks: this.splitInChunks(this.state.buildings, newAmount),
-        listAmount: newAmount,
-        currentPage: 1
       });
     }
   }, {
@@ -51189,35 +51236,30 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
-    key: "searchbar",
-    value: function searchbar(e) {
-      var buildingsArray = this.state.buildings.filter(function (word) {
-        return word.name.startsWith(e.target.value);
-      }) || [];
-      this.setState({
-        buildingsInChunks: this.splitInChunks(buildingsArray, this.state.listAmount)
-      });
+    key: "filterListOnKeyWord",
+    value: function filterListOnKeyWord(keyWord) {
+      var buildingsArray = this.splitInChunks(this.state.buildings.filter(function (word) {
+        return word.name.startsWith(keyWord);
+      }), this.state.listAmount);
+
+      if (buildingsArray.length == 0) {
+        this.setState({
+          noResults: true,
+          buildingsInChunks: buildingsArray,
+          searchKeyWord: keyWord
+        });
+      } else {
+        this.setState({
+          noResults: false,
+          buildingsInChunks: buildingsArray,
+          currentPage: this.state.currentPage <= buildingsArray.length ? this.state.currentPage : buildingsArray.length
+        });
+      }
     }
   }, {
-    key: "filterContentAlphabetic",
-    value: function filterContentAlphabetic(type, typeSort) {
-      var validTypes = ["name", "id", "created_at"];
-
-      if (validTypes.includes(type)) {
-        if (typeSort == "up") {
-          this.setState({
-            buildingsInChunks: this.splitInChunks(this.state.buildings.sort(function (a, b) {
-              return a[type] > b[type] ? 1 : b[type] > a[type] ? -1 : 0;
-            }), this.state.listAmount)
-          });
-        } else if (typeSort == "down") {
-          this.setState({
-            buildingsInChunks: this.splitInChunks(this.state.buildings.sort(function (a, b) {
-              return a[type] < b[type] ? 1 : b[type] < a[type] ? -1 : 0;
-            }), this.state.listAmount)
-          });
-        }
-      }
+    key: "searchbar",
+    value: function searchbar(keyWord) {
+      this.filterListOnKeyWord(keyWord.target.value);
     }
   }, {
     key: "render",
@@ -51261,70 +51303,28 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
                 id: "table-head-row",
                 className: "d-flex flex-grow-1 justify-content-around align-items-center",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                   id: "head-row",
                   className: "head-row-id text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
                     children: "ID"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-                    id: "div-filter-icons",
-                    className: "d-flex flex-column justify-content-center align-items-center gap-2",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
-                      className: "fas fa-sort-up mb-n2",
-                      onClick: function onClick(e) {
-                        _this2.filterContentAlphabetic("id", "up");
-                      }
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
-                      className: "fas fa-sort-down mt-n2",
-                      onClick: function onClick(e) {
-                        _this2.filterContentAlphabetic("id", "down");
-                      }
-                    })]
-                  })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                   id: "head-row",
                   className: "head-row-name text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
                     children: "Naam"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-                    id: "div-filter-icons",
-                    className: "d-flex flex-column justify-content-center align-items-center gap-2",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
-                      className: "fas fa-sort-up mb-n2",
-                      onClick: function onClick(e) {
-                        _this2.filterContentAlphabetic("name", "up");
-                      }
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
-                      className: "fas fa-sort-down mt-n2",
-                      onClick: function onClick(e) {
-                        _this2.filterContentAlphabetic("name", "down");
-                      }
-                    })]
-                  })]
+                  })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                   id: "head-row",
                   className: "head-row-hex text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center",
                   children: "Hex"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                   id: "head-row",
                   className: "head-row-added text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
                     children: "Toegevoed op"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-                    id: "div-filter-icons",
-                    className: "d-flex flex-column justify-content-center align-items-center gap-2",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
-                      className: "fas fa-sort-up mb-n2",
-                      onClick: function onClick(e) {
-                        _this2.filterContentAlphabetic("created_at", "up");
-                      }
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
-                      className: "fas fa-sort-down mt-n2",
-                      onClick: function onClick(e) {
-                        _this2.filterContentAlphabetic("created_at", "down");
-                      }
-                    })]
-                  })]
+                  })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                   id: "head-row",
                   className: "head-row-edited text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center",
@@ -51337,9 +51337,10 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
               id: "table-body",
               className: "d-flex flex-grow-1 flex-column",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_buildings_table_content__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                buildings: this.state.buildingsInChunks[this.state.currentPage - 1],
+                buildings: this.state.buildingsInChunks,
+                searchError: this.state.noResults,
                 listAmount: this.state.listAmount,
-                currentPage: this.state.currentPage
+                currentPage: this.state.currentPage - 1
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
               id: "table-footer",
@@ -51375,6 +51376,7 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
                 className: "d-flex",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_buildings_page_selector__WEBPACK_IMPORTED_MODULE_5__["default"], {
                   buildings: this.state.buildingsInChunks,
+                  searchError: this.state.noResults,
                   currentPage: this.state.currentPage,
                   setCurrentPage: function setCurrentPage(e) {
                     _this2.setCurrentPage(e);
