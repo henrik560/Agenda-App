@@ -41,14 +41,12 @@ function changeNavbar(){
   // --------------add active class-on another-page move----------
   jQuery(document).ready(function($){
       // Get current path and find target link
-      var path = window.location.href
-      var basePath = window.location.origin || ''
-  
-      // Account for home page with empty path
-      if ( path == '' || path == undefined) {
+      var path = window.location.href.split(window.location.origin + '/')[1].split("/")[0]
+      // Account for home page with empty path  
+      if (path == '' || path == undefined) {
           path = basePath + 'agenda';
       }
-      var target = $('#navbarSupportedContent ul li a[href="'+path+'"]');
+      var target = $('#navbarSupportedContent ul li a[id="'+path+'"]');
       // Add active class to target link
       target.parent().addClass('active');
       setTimeout(function(){ changeNavbar(); }, 500);

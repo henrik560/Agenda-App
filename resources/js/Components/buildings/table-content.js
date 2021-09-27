@@ -1,17 +1,21 @@
 import React from 'react';
-import  { Link } from 'react-router-dom'
+import  { Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 export default class TableContent extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+        }
     }
 
-    redirect(id, type) {
+    redirect(type, id) {
         if(type == "edit") {
-            return(<Link to={`/gebouwen/edit/${id}`} />)
+            <Redirect to={`/edit/${id}`} />
         }else if(type == "delete") {
-            return(<Link to={`/gebouwen/delete/${id}`} />)
+            <Redirect to={`/delete/${id}`} />
         }
+
     }
 
     render() {
@@ -22,13 +26,17 @@ export default class TableContent extends React.Component {
                     return (
                         <div id="table-body-row" key={index} className="transition-250ms d-flex flex-grow-1 justify-content-around align-items-center">
                         <div id="body-row" className="body-row-id text-white d-flex justify-content-center align-items-center">{element.id}</div>
-                        <div id="body-row" className="body-row-name text-white d-flex justify-content-center align-items-center">{element.name}</div>
+                        <a href={`view/${element.id}/${element.name}/`}>
+                            <div id="body-row" className="body-row-name text-white d-flex justify-content-center flex-column align-items-center">
+                                <span>{element.name}</span>
+                            </div>
+                        </a>
                         <div id="body-row" className="body-row-hex text-white d-flex justify-content-center align-items-center">{`#${element.color_hex}`}</div>
                         <div id="body-row" className="body-row-added text-white d-flex justify-content-center align-items-center">{element.created_at.split("T")[0]}</div>
                         <div id="body-row" className="body-row-edited text-white d-flex justify-content-center align-items-center">
-                            <div className="d-flex gap-2">
-                                <i className="fas fa-edit" onClick={(e) => this.redirect(element.id, "edit")}></i>
-                                <i className="far fa-trash-alt" onClick={(e) => this.redirect(element.id, "edit")}></i>
+                            <div className="d-flex gap-3">
+                                <a className="text-white" href={`edit/${element.id}/${element.name}/`}><i className="fas fa-edit"></i></a>
+                                <a className="text-white" href={`delete/${element.id}/${element.name}/`}><i className="far fa-trash-alt"></i></a>
                             </div>
                         </div>
                     </div>)

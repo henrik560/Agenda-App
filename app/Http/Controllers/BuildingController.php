@@ -44,7 +44,14 @@ class BuildingController extends Controller
      */
     public function show($id)
     {
-        //
+        $building = Building::where("id", $id)->with("space")->get();
+
+        $data = [
+            "Title" => "Building",
+            "Building" => $building[0]
+        ];
+
+        return view("buildings.view", $data);
     }
 
     /**
@@ -55,7 +62,7 @@ class BuildingController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -93,6 +100,18 @@ class BuildingController extends Controller
     }
 
     public function getAllBuildingsWithRooms()
+    {
+        $buildings = Building::with("rooms")->get();
+
+        $data = [
+            "Title" => "Agenda",
+            "Buildings" => $buildings
+        ];
+
+        return view("agenda.overview", $data);
+    }
+
+    public function editForm($id, $name) 
     {
         $buildings = Building::with("rooms")->get();
 

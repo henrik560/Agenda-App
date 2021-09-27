@@ -46,20 +46,20 @@
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url("agenda")}}"><i class="fas fa-calendar-week"></i>Agenda</a>
+                    <a class="nav-link" id="agenda" href="{{ url("agenda")}}"><i class="fas fa-calendar-week"></i>Agenda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url("buildings/overview")}}"><i class="far fa-building"></i>Gebouwen</a>
+                    <a class="nav-link" id="buildings" href="{{ url("buildings/overview")}}"><i class="far fa-building"></i>Gebouwen</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url("users/overview")}}"><i class="fas fa-users"></i>Gebruikers</a>
+                    <a class="nav-link" id="users" href="{{ url("users/overview")}}"><i class="fas fa-users"></i>Gebruikers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url("export")}}"><i class="fas fa-file-excel"></i>Exporteren</a>
+                    <a class="nav-link" id="export" href="{{ url("export")}}"><i class="fas fa-file-excel"></i>Exporteren</a>
                 </li>
                 @auth
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
+                        <a class="nav-link" id="logout" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i>Uitloggen</a>
                     </li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -67,7 +67,7 @@
                 @endauth
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i>Inloggen</a>
+                        <a class="nav-link" id="login" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i>Inloggen</a>
                     </li>
                 @endguest
         

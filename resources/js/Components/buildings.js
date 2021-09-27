@@ -5,7 +5,6 @@ import { motion } from "framer-motion"
 import TableContent from './buildings/table-content';
 import TablePageSelector from './buildings/page-selector';
 import axios from 'axios';
-import update from 'react-addons-update';
 
 class Buildings extends React.Component {
     constructor(props) {
@@ -111,7 +110,7 @@ class Buildings extends React.Component {
                         <TableContent buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
                     </div>
                     <div id="table-footer" className="mt-3 ml-2 mb-3 d-flex flex-row justify-content-between">
-                            <Modal openModal={this.state.openModal} setListAmount={(e) => {this.setListAmount(e)}} />
+                            <Modal openModal={this.state.openModal} current={this.state.listAmount} setListAmount={(e) => {this.setListAmount(e)}} />
                         <div id="rows-visible" className="d-flex flex-row">
                             <div id="rows-visible-container" className="d-flex flex-row gap-2 justify-content-center align-items-center text-white">
                                 <div id="toggle-rows-button" className="border-white-1 gap-1" onClick={this.setModalState}>

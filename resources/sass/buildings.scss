@@ -102,12 +102,32 @@
                         width: 100%;
                         text-overflow: ellipsis;
 
-                        .body-row-id {
-                            width: 10%;
+                        a {
+                            width: 25%;
+                            text-decoration: none;
+                            color: white;
+                            .body-row-name {
+                                transition: 250ms;
+                                span {
+                                    width: fit-content;
+                                    &::after {
+                                        content: '';
+                                        display: block;
+                                        width: 0px;
+                                        height: 2px;    
+                                        background-color: white;
+                                        transition: width .35s;
+                                    }
+    
+                                    &:hover::after {
+                                        width: 100%;
+                                    }
+                                }
+                            }
                         }
 
-                        .body-row-name {
-                            width: 25%;
+                        .body-row-id {
+                            width: 10%;
                         }
 
                         .body-row-hex {
@@ -155,7 +175,7 @@
                                 -ms-transition: 250ms;
                                 -o-transition: 250ms;
 
-                                &:hover {
+                                &:hover:not(.selected) {
                                     background-color: rgba(255, 255, 255, 0.15);
                                     color: white;
                                     border-radius: 15px;
@@ -180,19 +200,6 @@
                             width: 10px;
                             height: 10px;
                         }
-
-                        // &::after {
-                        //     border-top: 11px solid rgba(23, 23, 23, 0.73);
-                        //     border-left: 11px solid rgba(0, 0, 0, 0);
-                        //     border-right: 11px solid rgba(0, 0, 0, 0);
-                        //     border-bottom: none;
-                        //     content: "";
-                        //     display: inline-block;
-                        //     position: absolute;
-                        //     top: 100px;
-                        //     left: 13px;
-
-                        // }
                     }
 
                     #rows-visible {

@@ -15,7 +15,7 @@ class Building extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function rooms()
+    public function space()
     {
         return $this->hasMany(Space::class);
     }
