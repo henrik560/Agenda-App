@@ -43,7 +43,6 @@ Route::group(["middleware" => ["auth"]], function () {
 
     Route::prefix('/api')->group(function () {
         Route::resource('/buildings', BuildingController::class);
-        
     });
     // Route::resource('api/buildings/get/{id}/', BuildingController::class);
 });

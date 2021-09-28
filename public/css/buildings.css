@@ -187,7 +187,7 @@
   color: rgba(207, 207, 207, 0.61);
   font-weight: bold;
 }
-#content-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container .border-white {
+#content-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container #border-white {
   border: 1px solid white;
   color: white !important;
 }

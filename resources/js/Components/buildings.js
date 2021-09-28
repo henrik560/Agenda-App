@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDom from 'react-dom'; 
-import { Modal } from './buildings/overview/modal'
-import TableContent from './buildings/overview/table-content';
-import TablePageSelector from './buildings/overview/page-selector';
+import { Modal } from './buildings/Components/modal'
+import TableContent from './buildings/Components/table-content';
+import TablePageSelector from './buildings/Components/page-selector';
 import axios from 'axios';
 const config = require("../tempConfg.json")
 
@@ -43,7 +43,7 @@ class Buildings extends React.Component {
 
     fetchBuildings = async () => {
         this.setState({ refresh: true, buildingsInChunks: [] })
-        await axios.get(`${config.baseurl}/api/buildings/get`).then(response => {
+        await axios.get(`${config.baseurl}/api/buildings/`).then(response => {
             var buildings = [];
             Object.values(response.data).flat().map((el, id) => buildings.push(el))
             this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings })
@@ -74,6 +74,7 @@ class Buildings extends React.Component {
     }
 
     searchbar(keyWord) {
+        if(this.state.refresh == true) return
         this.filterListOnKeyWord(keyWord.target.value)
     }
 

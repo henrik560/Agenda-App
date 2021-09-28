@@ -106,19 +106,22 @@
                             width: 25%;
                             text-decoration: none;
                             color: white;
+
                             .body-row-name {
                                 transition: 250ms;
+
                                 span {
                                     width: fit-content;
+
                                     &::after {
                                         content: '';
                                         display: block;
                                         width: 0px;
-                                        height: 2px;    
+                                        height: 2px;
                                         background-color: white;
                                         transition: width .35s;
                                     }
-    
+
                                     &:hover::after {
                                         width: 100%;
                                     }
@@ -240,7 +243,7 @@
                                 font-weight: bold;
                             }
 
-                            .border-white {
+                            #border-white {
                                 border: 1px solid white;
                                 color: white !important;
                             }

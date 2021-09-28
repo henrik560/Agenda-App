@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Building;
+use Illuminate\Database\Eloquent\Builder;
 
 class BuildingController extends Controller
 {
@@ -43,8 +44,10 @@ class BuildingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Building $building) 
+    public function show($id)
     {
+        $building = Building::where("id", $id)->with("space")->get();
+
         return response()->json([
             'building' => $building,
         ]);
@@ -58,7 +61,6 @@ class BuildingController extends Controller
      */
     public function edit($id)
     {
-        
     }
 
     /**
@@ -107,7 +109,7 @@ class BuildingController extends Controller
         return view("agenda.overview", $data);
     }
 
-    public function editForm($id, $name) 
+    public function editForm($id, $name)
     {
         $buildings = Building::with("rooms")->get();
 

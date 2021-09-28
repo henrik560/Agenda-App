@@ -2884,10 +2884,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./resources/js/Components/buildings/overview/modal.js":
-/*!*************************************************************!*\
-  !*** ./resources/js/Components/buildings/overview/modal.js ***!
-  \*************************************************************/
+/***/ "./resources/js/Components/buildings/Components/modal.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/Components/buildings/Components/modal.js ***!
+  \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2958,10 +2958,10 @@ var Modal = function Modal(_ref) {
 
 /***/ }),
 
-/***/ "./resources/js/Components/buildings/overview/page-selector.js":
-/*!*********************************************************************!*\
-  !*** ./resources/js/Components/buildings/overview/page-selector.js ***!
-  \*********************************************************************/
+/***/ "./resources/js/Components/buildings/Components/page-selector.js":
+/*!***********************************************************************!*\
+  !*** ./resources/js/Components/buildings/Components/page-selector.js ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3188,10 +3188,10 @@ var TablePageSelector = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./resources/js/Components/buildings/overview/table-content.js":
-/*!*********************************************************************!*\
-  !*** ./resources/js/Components/buildings/overview/table-content.js ***!
-  \*********************************************************************/
+/***/ "./resources/js/Components/buildings/Components/table-content.js":
+/*!***********************************************************************!*\
+  !*** ./resources/js/Components/buildings/Components/table-content.js ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -46563,9 +46563,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _buildings_overview_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./buildings/overview/modal */ "./resources/js/Components/buildings/overview/modal.js");
-/* harmony import */ var _buildings_overview_table_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./buildings/overview/table-content */ "./resources/js/Components/buildings/overview/table-content.js");
-/* harmony import */ var _buildings_overview_page_selector__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./buildings/overview/page-selector */ "./resources/js/Components/buildings/overview/page-selector.js");
+/* harmony import */ var _buildings_Components_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./buildings/Components/modal */ "./resources/js/Components/buildings/Components/modal.js");
+/* harmony import */ var _buildings_Components_table_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./buildings/Components/table-content */ "./resources/js/Components/buildings/Components/table-content.js");
+/* harmony import */ var _buildings_Components_page_selector__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./buildings/Components/page-selector */ "./resources/js/Components/buildings/Components/page-selector.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -46816,7 +46816,7 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
               });
 
               _context2.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_6___default().get("".concat(config.baseurl, "/api/buildings/get")).then(function (response) {
+              return axios__WEBPACK_IMPORTED_MODULE_6___default().get("".concat(config.baseurl, "/api/buildings/")).then(function (response) {
                 var buildings = [];
                 Object.values(response.data).flat().map(function (el, id) {
                   return buildings.push(el);
@@ -46912,6 +46912,7 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "searchbar",
     value: function searchbar(keyWord) {
+      if (this.state.refresh == true) return;
       this.filterListOnKeyWord(keyWord.target.value);
     }
   }, {
@@ -46996,7 +46997,7 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               id: "table-body",
               className: "d-flex flex-grow-1 flex-column",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_buildings_overview_table_content__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_buildings_Components_table_content__WEBPACK_IMPORTED_MODULE_4__["default"], {
                 buildings: this.state.buildingsInChunks,
                 searchError: this.state.noResults,
                 listAmount: this.state.listAmount,
@@ -47005,7 +47006,7 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
               id: "table-footer",
               className: "mt-3 ml-2 mb-3 d-flex flex-row justify-content-between",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_buildings_overview_modal__WEBPACK_IMPORTED_MODULE_3__.Modal, {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_buildings_Components_modal__WEBPACK_IMPORTED_MODULE_3__.Modal, {
                 openModal: this.state.openModal,
                 current: this.state.listAmount,
                 setListAmount: function setListAmount(e) {
@@ -47035,7 +47036,7 @@ var Buildings = /*#__PURE__*/function (_React$Component) {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
                 id: "pages-icons",
                 className: "d-flex",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_buildings_overview_page_selector__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_buildings_Components_page_selector__WEBPACK_IMPORTED_MODULE_5__["default"], {
                   buildings: this.state.buildingsInChunks,
                   searchError: this.state.noResults,
                   currentPage: this.state.currentPage,
