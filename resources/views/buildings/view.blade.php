@@ -3,7 +3,7 @@
     <link href="{{ asset("css/buildings.css") }}" rel="stylesheet" type="text/css" />
     @endpush
 @section('content')
-<section class="intro">
+{{-- <section class="intro">
       <div class="mask d-flex align-items-center h-100" style="background-color: rgba(25, 185, 234,.25);">
         <div class="container">
           <div class="row justify-content-center">
@@ -208,6 +208,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
+  {{$Building}}
 @endsection 
 
