@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDom from 'react-dom'; 
-import { Modal } from './buildings/modal'
-import { motion } from "framer-motion"
-import TableContent from './buildings/table-content';
-import TablePageSelector from './buildings/page-selector';
+import { Modal } from './buildings/overview/modal'
+import TableContent from './buildings/overview/table-content';
+import TablePageSelector from './buildings/overview/page-selector';
 import axios from 'axios';
+const config = require("../tempConfg.json")
+
 
 class Buildings extends React.Component {
     constructor(props) {
@@ -42,7 +43,7 @@ class Buildings extends React.Component {
 
     fetchBuildings = async () => {
         this.setState({ refresh: true, buildingsInChunks: [] })
-        await axios.get('http://127.0.0.1:8000/api/buildings/get').then(response => {
+        await axios.get(`${config.baseurl}/api/buildings/get`).then(response => {
             var buildings = [];
             Object.values(response.data).flat().map((el, id) => buildings.push(el))
             this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings })
@@ -92,17 +93,19 @@ class Buildings extends React.Component {
                     <div id="table-content-head" className="d-flex flex-grow-1">
                         <div id="table-head-row" className="d-flex flex-grow-1 justify-content-around align-items-center">
                             <div id="head-row" className="head-row-id text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
-                                <span>ID</span>
+                                <span className="font-weight-bold">ID</span>
                             </div>
                             <div id="head-row" className="head-row-name text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
-                                <span>Naam</span>
+                                <span className="font-weight-bold">Naam</span>
                             </div>
-                            <div id="head-row" className="head-row-hex text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">Hex</div>
+                            <div id="head-row" className="head-row-hex text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">
+                                <span className="font-weight-bold">Hex</span>
+                            </div>
                             <div id="head-row" className="head-row-added text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
-                                <span>Toegevoed op</span>
+                                <span className="font-weight-bold">Toegevoed op</span>
                             </div>
                             <div id="head-row" className="head-row-edited text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">
-                                <span>Acties</span>
+                                <span className="font-weight-bold">Acties</span>
                             </div>
                         </div>
                     </div>

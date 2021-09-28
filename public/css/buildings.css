@@ -197,3 +197,11 @@
   border: 1px solid white;
   color: white !important;
 }
+
+#view-container #container {
+  width: clamp(50%, 700px, 90%);
+  height: clamp(50%, 700px, 50%);
+  margin-top: 100px;
+  border-radius: 25px;
+  background: radial-gradient(ellipse at center, #ec9b4f 0%, #F27500 100%);
+}
