@@ -1,21 +1,10 @@
 import React from 'react';
-import  { Redirect } from 'react-router-dom'
-import { Link } from 'react-router-dom';
 
 export default class TableContent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
         }
-    }
-
-    redirect(type, id) {
-        if(type == "edit") {
-            <Redirect to={`/edit/${id}`} />
-        }else if(type == "delete") {
-            <Redirect to={`/delete/${id}`} />
-        }
-
     }
 
     render() {

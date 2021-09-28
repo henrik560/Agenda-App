@@ -260,3 +260,13 @@
         }
     }
 }
+
+#view-container {
+    #container {
+        width: clamp(50%, 700px, 90%);
+        height: clamp(50%, 700px, 50%);
+        margin-top: 100px;
+        border-radius: 25px;
+        background: radial-gradient(ellipse at center, $themeColorAccent 0%, $themeColor 100%);
+    }
+}

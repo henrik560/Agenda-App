@@ -7,11 +7,12 @@ use App\Models\Building;
 
 class BuildingController extends Controller
 {
-    public function index(Request $request, Building $building)
+    public function index()
     {
-        $buildings = $building::limit(100)->get();
+        $building = Building::all();
+
         return response()->json([
-            'buildings' => $buildings
+            'buildings' => $building
         ]);
     }
 
@@ -42,16 +43,11 @@ class BuildingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Building $building) 
     {
-        $building = Building::where("id", $id)->with("space")->get();
-
-        $data = [
-            "Title" => "Building",
-            "Building" => $building[0]
-        ];
-
-        return view("buildings.view", $data);
+        return response()->json([
+            'building' => $building,
+        ]);
     }
 
     /**
