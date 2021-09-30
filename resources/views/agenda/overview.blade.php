@@ -6,5 +6,5 @@
 <div id="agenda-wrapper"></div>
 @endsection
     @push('script')
-        <script src={{ asset("js/agenda.js") }}></script>
+        <script src={{ asset("js/datatables/agenda/agenda.js") }}></script>
     @endpush

@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom'; 
-import Dropdown  from './agenda/dropdown';
-import Header from './agenda/header/render'
-import Body from './agenda/body/render'
+import Dropdown  from './components/dropdown';
+import Body from './components/body'
 const moment = require('moment');
 moment.locale("nl")
 

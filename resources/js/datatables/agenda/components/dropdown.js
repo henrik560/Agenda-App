@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDom from 'react-dom'; 
-// import { motion } from "framer-motion";
-import Agenda from '../agenda';
 
 export default class dropDown extends React.Component {
     constructor(props) {

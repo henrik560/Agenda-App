@@ -19,5 +19,5 @@
   "include": [
     "resources/js/Components/*.tsx"
   ],
-  "compileOnSave": false,
+  "compileOnSave": false
 }

@@ -1,16 +1,13 @@
 import React from 'react';
 import ReactDom from 'react-dom'; 
-
-import { Modal } from './buildings/Components/modal'
-import TableContent from './buildings/Components/table-content';
-import TablePageSelector from './buildings/Components/page-selector';
-import OverviewHeader from './buildings/components/table-header';
-
+import { Modal } from './components/modal'
+import TableContent from './components/table-content';
+import TablePageSelector from './components/page-selector';
 import axios from 'axios';
-const config = require("../tempConfg.json")
+const config = require("../../tempConfg.json")
 
 
-class Buildings extends React.Component {
+class Users extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,7 +43,7 @@ class Buildings extends React.Component {
 
     fetchBuildings = async () => {
         this.setState({ refresh: true, buildingsInChunks: [] })
-        await axios.get(`${config.baseurl}/api/${this.props.apiLink}`).then(response => {
+        await axios.get(`${config.baseurl}/api/buildings/`).then(response => {
             var buildings = [];
             Object.values(response.data).flat().map((el, id) => buildings.push(el))
             this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings })
@@ -86,8 +83,8 @@ class Buildings extends React.Component {
             <div className="d-flex flex-column w-90 h-90" id="container-datatable">
             <div id="table-head" className="mt-3 w-full d-flex justify-content-end align-items-end">
                 <div id="table-buttons-container" className="d-flex justify-content-end align-items-end gap-3 pr-3">
-                    <input placeholder="Zoeken"  className="border-white-1 text-white" id="searchbbar-input"></input>
-                    <div id="refresh-datatable"  className={`d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ${this.state.refresh ? `rotate-360-linair` : ``}`}>
+                    <input placeholder="Zoeken" onChange={(e) => this.searchbar(e)} className="border-white-1 text-white" id="searchbbar-input"></input>
+                    <div id="refresh-datatable" onClick={this.fetchBuildings} className={`d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ${this.state.refresh ? `rotate-360-linair` : ``}`}>
                         <i className="fas fa-sync-alt"></i>
                     </div>
                 </div>
@@ -95,7 +92,23 @@ class Buildings extends React.Component {
             <div id="table-content" className="mt-2">
                 <div id="table-data" className="d-flex flex-grow-1 flex-column">
                     <div id="table-content-head" className="d-flex flex-grow-1">
-                        <OverviewHeader fieldNames={this.props.headerFields}></OverviewHeader>
+                        <div id="table-head-row" className="d-flex flex-grow-1 justify-content-around align-items-center">
+                            <div id="head-row" className="head-row-id text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
+                                <span className="font-weight-bold">ID</span>
+                            </div>
+                            <div id="head-row" className="head-row-name text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
+                                <span className="font-weight-bold">Naam</span>
+                            </div>
+                            <div id="head-row" className="head-row-hex text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">
+                                <span className="font-weight-bold">Hex</span>
+                            </div>
+                            <div id="head-row" className="head-row-added text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
+                                <span className="font-weight-bold">Toegevoed op</span>
+                            </div>
+                            <div id="head-row" className="head-row-edited text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">
+                                <span className="font-weight-bold">Acties</span>
+                            </div>
+                        </div>
                     </div>
                     <div id="table-body" className="d-flex flex-grow-1 flex-column">
                         <TableContent buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
@@ -123,10 +136,6 @@ class Buildings extends React.Component {
 }   
 
 if(document.getElementById("content-wrapper")) {
-    ReactDom.render(<Buildings headerFields={["id", "name", "hex", "toegevoegd op", "acties"]} apiLink={'buildings/'}/>, document.getElementById("content-wrapper"))
-}
-
-if (document.getElementById("view-building-wrapper")) {
-    ReactDom.render(<Buildings headerFields={["id", "name", "toegevoegd op", "acties"]} apiLink={'buildings/1'}/>, document.getElementById("view-building-wrapper"))
+    ReactDom.render(<Users/>, document.getElementById("content-wrapper"))
 }
 

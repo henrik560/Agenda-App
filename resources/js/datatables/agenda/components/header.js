@@ -22,7 +22,6 @@ export default class header extends React.Component {
         if(this.state.buildings.length > 0) {
             var buildingsElements = this.state.buildings.map((element, index) => {
                 return (
-                    // `#${element.hex}` || 
                 <div className="d-flex flex-column justify-content-center flex-grow-1 gap-1" key={element.id}>
                         <div style={{backgroundColor: '#32a834'}} className="buildings-list-item-header d-flex justify-content-center">
                             <span>{element.name}</span>

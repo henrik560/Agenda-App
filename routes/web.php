@@ -23,7 +23,7 @@ use App\Http\Controllers\UserController;
 // })->middleware(['auth'])->name('dashboard');
 Route::group(["middleware" => ["auth"]], function () {
     Route::get("/", function () {
-        return view("app");
+        return redirect("/agenda");
     });
     Route::get("/login", function () {
         return view("app");

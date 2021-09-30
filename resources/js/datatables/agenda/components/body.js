@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Header from '../header/render'
+import Header from './header'
 
 export default class AgendaBody extends React.Component {
     constructor(props) {
