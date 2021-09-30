@@ -21,5 +21,5 @@ mix
     .sass("resources/sass/app.scss", "public/css")
     .sass("resources/sass/login.scss", "public/css")
     .sass("resources/sass/agenda.scss", "public/css")
-    .sass("resources/sass/buildings.scss", "public/css")
+    .sass("resources/sass/datatable.scss", "public/css")
     .ts("resources/js/Components/navbar-react.tsx", "public/js")
