@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Building;
+use App\Models\Space;
 use Illuminate\Database\Eloquent\Builder;
 
 class BuildingController extends Controller
@@ -46,7 +47,7 @@ class BuildingController extends Controller
      */
     public function show($id)
     {
-        $building = Building::where("id", $id)->with("space")->get();
+        $building = Space::where("building_id", $id)->get();
 
         return response()->json([
             'building' => $building,
@@ -99,14 +100,25 @@ class BuildingController extends Controller
 
     public function getAllBuildingsWithRooms()
     {
-        $buildings = Building::with("rooms")->get();
 
         $data = [
             "Title" => "Agenda",
-            "Buildings" => $buildings
         ];
 
         return view("agenda.overview", $data);
+    }
+
+        
+    public function getBuildingById($id)
+    {
+        $building = Building::where("id", $id)->with("space")->get();
+
+        $data = [
+            "Title" => "Agenda",
+            "buildings" => $building
+        ];
+
+        return view("buildings.view", $data);
     }
 
     public function editForm($id, $name)

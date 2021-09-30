@@ -14,7 +14,7 @@ export default class TablePageSelector extends React.Component {
                 const last = (this.props.currentPage + 4) > this.props.buildings.length ? this.props.buildings.length : this.props.currentPage + 4
                 if(index >= first && index <= last) {
                     if(index == this.props.currentPage) {
-                        return <div id="current" key={index} onClick={(e) => this.props.setCurrentPage(index)} className="border-white">{index}</div>
+                        return <div id="border-white" key={index} onClick={(e) => this.props.setCurrentPage(index)} className="text-white">{index}</div>
                     }else if(index == last) {
                         return <div id="selectable-page" key={this.props.buildings.length} onClick={(e) => this.props.setCurrentPage(this.props.buildings.length)} >{this.props.buildings.length}</div>
                     }else if(index + 1 == last && (this.props.currentPage + 4) < this.props.buildings.length) {

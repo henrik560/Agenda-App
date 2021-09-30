@@ -45,6 +45,15 @@
   width: 100%;
   text-overflow: ellipsis;
 }
+#content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row #head-row {
+  width: 25%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row #head-row:nth-child(1) {
+  width: 10%;
+}
+#content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row #head-row:nth-child(3) {
+  width: 15%;
+}
 #content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row .head-row-id {
   width: 10%;
 }

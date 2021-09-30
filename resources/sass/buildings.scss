@@ -71,6 +71,16 @@
                         width: 100%;
                         text-overflow: ellipsis;
 
+                        #head-row {
+                            width: 25%;
+                            &:nth-child(1) {
+                                width: 10%; 
+                            }
+                            &:nth-child(3) {
+                                width: 15%; 
+                            }
+                        }
+
                         .head-row-id {
                             width: 10%;
                         }
