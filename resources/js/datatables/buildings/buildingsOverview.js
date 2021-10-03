@@ -7,7 +7,7 @@ import axios from 'axios';
 const config = require("../../tempConfg.json")
 
 
-class Buildings extends React.Component {
+class BuildingsOverview extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -136,6 +136,6 @@ class Buildings extends React.Component {
 }   
 
 if(document.getElementById("content-wrapper")) {
-    ReactDom.render(<Buildings/>, document.getElementById("content-wrapper"))
+    ReactDom.render(<BuildingsOverview/>, document.getElementById("content-wrapper"))
 }
 

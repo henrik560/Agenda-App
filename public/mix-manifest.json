@@ -1,12 +1,12 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/navbar.js": "/js/navbar.js",
-    "/js/datatable.js": "/js/datatable.js",
-    "/js/agenda.js": "/js/agenda.js",
-    "/js/buildings.js": "/js/buildings.js",
-    "/js/navbar-react.js": "/js/navbar-react.js",
+    "/js/datatables/agenda/agenda.js": "/js/datatables/agenda/agenda.js",
+    "/js/datatables/buildings/buildingsOverview.js": "/js/datatables/buildings/buildingsOverview.js",
+    "/js/datatables/buildings/viewBuilding.js": "/js/datatables/buildings/viewBuilding.js",
+    "/js/datatables/users/user.js": "/js/datatables/users/user.js",
+    "/css/datatable.css": "/css/datatable.css",
     "/css/agenda.css": "/css/agenda.css",
     "/css/login.css": "/css/login.css",
-    "/css/app.css": "/css/app.css",
-    "/css/buildings.css": "/css/buildings.css"
+    "/css/app.css": "/css/app.css"
 }

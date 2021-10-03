@@ -47,7 +47,7 @@ class BuildingController extends Controller
      */
     public function show($id)
     {
-        $building = Space::where("building_id", $id)->get();
+        $building = Building::where("id", $id)->with("space")->get();
 
         return response()->json([
             'building' => $building,
@@ -108,14 +108,14 @@ class BuildingController extends Controller
         return view("agenda.overview", $data);
     }
 
-        
+
     public function getBuildingById($id)
     {
-        $building = Building::where("id", $id)->with("space")->get();
+        $building = Building::find($id);
 
         $data = [
             "Title" => "Agenda",
-            "buildings" => $building
+            "building" => $building
         ];
 
         return view("buildings.view", $data);
