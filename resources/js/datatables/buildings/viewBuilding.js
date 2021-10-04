@@ -119,7 +119,7 @@ class ViewBuilding extends React.Component {
                             </div>
                         </div>
                         <div id="table-body" className="d-flex flex-grow-1 flex-column">
-                            <TableContentView building={ this.state.spaces } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
+                            <TableContentView loading={this.state.refresh} building={ this.state.spaces } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
                         </div>
                         <div id="table-footer" className="mt-3 ml-2 mb-3 d-flex flex-row justify-content-between">
                                 <Modal openModal={this.state.openModal} current={this.state.listAmount} setListAmount={(e) => {this.setListAmount(e)}} />

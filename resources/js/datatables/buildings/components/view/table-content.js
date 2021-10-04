@@ -4,26 +4,15 @@ const config = require("../../../../tempConfg.json")
 export default class TableContentView extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            noSpaces: false
-        }
-    }
-
-    componentDidMount() {
-
-        //TODO onload do not display the "no spaces found message" 
-        setTimeout(() => {
-            this.setState({noSpaces: this.props.building.length == 0 ? true : false})
-        }, 500);
-    }
+    } 
 
     render() {
-        console.log(this.props)
+        console.log(this.props.loading)
         var buildingsElement
-        if(this.props.searchError || this.props.building[this.props.currentPage]) {
-            if(!this.props.searchError || this.props.building[this.props.currentPage] && this.props.building[this.props.currentPage].length > 0) {
+        if(this.props.building[this.props.currentPage] && !this.props.loading) {
+            if(!this.props.searchError && this.props.building[this.props.currentPage].length > 0) {
                 buildingsElement = this.props.building[this.props.currentPage].map((element, index) => {
-                    return (
+                    return ( 
                         <div id="table-body-row" key={index} className="transition-250ms d-flex flex-grow-1 justify-content-around align-items-center">
                         <a id="hoverable-item" className="d-flex flex-grow-1" href={`middelen/`}>
                             <div id="body-row" className="body-row-name flex-grow-1 text-white d-flex justify-content-center align-items-center">
@@ -45,8 +34,8 @@ export default class TableContentView extends React.Component {
                 return (<div className="d-flex flex-grow-1 justify-content-center align-items-center text-white fs-2">Geen resultaten gevonden!</div>)
             }
         }else {
-            if(this.state.noSpaces) return <div className="d-flex flex-grow-1 justify-content-center align-items-center text-white fs-2">Geen ruimtes gevonden!</div>
-            return <div className="d-flex flex-grow-1 justify-content-center align-items-center transition-2s rotate-360-linair text-white fs-1"><i className="fas fa-spinner"></i></div>
+            if(this.props.loading) return <div className="d-flex flex-grow-1 justify-content-center align-items-center transition-2s rotate-360-linair text-white fs-1"><i className="fas fa-spinner"></i></div>
+            return <div className="d-flex flex-grow-1 justify-content-center align-items-center text-white fs-2">Geen ruimtes gevonden!</div>
         }
         return(buildingsElement)
     }

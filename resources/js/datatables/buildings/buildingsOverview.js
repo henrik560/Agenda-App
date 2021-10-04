@@ -111,7 +111,7 @@ class BuildingsOverview extends React.Component {
                         </div>
                     </div>
                     <div id="table-body" className="d-flex flex-grow-1 flex-column">
-                        <TableContentOverview buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
+                        <TableContentOverview loading={this.state.refresh} buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
                     </div>
                     <div id="table-footer" className="mt-3 ml-2 mb-3 d-flex flex-row justify-content-between">
                             <Modal openModal={this.state.openModal} current={this.state.listAmount} setListAmount={(e) => {this.setListAmount(e)}} />

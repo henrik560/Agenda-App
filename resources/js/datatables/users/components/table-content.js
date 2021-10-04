@@ -9,8 +9,8 @@ export default class TableContent extends React.Component {
 
     render() {
         var buildingsElement
-        if(this.props.searchError || this.props.buildings[this.props.currentPage] ) {
-            if(!this.props.searchError || this.props.buildings[this.props.currentPage] && this.props.buildings[this.props.currentPage].length > 0) {
+        if(this.props.buildings[this.props.currentPage] && !this.props.loading) {
+            if(!this.props.searchError || this.props.buildings[this.props.currentPage].length > 0) {
                 buildingsElement = this.props.buildings[this.props.currentPage].map((element, index) => {
                     return (
                         <div id="table-body-row" key={index} className="transition-250ms d-flex flex-grow-1 justify-content-around align-items-center">
@@ -34,7 +34,8 @@ export default class TableContent extends React.Component {
                 return (<div className="d-flex flex-grow-1 justify-content-center align-items-center text-white fs-1">Geen resultaten gevonden!</div>)
             }
         }else {
-            return <div className="d-flex flex-grow-1 justify-content-center align-items-center transition-2s rotate-360-linair text-white fs-1"><i className="fas fa-spinner"></i></div>
+            if(this.props.loading) return <div className="d-flex flex-grow-1 justify-content-center align-items-center transition-2s rotate-360-linair text-white fs-1"><i className="fas fa-spinner"></i></div>
+            return <div className="d-flex flex-grow-1 justify-content-center align-items-center text-white fs-2">Geen ruimtes gevonden!</div>
         }
         return(buildingsElement)
     }
