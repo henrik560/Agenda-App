@@ -3091,16 +3091,16 @@ var TablePageSelector = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./resources/js/datatables/buildings/components/table-content.js":
-/*!***********************************************************************!*\
-  !*** ./resources/js/datatables/buildings/components/table-content.js ***!
-  \***********************************************************************/
+/***/ "./resources/js/datatables/buildings/components/view/table-content.js":
+/*!****************************************************************************!*\
+  !*** ./resources/js/datatables/buildings/components/view/table-content.js ***!
+  \****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ TableContent)
+/* harmony export */   "default": () => (/* binding */ TableContentView)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -3130,67 +3130,86 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var TableContent = /*#__PURE__*/function (_React$Component) {
-  _inherits(TableContent, _React$Component);
+var config = __webpack_require__(/*! ../../../../tempConfg.json */ "./resources/js/tempConfg.json");
 
-  var _super = _createSuper(TableContent);
+var TableContentView = /*#__PURE__*/function (_React$Component) {
+  _inherits(TableContentView, _React$Component);
 
-  function TableContent(props) {
+  var _super = _createSuper(TableContentView);
+
+  function TableContentView(props) {
     var _this;
 
-    _classCallCheck(this, TableContent);
+    _classCallCheck(this, TableContentView);
 
     _this = _super.call(this, props);
-    _this.state = {};
+    _this.state = {
+      noSpaces: false
+    };
     return _this;
   }
 
-  _createClass(TableContent, [{
+  _createClass(TableContentView, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      //TODO onload do not display the "no spaces found message" 
+      setTimeout(function () {
+        _this2.setState({
+          noSpaces: _this2.props.building.length == 0 ? true : false
+        });
+      }, 500);
+    }
+  }, {
     key: "render",
     value: function render() {
+      console.log(this.props);
       var buildingsElement;
 
-      if (this.props.searchError || this.props.buildings[this.props.currentPage]) {
-        if (!this.props.searchError || this.props.buildings[this.props.currentPage] && this.props.buildings[this.props.currentPage].length > 0) {
-          buildingsElement = this.props.buildings[this.props.currentPage].map(function (element, index) {
+      if (this.props.searchError || this.props.building[this.props.currentPage]) {
+        if (!this.props.searchError || this.props.building[this.props.currentPage] && this.props.building[this.props.currentPage].length > 0) {
+          buildingsElement = this.props.building[this.props.currentPage].map(function (element, index) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
               id: "table-body-row",
               className: "transition-250ms d-flex flex-grow-1 justify-content-around align-items-center",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                id: "body-row",
-                className: "body-row-id text-white d-flex justify-content-center align-items-center",
-                children: element.id
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
-                href: "view/".concat(element.id, "/").concat(element.name, "/"),
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+                id: "hoverable-item",
+                className: "d-flex flex-grow-1",
+                href: "middelen/",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                   id: "body-row",
-                  className: "body-row-name text-white d-flex justify-content-center flex-column align-items-center",
+                  className: "body-row-name flex-grow-1 text-white d-flex justify-content-center align-items-center",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
                     children: element.name
                   })
                 })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                id: "body-row",
+                className: "text-white d-flex justify-content-center align-items-center",
+                children: [element.max_amount_of_persons, " Pers."]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                id: "body-row",
+                className: "text-white d-flex justify-content-center align-items-center",
+                children: ["\u20AC", element.price_ex_vat]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                 id: "body-row",
-                className: "body-row-hex text-white d-flex justify-content-center align-items-center",
-                children: "#".concat(element.color_hex)
+                className: "text-white d-flex justify-content-center align-items-center",
+                children: element.used_for_external_use == true ? "\u20AC".concat(element.price_ex_vat) : '-'
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                 id: "body-row",
-                className: "body-row-added text-white d-flex justify-content-center align-items-center",
-                children: element.created_at.split("T")[0]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                id: "body-row",
-                className: "body-row-edited text-white d-flex justify-content-center align-items-center",
+                className: "text-white d-flex justify-content-center align-items-center",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                   className: "d-flex gap-3",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
                     className: "text-white",
-                    href: "edit/".concat(element.id, "/").concat(element.name, "/"),
+                    href: "".concat(config.baseurl, "/buildings/editForm/").concat(element.id, "/"),
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
                       className: "fas fa-edit"
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
                     className: "text-white",
-                    href: "delete/".concat(element.id, "/").concat(element.name, "/"),
+                    href: "".concat(config.baseurl, "/buildings/deleteForm/").concat(element.id, "/"),
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
                       className: "far fa-trash-alt"
                     })
@@ -3201,11 +3220,15 @@ var TableContent = /*#__PURE__*/function (_React$Component) {
           });
         } else {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "d-flex flex-grow-1 justify-content-center align-items-center text-white fs-1",
+            className: "d-flex flex-grow-1 justify-content-center align-items-center text-white fs-2",
             children: "Geen resultaten gevonden!"
           });
         }
       } else {
+        if (this.state.noSpaces) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "d-flex flex-grow-1 justify-content-center align-items-center text-white fs-2",
+          children: "Geen ruimtes gevonden!"
+        });
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "d-flex flex-grow-1 justify-content-center align-items-center transition-2s rotate-360-linair text-white fs-1",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
@@ -3218,7 +3241,7 @@ var TableContent = /*#__PURE__*/function (_React$Component) {
     }
   }]);
 
-  return TableContent;
+  return TableContentView;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
 
@@ -46274,7 +46297,7 @@ function __classPrivateFieldSet(receiver, state, value, kind, f) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
+module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\xampp\\\\htdocs\\\\AgendaApp\\\\Agenda-App"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\xampp\\\\htdocs\\\\AgendaApp\\\\Agenda-App","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ }),
 
@@ -46370,8 +46393,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var _components_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/modal */ "./resources/js/datatables/buildings/components/modal.js");
-/* harmony import */ var _components_table_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/table-content */ "./resources/js/datatables/buildings/components/table-content.js");
+/* harmony import */ var _components_view_table_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/view/table-content */ "./resources/js/datatables/buildings/components/view/table-content.js");
 /* harmony import */ var _components_page_selector__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/page-selector */ "./resources/js/datatables/buildings/components/page-selector.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -46413,6 +46437,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
 var config = __webpack_require__(/*! ../../tempConfg.json */ "./resources/js/tempConfg.json");
 
 var ViewBuilding = /*#__PURE__*/function (_React$Component) {
@@ -46429,33 +46455,26 @@ var ViewBuilding = /*#__PURE__*/function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "setListAmount", /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
-        var newAmount, buildingsInChunks;
+        var newAmount, spaces;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 newAmount = parseInt(e.target.innerHTML);
-                _context.next = 3;
-                return _this.setModalState();
 
-              case 3:
-                _context.next = 5;
-                return _this.splitInChunks(_this.state.buildings, newAmount);
+                _this.setModalState();
 
-              case 5:
-                buildingsInChunks = _context.sent;
-                _context.next = 8;
-                return _this.setState({
-                  buildingsInChunks: buildingsInChunks,
+                spaces = _this.splitInChunks(_this.state.building.space, newAmount);
+
+                _this.setState({
+                  spaces: spaces,
                   listAmount: newAmount,
-                  currentPage: _this.state.currentPage <= buildingsInChunks.length ? _this.state.currentPage : buildingsInChunks.length
+                  currentPage: _this.state.currentPage <= spaces.length ? _this.state.currentPage : spaces.length
                 });
 
-              case 8:
-                _context.next = 10;
-                return _this.filterListOnKeyWord(_this.state.searchKeyWord);
+                if (_this.state.searchKeyWord != '') _this.filterListOnKeyWord(_this.state.searchKeyWord);
 
-              case 10:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -46468,14 +46487,15 @@ var ViewBuilding = /*#__PURE__*/function (_React$Component) {
       };
     }());
 
-    _defineProperty(_assertThisInitialized(_this), "fetchBuildings", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+    _defineProperty(_assertThisInitialized(_this), "fetchBuilding", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               _this.setState({
                 refresh: true,
-                buildingsInChunks: []
+                spaces: [],
+                building: []
               });
 
               _context2.next = 3;
@@ -46486,7 +46506,8 @@ var ViewBuilding = /*#__PURE__*/function (_React$Component) {
                 });
 
                 _this.setState({
-                  building: building
+                  building: building[0],
+                  spaces: _this.splitInChunks(building[0].space, _this.state.listAmount)
                 });
               });
 
@@ -46508,13 +46529,11 @@ var ViewBuilding = /*#__PURE__*/function (_React$Component) {
       listAmount: 8,
       currentPage: 1,
       building: [],
+      spaces: [],
       refresh: false,
       noResults: false,
       searchKeyWord: ''
     };
-    setTimeout(function () {
-      console.log(_this.state.building);
-    }, 1500);
     return _this;
   }
 
@@ -46522,9 +46541,9 @@ var ViewBuilding = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.setModalState = this.setModalState.bind(this);
-      this.fetchBuildings = this.fetchBuildings.bind(this);
+      this.fetchBuilding = this.fetchBuilding.bind(this);
       this.setCurrentPage = this.setCurrentPage.bind(this);
-      this.fetchBuildings();
+      this.fetchBuilding();
     }
   }, {
     key: "setModalState",
@@ -46544,37 +46563,199 @@ var ViewBuilding = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "filterListOnKeyWord",
     value: function filterListOnKeyWord(keyWord) {
-      var buildingsArray = this.splitInChunks(this.state.buildings.filter(function (word) {
-        return word.name.startsWith(keyWord);
+      var spacesArray = this.splitInChunks(this.state.building.space.filter(function (word) {
+        return word.name.toLocaleLowerCase().startsWith(keyWord);
       }), this.state.listAmount);
 
-      if (buildingsArray.length == 0) {
+      if (spacesArray.length == 0) {
         this.setState({
           noResults: true,
-          buildingsInChunks: buildingsArray,
+          spaces: spacesArray,
           searchKeyWord: keyWord
         });
       } else {
         this.setState({
           noResults: false,
-          buildingsInChunks: buildingsArray,
-          currentPage: this.state.currentPage <= buildingsArray.length ? this.state.currentPage : buildingsArray.length
+          spaces: spacesArray,
+          currentPage: this.state.currentPage <= spacesArray.length ? this.state.currentPage : spacesArray.length
         });
       }
+    }
+  }, {
+    key: "splitInChunks",
+    value: function splitInChunks(array, size) {
+      var results = [];
+
+      for (var index = 0; index < Math.max(array.length / size); index++) {
+        results.push(array.slice(parseInt(index * size), parseInt(index * size + size)));
+      }
+
+      return results;
     }
   }, {
     key: "searchbar",
     value: function searchbar(keyWord) {
       if (this.state.refresh == true) return;
-      this.filterListOnKeyWord(keyWord.target.value);
+      this.filterListOnKeyWord(keyWord.target.value.toLocaleLowerCase());
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-        className: "d-flex flex-column w-90 h-90",
-        id: "container-datatable"
-      });
+      var _this2 = this;
+
+      if (this.state.building) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "d-flex flex-column w-90 h-90",
+          id: "container-datatable",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            id: "table-head",
+            className: "mt-3 w-full d-flex justify-content-between align-items-center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+              className: "ml-4 text-white d-flex flex-row justify-content-center align-items-center",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
+                className: "text-white text-decoration-none mr-2 d-flex justify-content-center align-items-center",
+                href: "".concat(config.baseurl, "/buildings/overview"),
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_8__.motion.i, {
+                  whileFocus: {
+                    rotate: 360
+                  },
+                  whileHover: {
+                    rotate: 360
+                  },
+                  className: "fas fa-arrow-left mr-2 transition-150ms"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
+                className: "fs-5 d-flex gap-3",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("b", {
+                  children: "Gebouw: "
+                }), this.state.building ? this.state.building.name : '']
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+              id: "table-buttons-container",
+              className: "d-flex justify-content-end align-items-end gap-3 pr-3",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+                placeholder: "Zoeken",
+                onChange: function onChange(e) {
+                  return _this2.searchbar(e);
+                },
+                className: "border-white-1 text-white",
+                id: "searchbbar-input"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                id: "refresh-datatable",
+                onClick: this.fetchBuilding,
+                className: "d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ".concat(this.state.refresh ? "rotate-360-linair" : ""),
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
+                  className: "fas fa-sync-alt"
+                })
+              })]
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+            id: "table-content",
+            className: "mt-2",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+              id: "table-data",
+              className: "d-flex flex-grow-1 flex-column",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                id: "table-content-head",
+                className: "d-flex flex-grow-1",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                  id: "table-head-row",
+                  className: "d-flex flex-grow-1 justify-content-around align-items-center",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                    id: "head-row",
+                    className: "head-row-name text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                      className: "font-weight-bold",
+                      children: "Naam"
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                    id: "head-row",
+                    className: "head-row-hex text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                      className: "font-weight-bold",
+                      children: "Max Personen"
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                    id: "head-row",
+                    className: "head-row-hex text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                      className: "font-weight-bold",
+                      children: "Prijs"
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                    id: "head-row",
+                    className: "head-row-added text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                      className: "font-weight-bold",
+                      children: "Extern gebruik"
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                    id: "head-row",
+                    className: "head-row-edited text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                      className: "font-weight-bold",
+                      children: "Acties"
+                    })
+                  })]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                id: "table-body",
+                className: "d-flex flex-grow-1 flex-column",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_view_table_content__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                  building: this.state.spaces,
+                  searchError: this.state.noResults,
+                  listAmount: this.state.listAmount,
+                  currentPage: this.state.currentPage - 1
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                id: "table-footer",
+                className: "mt-3 ml-2 mb-3 d-flex flex-row justify-content-between",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_modal__WEBPACK_IMPORTED_MODULE_3__.Modal, {
+                  openModal: this.state.openModal,
+                  current: this.state.listAmount,
+                  setListAmount: function setListAmount(e) {
+                    _this2.setListAmount(e);
+                  }
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                  id: "rows-visible",
+                  className: "d-flex flex-row",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                    id: "rows-visible-container",
+                    className: "d-flex flex-row gap-2 justify-content-center align-items-center text-white",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                      id: "toggle-rows-button",
+                      className: "border-white-1 gap-1",
+                      onClick: this.setModalState,
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                        className: "text-white",
+                        id: "number",
+                        children: this.state.listAmount
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
+                        className: "fas fa-sort-down text-white mt-n1 transition-250ms ".concat(this.state.openModal ? 'rotate-180deg mt-1' : '')
+                      })]
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                      children: "Aantal per pagina"
+                    })]
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                  id: "pages-icons",
+                  className: "d-flex",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_page_selector__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                    buildings: this.state.spaces,
+                    searchError: this.state.noResults,
+                    currentPage: this.state.currentPage,
+                    setCurrentPage: function setCurrentPage(e) {
+                      _this2.setCurrentPage(e);
+                    }
+                  })
+                })]
+              })]
+            })
+          })]
+        });
+      } else {
+        return "Er is iets fout gegaan";
+      }
     }
   }]);
 

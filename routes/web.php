@@ -31,8 +31,9 @@ Route::group(["middleware" => ["auth"]], function () {
     Route::get("/agenda", [BuildingController::class, "getAllBuildingsWithRooms"]);
     Route::group(["prefix" => "/buildings"], function () {
         Route::get("/overview", [BuildingController::class, "getAllBuildings"]);
-        Route::get("/view/{id}/{name}", [BuildingController::class, "getBuildingById"]);
-        Route::get("/edit/{id}/{name}", [BuildingController::class, "edit"]);
+        Route::get("/view/{id}/", [BuildingController::class, "getBuildingById"]);
+        Route::get("/editForm/{id}/", [BuildingController::class, "editForm"]);
+        Route::get("/deleteForm/{id}/", [BuildingController::class, "deleteForm"]);
     });
     Route::group(["prefix" => "/users"], function () {
         Route::get("/overview", [UserController::class, "getAllUsers"]);
@@ -43,6 +44,7 @@ Route::group(["middleware" => ["auth"]], function () {
 
     Route::prefix('/api')->group(function () {
         Route::resource('/buildings', BuildingController::class);
+        Route::resource('/users', UserController::class);
     });
     // Route::resource('api/buildings/get/{id}/', BuildingController::class);
 });

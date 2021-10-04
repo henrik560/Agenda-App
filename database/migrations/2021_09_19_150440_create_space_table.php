@@ -18,7 +18,7 @@ class CreateSpaceTable extends Migration
             $table->string("name", 45);
             $table->integer("order");
             $table->integer("building_id");
-            $table->integer("max_amout_of_persons");
+            $table->integer("max_amount_of_persons");
             $table->float("price_ex_vat");
             $table->tinyInteger("used_for_external_use")->nullable();
             $table->timestamps();

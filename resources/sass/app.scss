@@ -111,6 +111,21 @@
     -o-transition: 250ms ease-in-out !important;
 }
 
+.transition-150ms {
+    transition: 150ms ease-in-out !important;
+    -webkit-transition: 150ms ease-in-out !important;
+    -moz-transition: 150ms ease-in-out !important;
+    -ms-transition: 150ms ease-in-out !important;
+    -o-transition: 150ms ease-in-out !important;
+}
+.transition-50ms {
+    transition: 50ms ease-in-out !important;
+    -webkit-transition: 50ms ease-in-out !important;
+    -moz-transition: 50ms ease-in-out !important;
+    -ms-transition: 50ms ease-in-out !important;
+    -o-transition: 50ms ease-in-out !important;
+}
+
 .rotate-0deg {
     transform: rotate(0deg);
     -webkit-transform: rotate(0deg);

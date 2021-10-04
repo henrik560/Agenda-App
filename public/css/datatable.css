@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
+#view-building-wrapper #container-datatable,
 #content-wrapper #container-datatable {
   width: clamp(50%, 700px, 90%);
   height: clamp(50%, 700px, 50%);
@@ -6,6 +7,7 @@
   border-radius: 25px;
   background: radial-gradient(ellipse at center, #ec9b4f 0%, #F27500 100%);
 }
+#view-building-wrapper #container-datatable #table-head #searchbbar-input,
 #content-wrapper #container-datatable #table-head #searchbbar-input {
   width: 150px;
   height: 40px;
@@ -15,83 +17,67 @@
   outline: none;
   color: white;
 }
+#view-building-wrapper #container-datatable #table-head #searchbbar-input::-moz-placeholder,
 #content-wrapper #container-datatable #table-head #searchbbar-input::-moz-placeholder {
   color: white;
   opacity: 1;
 }
+#view-building-wrapper #container-datatable #table-head #searchbbar-input:-ms-input-placeholder,
 #content-wrapper #container-datatable #table-head #searchbbar-input:-ms-input-placeholder {
   color: white;
 }
+#view-building-wrapper #container-datatable #table-head #searchbbar-input::-moz-placeholder, #content-wrapper #container-datatable #table-head #searchbbar-input::-moz-placeholder {
+  color: white;
+}
+#view-building-wrapper #container-datatable #table-head #searchbbar-input:-ms-input-placeholder, #content-wrapper #container-datatable #table-head #searchbbar-input:-ms-input-placeholder {
+  color: white;
+}
+#view-building-wrapper #container-datatable #table-head #searchbbar-input::placeholder,
 #content-wrapper #container-datatable #table-head #searchbbar-input::placeholder {
   color: white;
 }
+#view-building-wrapper #container-datatable #table-head #refresh-datatable,
 #content-wrapper #container-datatable #table-head #refresh-datatable {
   width: 40px;
   height: 40px;
   border-radius: 25px;
   background-color: transparent;
 }
+#view-building-wrapper #container-datatable #table-content,
 #content-wrapper #container-datatable #table-content {
   width: 100%;
 }
+#view-building-wrapper #container-datatable #table-content #table-data,
 #content-wrapper #container-datatable #table-content #table-data {
   width: 100%;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-content-head,
 #content-wrapper #container-datatable #table-content #table-data #table-content-head {
   width: 100%;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row,
 #content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row {
   margin-top: 15px;
   width: 100%;
   text-overflow: ellipsis;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row #head-row,
 #content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row #head-row {
-  width: 25%;
+  width: 20%;
 }
-#content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row #head-row:nth-child(1) {
-  width: 10%;
-}
-#content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row #head-row:nth-child(3) {
-  width: 15%;
-}
-#content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row .head-row-id {
-  width: 10%;
-}
-#content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row .head-row-name {
-  width: 25%;
-}
-#content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row .head-row-hex {
-  width: 15%;
-}
-#content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row .head-row-added {
-  width: 25%;
-}
-#content-wrapper #container-datatable #table-content #table-data #table-content-head #table-head-row .head-row-edited {
-  width: 25%;
-}
+#view-building-wrapper #container-datatable #table-content #table-data #table-body,
 #content-wrapper #container-datatable #table-content #table-data #table-body {
   margin-top: 15px;
   width: 100%;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-body #table-body-row,
 #content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row {
   height: 40px;
   width: 100%;
   text-overflow: ellipsis;
 }
-#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row a {
-  width: 25%;
-  text-decoration: none;
-  color: white;
-}
-#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row a .body-row-name {
-  transition: 250ms;
-}
-#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row a .body-row-name span {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-}
-#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row a .body-row-name span::after {
+#view-building-wrapper #container-datatable #table-content #table-data #table-body #table-body-row #hoverable-item div span::after,
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row #hoverable-item div span::after {
   content: "";
   display: block;
   width: 0px;
@@ -99,41 +85,50 @@
   background-color: white;
   transition: width 0.35s;
 }
-#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row a .body-row-name span:hover::after {
+#view-building-wrapper #container-datatable #table-content #table-data #table-body #table-body-row #hoverable-item div span:hover::after,
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row #hoverable-item div span:hover::after {
   width: 100%;
 }
-#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row .body-row-id {
-  width: 10%;
+#view-building-wrapper #container-datatable #table-content #table-data #table-body #table-body-row #body-row,
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row #body-row {
+  width: 20%;
 }
-#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row .body-row-hex {
-  width: 15%;
+#view-building-wrapper #container-datatable #table-content #table-data #table-body #table-body-row a,
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row a {
+  width: 20%;
+  text-decoration: none;
+  color: white;
 }
-#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row .body-row-added {
-  width: 25%;
+#view-building-wrapper #container-datatable #table-content #table-data #table-body #table-body-row a .body-row-name,
+#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row a .body-row-name {
+  transition: 250ms;
 }
-#content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row .body-row-edited {
-  width: 25%;
-}
+#view-building-wrapper #container-datatable #table-content #table-data #table-body #table-body-row:nth-child(odd),
 #content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row:nth-child(odd) {
   background-color: rgba(255, 255, 255, 0.15);
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-body #table-body-row:hover,
 #content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer,
 #content-wrapper #container-datatable #table-content #table-data #table-footer {
   color: currentColor;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #modal,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #modal {
   margin-top: -113px;
   background-color: rgba(23, 23, 23, 0.82);
   border-radius: 15px;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #modal #modal-list,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #modal #modal-list {
   list-style: none;
   width: 100px;
   height: 100px;
   color: #b6b6b6;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #modal #modal-list span,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #modal #modal-list span {
   width: 100px;
   text-align: center;
@@ -143,16 +138,19 @@
   -ms-transition: 250ms;
   -o-transition: 250ms;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #modal #modal-list span:hover:not(.selected),
 #content-wrapper #container-datatable #table-content #table-data #table-footer #modal #modal-list span:hover:not(.selected) {
   background-color: rgba(255, 255, 255, 0.15);
   color: white;
   border-radius: 15px;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #modal #modal-list .selected,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #modal #modal-list .selected {
   background-color: rgba(0, 0, 0, 0.82);
   border-radius: 15px;
   color: white;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #modal #modal-arrow-down-icon,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #modal #modal-arrow-down-icon {
   border-top: 11px solid rgba(23, 23, 23, 0.73);
   border-left: 13px solid rgba(0, 0, 0, 0);
@@ -164,6 +162,7 @@
   width: 10px;
   height: 10px;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #rows-visible #rows-visible-container #toggle-rows-button,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #rows-visible #rows-visible-container #toggle-rows-button {
   width: 55px;
   height: 40px;
@@ -176,9 +175,11 @@
   justify-content: center;
   align-items: center;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons {
   margin-right: 10px;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container div,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container div {
   border: 1px solid transparent;
   min-width: 30px;
@@ -196,10 +197,14 @@
   color: rgba(207, 207, 207, 0.61);
   font-weight: bold;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container #border-white,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container #border-white {
   border: 1px solid white;
   color: white !important;
 }
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container #to-start:hover,
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container #to-end:hover,
+#view-building-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container #selectable-page:hover,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container #to-start:hover,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container #to-end:hover,
 #content-wrapper #container-datatable #table-content #table-data #table-footer #pages-icons #container #selectable-page:hover {

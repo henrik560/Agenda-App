@@ -7,5 +7,5 @@
     </div>
 @endsection 
     @push('script')
-        <script src={{ asset("js/datatables/buildings/buildings.js") }}></script>
+        <script src={{ asset("js/datatables/buildings/buildingsOverview.js") }}></script>
     @endpush

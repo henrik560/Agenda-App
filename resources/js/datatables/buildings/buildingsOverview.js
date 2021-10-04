@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom'; 
 import { Modal } from './components/modal'
-import TableContent from './components/table-content';
+import TableContentOverview from './components/overview/table-content';
 import TablePageSelector from './components/page-selector';
 import axios from 'axios';
 const config = require("../../tempConfg.json")
@@ -65,7 +65,7 @@ class BuildingsOverview extends React.Component {
     }
 
     filterListOnKeyWord(keyWord) {
-        var buildingsArray = this.splitInChunks(this.state.buildings.filter((word) => word.name.startsWith(keyWord)), this.state.listAmount)
+        var buildingsArray = this.splitInChunks(this.state.buildings.filter((word) => word.name.toLocaleLowerCase().startsWith(keyWord)), this.state.listAmount)
         if(buildingsArray.length == 0) {
             this.setState({noResults: true, buildingsInChunks: buildingsArray, searchKeyWord: keyWord})
         }else {
@@ -75,7 +75,7 @@ class BuildingsOverview extends React.Component {
 
     searchbar(keyWord) {
         if(this.state.refresh == true) return
-        this.filterListOnKeyWord(keyWord.target.value)
+        this.filterListOnKeyWord(keyWord.target.value.toLocaleLowerCase())
     }
 
     render() {
@@ -111,7 +111,7 @@ class BuildingsOverview extends React.Component {
                         </div>
                     </div>
                     <div id="table-body" className="d-flex flex-grow-1 flex-column">
-                        <TableContent buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
+                        <TableContentOverview buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
                     </div>
                     <div id="table-footer" className="mt-3 ml-2 mb-3 d-flex flex-row justify-content-between">
                             <Modal openModal={this.state.openModal} current={this.state.listAmount} setListAmount={(e) => {this.setListAmount(e)}} />

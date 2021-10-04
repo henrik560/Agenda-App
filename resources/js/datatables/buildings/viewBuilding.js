@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDom from 'react-dom'; 
 import { Modal } from './components/modal'
-import TableContent from './components/table-content';
+import TableContentView from './components/view/table-content';
 import TablePageSelector from './components/page-selector';
+import { motion } from "framer-motion"
 import axios from 'axios';
 const config = require("../../tempConfg.json")
 
@@ -15,20 +16,18 @@ class ViewBuilding extends React.Component {
             listAmount: 8,
             currentPage: 1,
             building: [],
+            spaces: [],
             refresh: false,
             noResults: false,
             searchKeyWord: '',
         }
-        setTimeout(() => {
-            console.log(this.state.building)
-        }, 1500);
     }
 
     componentDidMount() {
         this.setModalState = this.setModalState.bind(this)
-        this.fetchBuildings = this.fetchBuildings.bind(this);
+        this.fetchBuilding = this.fetchBuilding.bind(this);
         this.setCurrentPage = this.setCurrentPage.bind(this);
-        this.fetchBuildings();
+        this.fetchBuilding();
     }
 
     setModalState() {
@@ -37,18 +36,18 @@ class ViewBuilding extends React.Component {
 
     setListAmount = async (e) => {
         var newAmount = parseInt(e.target.innerHTML)
-        await this.setModalState()
-        var buildingsInChunks = await this.splitInChunks(this.state.buildings, newAmount)
-        await this.setState({buildingsInChunks: buildingsInChunks, listAmount: newAmount, currentPage: this.state.currentPage <= buildingsInChunks.length ? this.state.currentPage : buildingsInChunks.length})
-        await this.filterListOnKeyWord(this.state.searchKeyWord)
+        this.setModalState()
+        var spaces = this.splitInChunks(this.state.building.space, newAmount)
+        this.setState({spaces, listAmount: newAmount, currentPage: this.state.currentPage <= spaces.length ? this.state.currentPage : spaces.length})
+        if(this.state.searchKeyWord != '') this.filterListOnKeyWord(this.state.searchKeyWord)
     }
 
-    fetchBuildings = async () => {
-        this.setState({ refresh: true, buildingsInChunks: [] })
+    fetchBuilding = async () => {
+        this.setState({ refresh: true, spaces: [], building: [] })
         await axios.get(`${config.baseurl}/api/buildings/${this.props.buildingID}`).then(response => {
             var building = [];
             Object.values(response.data).flat().map((el, id) => building.push(el))
-            this.setState({ building })
+            this.setState({ building: building[0], spaces: this.splitInChunks(building[0].space, this.state.listAmount) })
         })
         this.setState({refresh: false})
     }
@@ -59,73 +58,91 @@ class ViewBuilding extends React.Component {
     }
 
     filterListOnKeyWord(keyWord) {
-        var buildingsArray = this.splitInChunks(this.state.buildings.filter((word) => word.name.startsWith(keyWord)), this.state.listAmount)
-        if(buildingsArray.length == 0) {
-            this.setState({noResults: true, buildingsInChunks: buildingsArray, searchKeyWord: keyWord})
+        var spacesArray = this.splitInChunks(this.state.building.space.filter((word) => word.name.toLocaleLowerCase().startsWith(keyWord)), this.state.listAmount)
+        if(spacesArray.length == 0) {
+            this.setState({noResults: true, spaces: spacesArray, searchKeyWord: keyWord})
         }else {
-            this.setState({noResults: false, buildingsInChunks: buildingsArray, currentPage: this.state.currentPage <= buildingsArray.length ? this.state.currentPage : buildingsArray.length})
+            this.setState({noResults: false, spaces: spacesArray, currentPage: this.state.currentPage <= spacesArray.length ? this.state.currentPage : spacesArray.length})
         }
     }
 
+    splitInChunks(array, size) {
+        var results = [];
+        for (let index = 0; index < Math.max(array.length / size); index++) {
+            results.push(array.slice(parseInt(index*size), parseInt(index*size + size)))
+        }
+        return results;
+    };
+
     searchbar(keyWord) {
         if(this.state.refresh == true) return
-        this.filterListOnKeyWord(keyWord.target.value)
+        this.filterListOnKeyWord(keyWord.target.value.toLocaleLowerCase())
     }
 
     render() {
-        return (
-            <div className="d-flex flex-column w-90 h-90" id="container-datatable">
-            {/* <div id="table-head" className="mt-3 w-full d-flex justify-content-end align-items-end">
-                <div id="table-buttons-container" className="d-flex justify-content-end align-items-end gap-3 pr-3">
-                    <input placeholder="Zoeken" onChange={(e) => this.searchbar(e)} className="border-white-1 text-white" id="searchbbar-input"></input>
-                    <div id="refresh-datatable" onClick={this.fetchBuildings} className={`d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ${this.state.refresh ? `rotate-360-linair` : ``}`}>
-                        <i className="fas fa-sync-alt"></i>
+        if(this.state.building) {
+            return (
+                <div className="d-flex flex-column w-90 h-90" id="container-datatable">
+                <div id="table-head" className="mt-3 w-full d-flex justify-content-between align-items-center">
+                    <div className="ml-4 text-white d-flex flex-row justify-content-center align-items-center">
+                        <a className="text-white text-decoration-none mr-2 d-flex justify-content-center align-items-center" href={`${config.baseurl}/buildings/overview`}>
+                            <motion.i whileFocus={{ rotate: 360 }} whileHover={{ rotate: 360 }} className="fas fa-arrow-left mr-2 transition-150ms"></motion.i>
+                        </a>
+                        <span className="fs-5 d-flex gap-3"><b>Gebouw: </b>{this.state.building ? this.state.building.name : ''}</span>
+                    </div>
+                    <div id="table-buttons-container" className="d-flex justify-content-end align-items-end gap-3 pr-3">
+                        <input placeholder="Zoeken" onChange={(e) => this.searchbar(e)} className="border-white-1 text-white" id="searchbbar-input"></input>
+                        <div id="refresh-datatable" onClick={this.fetchBuilding} className={`d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ${this.state.refresh ? `rotate-360-linair` : ``}`}>
+                            <i className="fas fa-sync-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="table-content" className="mt-2">
+                    <div id="table-data" className="d-flex flex-grow-1 flex-column">
+                        <div id="table-content-head" className="d-flex flex-grow-1">
+                            <div id="table-head-row" className="d-flex flex-grow-1 justify-content-around align-items-center">
+                                <div id="head-row" className="head-row-name text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
+                                    <span className="font-weight-bold">Naam</span>
+                                </div>
+                                <div id="head-row" className="head-row-hex text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">
+                                    <span className="font-weight-bold">Max Personen</span>
+                                </div>
+                                <div id="head-row" className="head-row-hex text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">
+                                    <span className="font-weight-bold">Prijs</span>
+                                </div>
+                                <div id="head-row" className="head-row-added text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
+                                    <span className="font-weight-bold">Extern gebruik</span>
+                                </div>
+                                <div id="head-row" className="head-row-edited text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">
+                                    <span className="font-weight-bold">Acties</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="table-body" className="d-flex flex-grow-1 flex-column">
+                            <TableContentView building={ this.state.spaces } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
+                        </div>
+                        <div id="table-footer" className="mt-3 ml-2 mb-3 d-flex flex-row justify-content-between">
+                                <Modal openModal={this.state.openModal} current={this.state.listAmount} setListAmount={(e) => {this.setListAmount(e)}} />
+                            <div id="rows-visible" className="d-flex flex-row">
+                                <div id="rows-visible-container" className="d-flex flex-row gap-2 justify-content-center align-items-center text-white">
+                                    <div id="toggle-rows-button" className="border-white-1 gap-1" onClick={this.setModalState}>
+                                        <span className="text-white" id="number">{this.state.listAmount}</span>
+                                        <i className={`fas fa-sort-down text-white mt-n1 transition-250ms ${this.state.openModal ? 'rotate-180deg mt-1' : '' }`}></i>
+                                    </div>
+                                    <div>Aantal per pagina</div>
+                                </div>
+                            </div>
+                            <div id="pages-icons" className="d-flex">
+                                <TablePageSelector buildings={ this.state.spaces } searchError={this.state.noResults} currentPage={this.state.currentPage} setCurrentPage={(e) => { this.setCurrentPage(e) }} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div id="table-content" className="mt-2">
-                <div id="table-data" className="d-flex flex-grow-1 flex-column">
-                    <div id="table-content-head" className="d-flex flex-grow-1">
-                        <div id="table-head-row" className="d-flex flex-grow-1 justify-content-around align-items-center">
-                            <div id="head-row" className="head-row-id text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
-                                <span className="font-weight-bold">ID</span>
-                            </div>
-                            <div id="head-row" className="head-row-name text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
-                                <span className="font-weight-bold">Naam</span>
-                            </div>
-                            <div id="head-row" className="head-row-hex text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">
-                                <span className="font-weight-bold">Hex</span>
-                            </div>
-                            <div id="head-row" className="head-row-added text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3">
-                                <span className="font-weight-bold">Toegevoed op</span>
-                            </div>
-                            <div id="head-row" className="head-row-edited text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center">
-                                <span className="font-weight-bold">Acties</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="table-body" className="d-flex flex-grow-1 flex-column">
-                        <TableContent buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
-                    </div>
-                    <div id="table-footer" className="mt-3 ml-2 mb-3 d-flex flex-row justify-content-between">
-                            <Modal openModal={this.state.openModal} current={this.state.listAmount} setListAmount={(e) => {this.setListAmount(e)}} />
-                        <div id="rows-visible" className="d-flex flex-row">
-                            <div id="rows-visible-container" className="d-flex flex-row gap-2 justify-content-center align-items-center text-white">
-                                <div id="toggle-rows-button" className="border-white-1 gap-1" onClick={this.setModalState}>
-                                    <span className="text-white" id="number">{this.state.listAmount}</span>
-                                    <i className={`fas fa-sort-down text-white mt-n1 transition-250ms ${this.state.openModal ? 'rotate-180deg mt-1' : '' }`}></i>
-                                </div>
-                                <div>Aantal per pagina</div>
-                            </div>
-                        </div>
-                        <div id="pages-icons" className="d-flex">
-                            <TablePageSelector buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} currentPage={this.state.currentPage} setCurrentPage={(e) => { this.setCurrentPage(e) }} />
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-        </div>
-        )
+            )
+        }else {
+            return "Er is iets fout gegaan"
+        }
     }
 }   
 

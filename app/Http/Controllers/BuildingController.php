@@ -92,7 +92,7 @@ class BuildingController extends Controller
 
         $data = [
             "Title" => "Building",
-            "Buildings" => $buildings
+            "buildings" => $buildings
         ];
 
         return view("buildings.overview", $data);
@@ -121,15 +121,27 @@ class BuildingController extends Controller
         return view("buildings.view", $data);
     }
 
-    public function editForm($id, $name)
+    public function editForm($id)
     {
-        $buildings = Building::with("rooms")->get();
+        $building = Building::find($id);
 
         $data = [
             "Title" => "Agenda",
-            "Buildings" => $buildings
+            "building" => $building
         ];
 
-        return view("agenda.overview", $data);
+        return view("buildings.edit", $data);
+    }
+
+    public function deleteForm($id)
+    {
+        $building = Building::find($id);
+
+        $data = [
+            "Title" => "Agenda",
+            "building" => $building
+        ];
+
+        return view("buildings.delete", $data);
     }
 }
