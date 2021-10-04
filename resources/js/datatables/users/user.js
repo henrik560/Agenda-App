@@ -4,7 +4,7 @@ import { Modal } from './components/modal'
 import TableContent from './components/table-content';
 import TablePageSelector from './components/page-selector';
 import axios from 'axios';
-const config = require("../../tempConfg.json")
+import { baseurl } from "../../tempConfg.json"
 
 
 class Users extends React.Component {
@@ -43,7 +43,7 @@ class Users extends React.Component {
 
     fetchBuildings = async () => {
         this.setState({ refresh: true, buildingsInChunks: [] })
-        await axios.get(`${config.baseurl}/api/users/`).then(response => {
+        await axios.get(`${baseurl}/api/users/`).then(response => {
             var buildings = [];
             Object.values(response.data).flat().map((el, id) => buildings.push(el))
             this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings })

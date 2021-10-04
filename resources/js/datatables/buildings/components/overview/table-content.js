@@ -1,5 +1,5 @@
 import React from 'react';
-const config = require("../../../../tempConfg.json")
+import { baseurl } from "../../../../tempConfg.json"
 
 export default class TableContentOverview extends React.Component {
     constructor(props) {
@@ -25,8 +25,8 @@ export default class TableContentOverview extends React.Component {
                         <div id="body-row" className="body-row-added text-white d-flex justify-content-center align-items-center">{element.created_at.split("T")[0]}</div>
                         <div id="body-row" className="body-row-edited text-white d-flex justify-content-center align-items-center">
                             <div className="d-flex gap-3">
-                                <a className="text-white" href={`${config.baseurl}/buildings/editForm/${element.id}/`}><i className="fas fa-edit"></i></a>
-                                <a className="text-white" href={`${config.baseurl}/buildings/deleteForm/${element.id}/`}><i className="far fa-trash-alt"></i></a>
+                                <a className="text-white" href={`${baseurl}/buildings/editForm/${element.id}/`}><i className="fas fa-edit"></i></a>
+                                <a className="text-white" href={`${baseurl}/buildings/deleteForm/${element.id}/`}><i className="far fa-trash-alt"></i></a>
                             </div>
                         </div>  
                     </div>)

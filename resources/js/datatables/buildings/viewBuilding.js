@@ -3,9 +3,9 @@ import ReactDom from 'react-dom';
 import { Modal } from './components/modal'
 import TableContentView from './components/view/table-content';
 import TablePageSelector from './components/page-selector';
-import { motion } from "framer-motion"
+import { motion, framer } from "framer-motion";
 import axios from 'axios';
-const config = require("../../tempConfg.json")
+import { baseurl } from "../../tempConfg.json";
 
 
 class ViewBuilding extends React.Component {
@@ -44,7 +44,7 @@ class ViewBuilding extends React.Component {
 
     fetchBuilding = async () => {
         this.setState({ refresh: true, spaces: [], building: [] })
-        await axios.get(`${config.baseurl}/api/buildings/${this.props.buildingID}`).then(response => {
+        await axios.get(`${baseurl}/api/buildings/${this.props.buildingID}`).then(response => {
             var building = [];
             Object.values(response.data).flat().map((el, id) => building.push(el))
             this.setState({ building: building[0], spaces: this.splitInChunks(building[0].space, this.state.listAmount) })
@@ -85,7 +85,7 @@ class ViewBuilding extends React.Component {
                 <div className="d-flex flex-column w-90 h-90" id="container-datatable">
                 <div id="table-head" className="mt-3 w-full d-flex justify-content-between align-items-center">
                     <div className="ml-4 text-white d-flex flex-row justify-content-center align-items-center">
-                        <a className="text-white text-decoration-none mr-2 d-flex justify-content-center align-items-center" href={`${config.baseurl}/buildings/overview`}>
+                        <a className="text-white text-decoration-none mr-2 d-flex justify-content-center align-items-center" href={`${baseurl}/buildings/overview`}>
                             <motion.i whileFocus={{ rotate: 360 }} whileHover={{ rotate: 360 }} className="fas fa-arrow-left mr-2 transition-150ms"></motion.i>
                         </a>
                         <span className="fs-5 d-flex gap-3"><b>Gebouw: </b>{this.state.building ? this.state.building.name : ''}</span>
