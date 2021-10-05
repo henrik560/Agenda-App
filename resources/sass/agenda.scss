@@ -20,6 +20,7 @@
 
             .header-date {
                 color: currentColor;
+                border-radius: 10px;
             }
 
             .content-header {
@@ -30,8 +31,7 @@
                     min-width: 100px;
                     background-color: $themeColor;
                     color: white;
-                    border-top-left-radius: 10px;
-                    border-top-right-radius: 10px;
+                    border-radius: 10px;
 
                     .dropdown-first-child {
                         width: 10rem;
@@ -93,9 +93,35 @@
 
         .content-body {
             cursor: pointer;
-
-            .buildings-wrapper {
-                margin-left: 100px;
+            #agenda-content-container {
+                background-color: $themeColor;
+                height: 350px;
+                border-radius: 10px;
+                max-height: auto;
+                overflow-y: scroll;
+                .buildings-wrapper {
+                    #header-spaces-container {
+                        // padding-left: 100px;
+                        height: 52px;
+                        .fake-time-container {
+                            width: 100px;
+                            height: 52px;
+                        }
+                    }
+                }
+                .agenda-content {
+                    #time-container {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 30px;
+                        width: 100px;
+                    }
+                    #time-container-fake {
+                        height: 52px;
+                        width: 100px;
+                    }
+                }
             }
         }
     }

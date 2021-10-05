@@ -16,6 +16,7 @@
 }
 #agenda-wrapper .agenda .content-header-wrapper .header-date {
   color: currentColor;
+  border-radius: 10px;
 }
 #agenda-wrapper .agenda .content-header-wrapper .content-header {
   -moz-column-gap: 15px;
@@ -26,8 +27,7 @@
   min-width: 100px;
   background-color: #F27500;
   color: white;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-radius: 10px;
 }
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-first-child {
   width: 10rem;
@@ -76,6 +76,28 @@
 #agenda-wrapper .agenda .content-body {
   cursor: pointer;
 }
-#agenda-wrapper .agenda .content-body .buildings-wrapper {
-  margin-left: 100px;
+#agenda-wrapper .agenda .content-body #agenda-content-container {
+  background-color: #F27500;
+  height: 350px;
+  border-radius: 10px;
+  max-height: auto;
+  overflow-y: scroll;
+}
+#agenda-wrapper .agenda .content-body #agenda-content-container .buildings-wrapper #header-spaces-container {
+  height: 52px;
+}
+#agenda-wrapper .agenda .content-body #agenda-content-container .buildings-wrapper #header-spaces-container .fake-time-container {
+  width: 100px;
+  height: 52px;
+}
+#agenda-wrapper .agenda .content-body #agenda-content-container .agenda-content #time-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 100px;
+}
+#agenda-wrapper .agenda .content-body #agenda-content-container .agenda-content #time-container-fake {
+  height: 52px;
+  width: 100px;
 }

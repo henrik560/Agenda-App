@@ -49,7 +49,7 @@ class Agenda extends React.Component {
         return (
         <div className="agenda mb-3 d-flex justify-content-center"> 
             <div className="content-header-wrapper d-flex justify-content-between">
-                <div className="header-date d-flex w-10 width-190px justify-content-center align-items-center h-0 fs-5 bg-themeColor text-white border-top-left-radius-10 border-top-right-radius-10">
+                <div className="header-date d-flex w-10 width-190px justify-content-center align-items-center h-0 fs-5 bg-themeColor text-white">
                     <span className="day mr-2 height-45px d-flex justify-content-center align-items-center">{this.state.current_day}</span>
                     <span className="month mr-2 height-45px d-flex justify-content-center align-items-center">{this.state.current_month}</span>
                     <span className="year height-45px d-flex justify-content-center align-items-center">{this.state.current_year}</span>
@@ -60,7 +60,7 @@ class Agenda extends React.Component {
                     <Dropdown list={this.state.list_day} changeData={this.changeDate} dataTarget="day-dropdown" dateType="current_day" titleName="Dag"/>
                 </div>
             </div>
-            <div className="content-body mt-3 bg-themeColor border-bg border-themeColor-3">
+            <div className="content-body mt-3">
                 <Body />
             </div> 
         </div>
