@@ -101,3 +101,57 @@
   height: 52px;
   width: 100px;
 }
+
+.agenda-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.agenda-container .agenda-child-container {
+  margin-top: 150px;
+  width: 70%;
+  height: 350px;
+  background: radial-gradient(ellipse at center, #ec9b4f 0%, #F27500 100%);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+.agenda-container .agenda-child-container::-webkit-scrollbar {
+  width: 10px;
+}
+.agenda-container .agenda-child-container::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #f5c598;
+  background-color: white;
+}
+.agenda-container .agenda-child-container::-webkit-scrollbar-thumb {
+  background: #ec9b4f;
+  border-radius: 10px;
+}
+.agenda-container .agenda-child-container::-webkit-scrollbar-thumb:hover {
+  background: #F27500;
+}
+.agenda-container .agenda-child-container .header-container {
+  width: calc(100% - 100px);
+  height: 60px;
+  margin-left: 100px;
+  background-color: cyan;
+}
+.agenda-container .agenda-child-container .header-container .sticky-header {
+  width: calc(70% - 110px);
+  height: 60px;
+  position: fixed;
+  background-color: green;
+  display: block;
+}
+.agenda-container .agenda-child-container .content-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+}
+.agenda-container .agenda-child-container .content-container a {
+  width: 100px;
+  height: 50px;
+}
