@@ -120,11 +120,13 @@
   width: calc(90% - 110px);
   height: 60px;
   position: fixed;
+  z-index: 15;
   background-color: #f17907;
 }
 #agenda-wrapper .agenda .agenda-child-container .header-container .sticky-header #header-spaces-container {
   height: 60px;
-  margin-left: 5px;
+  margin-left: 2px;
+  width: calc(100% - 2px);
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container {
   display: flex;
@@ -163,17 +165,15 @@
   background-color: transparent;
   height: 100%;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .row-hour {
-  width: 100%;
-  height: 35px;
-  margin-top: -1px;
-  display: flex;
-  flex-direction: column;
-}
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .row-hour .quarter_hour {
-  height: 25%;
-  width: 100%;
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card {
+  width: 90%;
+  border: 1px solid #F27500;
+  height: 100%;
+  position: relative;
+  background-color: red;
 }
 
 #text-truncate-with-flex {
