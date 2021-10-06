@@ -10,8 +10,13 @@ class Space extends Model
 {
     use HasFactory;
 
-    public function building() 
+    public function buildings()
     {
         return $this->belongsTo(BuildingController::class);
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
     }
 }

@@ -47,7 +47,7 @@ class ViewBuilding extends React.Component {
         await axios.get(`${baseurl}/api/buildings/${this.props.buildingID}`).then(response => {
             var building = [];
             Object.values(response.data).flat().map((el, id) => building.push(el))
-            this.setState({ building: building[0], spaces: this.splitInChunks(building[0].space, this.state.listAmount) })
+            this.setState({ building: building[0], spaces: this.splitInChunks(building[0].spaces, this.state.listAmount) })
         })
         this.setState({refresh: false})
     }

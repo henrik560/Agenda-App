@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Children } from 'react';
 import ReactDom from 'react-dom'; 
 import Dropdown  from './components/dropdown';
-import Body from './components/body'
+import Header from './components/header';
+import BodyContent from './components/body-content';
 const moment = require('moment');
 moment.locale("nl")
 
@@ -25,9 +26,12 @@ class Agenda extends React.Component {
             ],
             list_month : moment.months(),
             list_day : this.renderDaysInMonthArray(),
+            day: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"],
+            fetchedData: false,
         }
         this.renderDaysInMonthArray = this.renderDaysInMonthArray.bind(this)
         this.changeDate = this.changeDate.bind(this)
+        this.changeFetchDataState = this.changeFetchDataState.bind(this)
     }
 
     renderDaysInMonthArray() {
@@ -43,6 +47,10 @@ class Agenda extends React.Component {
         if(validTypes.includes(dateType.toLowerCase()) && typeof newDate == "string") {
             this.setState({[dateType]: newDate})
         }
+    }
+
+    changeFetchDataState() {
+        this.setState(prevState => ({ fetchedData: !prevState.fetchedData }));
     }
  
     render() {
@@ -60,9 +68,24 @@ class Agenda extends React.Component {
                     <Dropdown list={this.state.list_day} changeData={this.changeDate} dataTarget="day-dropdown" dateType="current_day" titleName="Dag"/>
                 </div>
             </div>
-            <div className="content-body mt-3">
-                <Body />
-            </div> 
+            <div className="agenda-child-container">
+                <div className="header-container">
+                    <div className="fake-header-time-item"></div>
+                    <div className="sticky-header">
+                        <Header fetchedData={this.changeFetchDataState}/>
+                    </div>
+                </div>
+                <div className="content-container">
+                    <div className="time-container">
+                        {this.state.day.map((time) => {
+                            return (<span key={time}>{`${time}:00`}</span>)
+                        })}
+                    </div>
+                    <div className="time-grid">
+                        <BodyContent childElements={document.getElementsByClassName("space-row").length}/>
+                    </div>
+                </div>
+            </div>
         </div>
         )
     }

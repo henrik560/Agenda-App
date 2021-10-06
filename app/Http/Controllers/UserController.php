@@ -19,8 +19,9 @@ class UserController extends Controller
         return view("users.overview", $data);
     }
 
-    public function index() {
-        
+    public function index()
+    {
+
         $user = User::all();
 
         return response()->json([
@@ -56,7 +57,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::where("id", $id)->with("space")->get();
+        $user = User::where("id", $id)->with("spaces")->get();
 
         return response()->json([
             'user' => $user,

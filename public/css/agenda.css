@@ -3,7 +3,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 25px;
+  margin-top: 150px;
+  width: 100%;
+  height: 100%;
 }
 #agenda-wrapper .agenda {
   display: flex;
@@ -34,6 +36,8 @@
   min-width: 100px;
 }
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list {
+  position: relative;
+  z-index: 100;
   width: 10rem;
   min-width: 100px;
   transform: translateX(-50%);
@@ -73,85 +77,85 @@
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-thumb:hover {
   background: #ffff;
 }
-#agenda-wrapper .agenda .content-body {
-  cursor: pointer;
-}
-#agenda-wrapper .agenda .content-body #agenda-content-container {
-  background-color: #F27500;
-  height: 350px;
-  border-radius: 10px;
-  max-height: auto;
-  overflow-y: scroll;
-}
-#agenda-wrapper .agenda .content-body #agenda-content-container .buildings-wrapper #header-spaces-container {
-  height: 52px;
-}
-#agenda-wrapper .agenda .content-body #agenda-content-container .buildings-wrapper #header-spaces-container .fake-time-container {
-  width: 100px;
-  height: 52px;
-}
-#agenda-wrapper .agenda .content-body #agenda-content-container .agenda-content #time-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30px;
-  width: 100px;
-}
-#agenda-wrapper .agenda .content-body #agenda-content-container .agenda-content #time-container-fake {
-  height: 52px;
-  width: 100px;
-}
-
-.agenda-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.agenda-container .agenda-child-container {
-  margin-top: 150px;
-  width: 70%;
+#agenda-wrapper .agenda .agenda-child-container {
+  margin-top: 20px;
   height: 350px;
   background: radial-gradient(ellipse at center, #ec9b4f 0%, #F27500 100%);
   display: flex;
-  align-items: center;
   flex-direction: column;
   overflow-y: scroll;
 }
-.agenda-container .agenda-child-container::-webkit-scrollbar {
+#agenda-wrapper .agenda .agenda-child-container::-webkit-scrollbar {
   width: 10px;
 }
-.agenda-container .agenda-child-container::-webkit-scrollbar-track {
+#agenda-wrapper .agenda .agenda-child-container::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px #f5c598;
   background-color: white;
 }
-.agenda-container .agenda-child-container::-webkit-scrollbar-thumb {
+#agenda-wrapper .agenda .agenda-child-container::-webkit-scrollbar-thumb {
   background: #ec9b4f;
   border-radius: 10px;
 }
-.agenda-container .agenda-child-container::-webkit-scrollbar-thumb:hover {
+#agenda-wrapper .agenda .agenda-child-container::-webkit-scrollbar-thumb:hover {
   background: #F27500;
 }
-.agenda-container .agenda-child-container .header-container {
+#agenda-wrapper .agenda .agenda-child-container .header-container {
   width: calc(100% - 100px);
   height: 60px;
   margin-left: 100px;
-  background-color: cyan;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
 }
-.agenda-container .agenda-child-container .header-container .sticky-header {
-  width: calc(70% - 110px);
+#agenda-wrapper .agenda .agenda-child-container .header-container .fake-header-time-item {
+  width: 100px;
+  height: 60px;
+  margin-left: -100px;
+  position: fixed;
+  background-color: #f17907;
+  display: block;
+  z-index: 10;
+}
+#agenda-wrapper .agenda .agenda-child-container .header-container .sticky-header {
+  width: calc(90% - 110px);
   height: 60px;
   position: fixed;
-  background-color: green;
-  display: block;
 }
-.agenda-container .agenda-child-container .content-container {
+#agenda-wrapper .agenda .agenda-child-container .header-container .sticky-header #header-spaces-container {
+  height: 60px;
+  margin-left: 5px;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container {
   display: flex;
   flex-direction: column;
   margin-top: 60px;
+  justify-content: space-between;
 }
-.agenda-container .agenda-child-container .content-container a {
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-container {
   width: 100px;
-  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-container span {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+  border: 1px solid black;
+  margin-top: -1px;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-container span:nth-child(1) {
+  margin-top: 0px !important;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid-item {
+  width: 100%;
+}
+
+#text-truncate-with-flex {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

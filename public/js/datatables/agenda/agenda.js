@@ -2829,21 +2829,19 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./resources/js/datatables/agenda/components/body.js":
-/*!***********************************************************!*\
-  !*** ./resources/js/datatables/agenda/components/body.js ***!
-  \***********************************************************/
+/***/ "./resources/js/datatables/agenda/components/body-content.js":
+/*!*******************************************************************!*\
+  !*** ./resources/js/datatables/agenda/components/body-content.js ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ AgendaBody)
+/* harmony export */   "default": () => (/* binding */ BodyContent)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _header__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./header */ "./resources/js/datatables/agenda/components/header.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2869,55 +2867,39 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+var BodyContent = /*#__PURE__*/function (_React$Component) {
+  _inherits(BodyContent, _React$Component);
 
+  var _super = _createSuper(BodyContent);
 
+  function BodyContent(props) {
+    _classCallCheck(this, BodyContent);
 
-var AgendaBody = /*#__PURE__*/function (_React$Component) {
-  _inherits(AgendaBody, _React$Component);
-
-  var _super = _createSuper(AgendaBody);
-
-  function AgendaBody(props) {
-    var _this;
-
-    _classCallCheck(this, AgendaBody);
-
-    _this = _super.call(this, props);
-    _this.state = {
-      day: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"]
-    };
-    return _this;
+    return _super.call(this, props);
   }
 
-  _createClass(AgendaBody, [{
+  _createClass(BodyContent, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      console.log('mount');
+      console.log(this.props.childElements);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      console.log('update');
+      console.log(this.props.childElements);
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        id: "agenda-content-container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "buildings-wrapper",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_header__WEBPACK_IMPORTED_MODULE_2__["default"], {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "agenda-content border-left-none border-bottom-none d-flex flex-row flex-grow-1",
-          style: {
-            width: "100px"
-          },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "agenda-time-line d-flex flex-column gap-1 flex-grow-1",
-            children: this.state.day.map(function (time) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                id: "time-container",
-                className: "last-item-border-none text-center",
-                children: "".concat(time, ":00")
-              }, time);
-            })
-          })
-        })]
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "time-grid-item"
       });
     }
   }]);
 
-  return AgendaBody;
+  return BodyContent;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
 
@@ -3119,29 +3101,25 @@ var header = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
 
     _defineProperty(_assertThisInitialized(_this), "fetchBuildings", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var buildings;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('api/buildings/get').then(function (response) {
-                return _this.setState({
-                  buildings: response.data
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('api/buildings/').then(function (response) {
+                var buildings = [];
+                Object.values(response.data).map(function (el, id) {
+                  buildings.push(el);
                 });
+
+                _this.setState({
+                  buildings: buildings
+                });
+
+                _this.props.fetchedData();
               });
 
             case 2:
-              buildings = [];
-              Object.values(_this.state.buildings).flat().map(function (el, id) {
-                return buildings.push(el);
-              });
-
-              _this.setState({
-                buildings: buildings
-              });
-
-            case 5:
             case "end":
               return _context.stop();
           }
@@ -3162,86 +3140,39 @@ var header = /*#__PURE__*/function (_React$Component) {
   _createClass(header, [{
     key: "render",
     value: function render() {
-      // if(this.state.buildings.length > 0) {
-      //     var buildingsElements = this.state.buildings.map((element, index) => {
-      //         return (
-      //         <div className="d-flex flex-column justify-content-center flex-grow-1 gap-1" key={element.id}>
-      //                 <div style={{backgroundColor: '#32a834'}} className="buildings-list-item-header d-flex justify-content-center">
-      //                     <span>{element.name}</span>
-      //                 </div>  
-      //                 <div className="d-flex justify-content-around gap-1">
-      //                     {element.rooms.map(room => {
-      //                         return (<span style={{backgroundColor: '#32a834'}} className="d-flex justify-content-center flex-grow-1">{room.name}</span>)
-      //                     })}
-      //                 </div> 
-      //         </div>
-      //         )
-      //     })
-      // }
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      if (this.state.buildings.length > 0) {
+        var element = this.state.buildings[0].map(function (building, index) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "d-flex flex-column justify-content-center flex-grow-1 gap-1",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              style: {
+                backgroundColor: "#".concat(building.color_hex)
+              },
+              className: "buildings-list-item-header d-flex text-truncate justify-content-center",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                id: "text-truncate-with-flex",
+                children: building.name
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "d-flex justify-content-around gap-1",
+              children: building.spaces.map(function (space, index) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                  style: {
+                    backgroundColor: "#".concat(building.color_hex)
+                  },
+                  className: "space-row d-flex justify-content-center flex-grow-1",
+                  children: space.name
+                }, index);
+              })
+            })]
+          }, index);
+        });
+      }
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         id: "header-spaces-container",
-        className: "w-full h-full position-fixed d-flex flex-grow-1 justify-content-between gap-1",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "fake-time-container"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "d-flex flex-column justify-content-center flex-grow-1 gap-1",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            style: {
-              backgroundColor: '#32a832'
-            },
-            className: "buildings-list-item-header d-flex justify-content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              children: "Test 1"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            className: "d-flex justify-content-around gap-1",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              style: {
-                backgroundColor: '#32a833'
-              },
-              className: "d-flex justify-content-center flex-grow-1",
-              children: "Test1"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              style: {
-                backgroundColor: '#32a834'
-              },
-              className: "d-flex justify-content-center flex-grow-1",
-              children: "Test2"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              style: {
-                backgroundColor: '#32a835'
-              },
-              className: "d-flex justify-content-center flex-grow-1",
-              children: "Test3"
-            })]
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "d-flex flex-column justify-content-center flex-grow-1 gap-1",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            style: {
-              backgroundColor: '#62b832'
-            },
-            className: "buildings-list-item-header d-flex justify-content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              children: "Test 2"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            className: "d-flex justify-content-around gap-1",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              style: {
-                backgroundColor: '#62b832'
-              },
-              className: "d-flex justify-content-center flex-grow-1",
-              children: "Test1"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              style: {
-                backgroundColor: '#62b832'
-              },
-              className: "d-flex justify-content-center flex-grow-1",
-              children: "Test3"
-            })]
-          })]
-        })]
+        className: "w-full mr-1 h-full d-flex flex-grow-1 justify-content-between gap-1",
+        children: element || ''
       });
     }
   }]);
@@ -56051,8 +55982,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var _components_dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/dropdown */ "./resources/js/datatables/agenda/components/dropdown.js");
-/* harmony import */ var _components_body__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/body */ "./resources/js/datatables/agenda/components/body.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _components_header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/header */ "./resources/js/datatables/agenda/components/header.js");
+/* harmony import */ var _components_body_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/body-content */ "./resources/js/datatables/agenda/components/body-content.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -56084,6 +56016,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
 moment.locale("nl");
@@ -56107,10 +56040,13 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
       current_day: _this.date.getDate(),
       list_year: [_this.date.getFullYear(), _this.date.getFullYear() + 1, _this.date.getFullYear() + 2, _this.date.getFullYear() + 3],
       list_month: moment.months(),
-      list_day: _this.renderDaysInMonthArray()
+      list_day: _this.renderDaysInMonthArray(),
+      day: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"],
+      fetchedData: false
     };
     _this.renderDaysInMonthArray = _this.renderDaysInMonthArray.bind(_assertThisInitialized(_this));
     _this.changeDate = _this.changeDate.bind(_assertThisInitialized(_this));
+    _this.changeFetchDataState = _this.changeFetchDataState.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -56135,39 +56071,48 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "changeFetchDataState",
+    value: function changeFetchDataState() {
+      this.setState(function (prevState) {
+        return {
+          fetchedData: !prevState.fetchedData
+        };
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "agenda mb-3 d-flex justify-content-center",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "content-header-wrapper d-flex justify-content-between",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "header-date d-flex w-10 width-190px justify-content-center align-items-center h-0 fs-5 bg-themeColor text-white",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               className: "day mr-2 height-45px d-flex justify-content-center align-items-center",
               children: this.state.current_day
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               className: "month mr-2 height-45px d-flex justify-content-center align-items-center",
               children: this.state.current_month
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               className: "year height-45px d-flex justify-content-center align-items-center",
               children: this.state.current_year
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "content-header d-flex flex-row justify-content-between",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
               list: this.state.list_year,
               changeData: this.changeDate,
               dataTarget: "year-dropdown",
               dateType: "current_year",
               titleName: "Jaar"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
               list: this.state.list_month,
               changeData: this.changeDate,
               dataTarget: "month-dropdown",
               dateType: "current_month",
               titleName: "Maand"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
               list: this.state.list_day,
               changeData: this.changeDate,
               dataTarget: "day-dropdown",
@@ -56175,9 +56120,34 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               titleName: "Dag"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-          className: "content-body mt-3",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_body__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          className: "agenda-child-container",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            className: "header-container",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+              className: "fake-header-time-item"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+              className: "sticky-header",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_header__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                fetchedData: this.changeFetchDataState
+              })
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            className: "content-container",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+              className: "time-container",
+              children: this.state.day.map(function (time) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+                  children: "".concat(time, ":00")
+                }, time);
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+              className: "time-grid",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_body_content__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                childElements: document.getElementsByClassName("space-row").length
+              })
+            })]
+          })]
         })]
       });
     }
@@ -56187,7 +56157,7 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
 if (document.getElementById("agenda-wrapper")) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Agenda, {}), document.getElementById("agenda-wrapper"));
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Agenda, {}), document.getElementById("agenda-wrapper"));
 }
 })();
 

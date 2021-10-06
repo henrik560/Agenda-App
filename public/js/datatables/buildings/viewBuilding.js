@@ -46488,7 +46488,7 @@ var ViewBuilding = /*#__PURE__*/function (_React$Component) {
 
                 _this.setState({
                   building: building[0],
-                  spaces: _this.splitInChunks(building[0].space, _this.state.listAmount)
+                  spaces: _this.splitInChunks(building[0].spaces, _this.state.listAmount)
                 });
               });
 

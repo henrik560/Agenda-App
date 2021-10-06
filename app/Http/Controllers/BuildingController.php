@@ -11,7 +11,7 @@ class BuildingController extends Controller
 {
     public function index()
     {
-        $building = Building::all();
+        $building = Building::with("spaces")->get();
 
         return response()->json([
             'buildings' => $building
@@ -47,7 +47,7 @@ class BuildingController extends Controller
      */
     public function show($id)
     {
-        $building = Building::where("id", $id)->with("space")->get();
+        $building = Building::where("id", $id)->with("spaces")->get();
 
         return response()->json([
             'building' => $building,
