@@ -120,6 +120,7 @@
   width: calc(90% - 110px);
   height: 60px;
   position: fixed;
+  background-color: #f17907;
 }
 #agenda-wrapper .agenda .agenda-child-container .header-container .sticky-header #header-spaces-container {
   height: 60px;
@@ -127,7 +128,7 @@
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-top: 60px;
   justify-content: space-between;
 }
@@ -150,7 +151,28 @@
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-container span:nth-child(1) {
   margin-top: 0px !important;
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid-item {
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row {
+  display: flex;
+  flex-grow: 1;
+  background-color: transparent;
+  height: 100%;
+  flex-direction: column;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .row-hour {
+  width: 100%;
+  height: 35px;
+  margin-top: -1px;
+  display: flex;
+  flex-direction: column;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .row-hour .quarter_hour {
+  height: 25%;
   width: 100%;
 }
 

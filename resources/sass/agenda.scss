@@ -4,6 +4,7 @@
 // Variables
 @import 'variables';
 
+
 #agenda-wrapper {
     display: flex;
     justify-content: center;
@@ -143,6 +144,7 @@
                     width: calc(90% - 110px);
                     height: 60px;
                     position: fixed;
+                    background-color: #f17907;
 
                     #header-spaces-container {
                         height: 60px;
@@ -154,7 +156,7 @@
 
             .content-container {
                 display: flex;
-                flex-direction: column;
+                flex-direction: row;
                 margin-top: 60px;
                 justify-content: space-between;
 
@@ -180,8 +182,44 @@
                     }
                 }
 
-                .time-grid-item {
-                    width: 100%;
+                .time-grid {
+                    .time-grid-item {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        flex-grow: 1;
+
+                        .grid-row {
+                            display: flex;
+                            flex-grow: 1;
+                            background-color: transparent;
+                            height: 100%;
+                            flex-direction: column;
+
+                            .row-hour {
+                                width: 100%;
+                                height: 35px;
+                                margin-top: -1px;
+                                display: flex;
+                                flex-direction: column;
+
+                                .quarter_hour {
+                                    height: 25%;
+                                    width: 100%;
+                                }
+                            }
+
+                            // &::after {
+                            //     position: relative;
+                            //     margin-top: -1px;
+                            //     width: 100%;
+                            //     content: "";
+                            //     z-index: 3;
+                            //     pointer-events: none;
+                            //     border-bottom: #dadce0 1px solid;
+                            // }
+                        }
+                    }
                 }
             }
         }

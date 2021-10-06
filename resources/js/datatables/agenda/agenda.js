@@ -28,6 +28,7 @@ class Agenda extends React.Component {
             list_day : this.renderDaysInMonthArray(),
             day: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"],
             fetchedData: false,
+            childElementsLength: [],
         }
         this.renderDaysInMonthArray = this.renderDaysInMonthArray.bind(this)
         this.changeDate = this.changeDate.bind(this)
@@ -51,6 +52,16 @@ class Agenda extends React.Component {
 
     changeFetchDataState() {
         this.setState(prevState => ({ fetchedData: !prevState.fetchedData }));
+    }
+
+    componentDidUpdate() {
+        if(this.state.childElementsLength.length == 0) {
+            var childElementsLength = [];
+            [...document.getElementsByClassName("space-row")].forEach((element) => {
+               childElementsLength.push(element.clientWidth)
+            })
+            this.setState({childElementsLength})
+        }
     }
  
     render() {
@@ -81,8 +92,8 @@ class Agenda extends React.Component {
                             return (<span key={time}>{`${time}:00`}</span>)
                         })}
                     </div>
-                    <div className="time-grid">
-                        <BodyContent childElements={document.getElementsByClassName("space-row").length}/>
+                    <div className="time-grid flex-grow-1">
+                        <BodyContent childElements={this.state.childElementsLength}/>
                     </div>
                 </div>
             </div>
