@@ -8,7 +8,7 @@ export default class header extends React.Component {
     render() {
         if(this.props.buildings.length > 0) {
             var element = this.props.buildings[0].map((building, index) => {
-                return (<div key={index} className="d-flex flex-column justify-content-center flex-grow-1 gap-1">
+                return (<div key={index} data-buildingid={building.id} className="d-flex flex-column justify-content-center flex-grow-1 gap-1">
                     <div style={{backgroundColor: `#${building.color_hex}`}} className="buildings-list-item-header d-flex text-truncate justify-content-center">
                         <span id="text-truncate-with-flex">{building.name}</span>
                     </div>  
@@ -16,7 +16,7 @@ export default class header extends React.Component {
                             {
                                 building.spaces.map((space, index) => {
                                     return ( 
-                                            <span key={index} style={{backgroundColor: `#${building.color_hex}`}} className="space-row d-flex justify-content-center flex-grow-1">{space.name}</span>
+                                            <span key={index} style={{backgroundColor: `#${building.color_hex}`}} data-spaceid={building.id} className="space-row d-flex justify-content-center flex-grow-1">{space.name}</span>
                                     )
                                 })
                             }

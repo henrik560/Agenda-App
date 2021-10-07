@@ -3109,6 +3109,7 @@ var header = /*#__PURE__*/function (_React$Component) {
       if (this.props.buildings.length > 0) {
         var element = this.props.buildings[0].map(function (building, index) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            "data-buildingid": building.id,
             className: "d-flex flex-column justify-content-center flex-grow-1 gap-1",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
               style: {
@@ -3126,6 +3127,7 @@ var header = /*#__PURE__*/function (_React$Component) {
                   style: {
                     backgroundColor: "#".concat(building.color_hex)
                   },
+                  "data-spaceid": building.id,
                   className: "space-row d-flex justify-content-center flex-grow-1",
                   children: space.name
                 }, index);
@@ -56030,14 +56032,18 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               _context.next = 2;
               return axios__WEBPACK_IMPORTED_MODULE_6___default().get('api/buildings/').then(function (response) {
                 var buildings = [];
+                var childElementsSpaces = [];
                 Object.values(response.data).map(function (el, id) {
                   buildings.push(el);
                 });
+                buildings.flat().forEach(function (building) {
+                  childElementsSpaces.push(building.spaces);
+                });
 
                 _this.setState({
-                  buildings: buildings
-                }); // this.changeFetchDataState()
-
+                  buildings: buildings,
+                  childElementsSpaces: childElementsSpaces
+                });
               });
 
             case 2:
@@ -56059,7 +56065,7 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
       list_day: _this.renderDaysInMonthArray(),
       day: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"],
       fetchedData: false,
-      childElementsLength: [],
+      childElementsSpaces: [],
       buildings: []
     };
     _this.renderDaysInMonthArray = _this.renderDaysInMonthArray.bind(_assertThisInitialized(_this));
@@ -56098,15 +56104,16 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      if (this.state.childElementsLength.length == 0) {
-        var childElementsLength = [];
+      if (this.state.childElementsSpaces.length == 0) {
+        var childElementsSpaces = [];
 
         _toConsumableArray(document.getElementsByClassName("space-row")).forEach(function (element) {
-          childElementsLength.push(element.clientWidth);
+          var elementID = element.getAttribute("data-spaceid");
+          childElementsSpaces.push(element.clientWidth);
         });
 
         this.setState({
-          childElementsLength: childElementsLength
+          childElementsSpaces: childElementsSpaces
         });
       }
     }
@@ -56175,7 +56182,7 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "time-grid flex-grow-1",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_body_content__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                childElements: this.state.childElementsLength
+                childElements: this.state.childElementsSpaces
               })
             })]
           })]

@@ -11,10 +11,10 @@ class BuildingController extends Controller
 {
     public function index()
     {
-        $building = Building::with("spaces")->get();
+        $building = Building::with("spaces", "spaces.reservations")->get();
 
         return response()->json([
-            'buildings' => $building
+            'buildings' => $building,
         ]);
     }
 

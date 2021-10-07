@@ -29,7 +29,7 @@ class Agenda extends React.Component {
             list_day : this.renderDaysInMonthArray(),
             day: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"],
             fetchedData: false,
-            childElementsLength: [],
+            childElementsSpaces: [],
             buildings: [],
         }
         this.renderDaysInMonthArray = this.renderDaysInMonthArray.bind(this)
@@ -49,10 +49,13 @@ class Agenda extends React.Component {
 
     fetchBuildings = async () => {
         await axios.get('api/buildings/').then(response => {
-            var buildings = [];
+            var buildings = [] 
+            var childElementsSpaces = [];
             Object.values(response.data).map((el, id) => { buildings.push(el) })
-            this.setState({ buildings })
-            // this.changeFetchDataState()
+            buildings.flat().forEach((building) => {
+                childElementsSpaces.push(building.spaces)
+            })
+            this.setState({ buildings, childElementsSpaces })
         });
      
     }
@@ -69,12 +72,13 @@ class Agenda extends React.Component {
     // }
 
     componentDidUpdate() {
-        if(this.state.childElementsLength.length == 0) {
-            var childElementsLength = [];
+        if(this.state.childElementsSpaces.length == 0) {
+            var childElementsSpaces = [];
             [...document.getElementsByClassName("space-row")].forEach((element) => {
-               childElementsLength.push(element.clientWidth)
+                const elementID = element.getAttribute("data-spaceid")
+                childElementsSpaces.push(element.clientWidth)
             })
-            this.setState({childElementsLength})
+            this.setState({childElementsSpaces})
         }
     }
  
@@ -107,7 +111,7 @@ class Agenda extends React.Component {
                         })}
                     </div>
                     <div className="time-grid flex-grow-1">
-                        <BodyContent childElements={this.state.childElementsLength}/>
+                        <BodyContent childElements={this.state.childElementsSpaces}/>
                     </div>
                 </div>
             </div>
