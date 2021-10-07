@@ -1,8 +1,9 @@
-import React, { Children } from 'react';
+import React from 'react';
 import ReactDom from 'react-dom'; 
 import Dropdown  from './components/dropdown';
 import Header from './components/header';
 import BodyContent from './components/body-content';
+import axios from 'axios';
 const moment = require('moment');
 moment.locale("nl")
 
@@ -29,10 +30,13 @@ class Agenda extends React.Component {
             day: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"],
             fetchedData: false,
             childElementsLength: [],
+            buildings: [],
         }
         this.renderDaysInMonthArray = this.renderDaysInMonthArray.bind(this)
         this.changeDate = this.changeDate.bind(this)
-        this.changeFetchDataState = this.changeFetchDataState.bind(this)
+        // this.changeFetchDataState = this.changeFetchDataState.bind(this)
+        this.fetchBuildings - this.fetchBuildings.bind(this)
+        this.fetchBuildings()
     }
 
     renderDaysInMonthArray() {
@@ -43,6 +47,16 @@ class Agenda extends React.Component {
         return daysInMonthArray
     }
 
+    fetchBuildings = async () => {
+        await axios.get('api/buildings/').then(response => {
+            var buildings = [];
+            Object.values(response.data).map((el, id) => { buildings.push(el) })
+            this.setState({ buildings })
+            // this.changeFetchDataState()
+        });
+     
+    }
+
     changeDate(dateType, newDate) {
         var validTypes = ["current_year", "current_month", "current_day"]
         if(validTypes.includes(dateType.toLowerCase()) && typeof newDate == "string") {
@@ -50,9 +64,9 @@ class Agenda extends React.Component {
         }
     }
 
-    changeFetchDataState() {
-        this.setState(prevState => ({ fetchedData: !prevState.fetchedData }));
-    }
+    // changeFetchDataState() {
+    //     this.setState(prevState => ({ fetchedData: !prevState.fetchedData }));
+    // }
 
     componentDidUpdate() {
         if(this.state.childElementsLength.length == 0) {
@@ -83,7 +97,7 @@ class Agenda extends React.Component {
                 <div className="header-container">
                     <div className="fake-header-time-item"></div>
                     <div className="sticky-header">
-                        <Header fetchedData={this.changeFetchDataState}/>
+                        <Header buildings={this.state.buildings}/>
                     </div>
                 </div>
                 <div className="content-container">

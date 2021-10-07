@@ -18,7 +18,7 @@ use App\Http\Controllers\UserController;
 //     return view('app');
 // });
 
-// Route::get('/dashboard', function () {
+// Route::get('/dashboard', function () {   
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 Route::group(["middleware" => ["auth"]], function () {
