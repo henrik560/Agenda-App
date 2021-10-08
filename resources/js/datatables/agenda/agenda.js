@@ -28,13 +28,12 @@ class Agenda extends React.Component {
             list_month : moment.months(),
             list_day : this.renderDaysInMonthArray(),
             day: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"],
-            fetchedData: false,
+            fetchedSpacesFromDom: false,
             childElementsSpaces: [],
             buildings: [],
         }
         this.renderDaysInMonthArray = this.renderDaysInMonthArray.bind(this)
         this.changeDate = this.changeDate.bind(this)
-        // this.changeFetchDataState = this.changeFetchDataState.bind(this)
         this.fetchBuildings - this.fetchBuildings.bind(this)
         this.fetchBuildings()
     }
@@ -53,11 +52,18 @@ class Agenda extends React.Component {
             var childElementsSpaces = [];
             Object.values(response.data).map((el, id) => { buildings.push(el) })
             buildings.flat().forEach((building) => {
-                childElementsSpaces.push(building.spaces)
+                var spaceWithReservation = []
+                building.spaces.forEach((space) => {
+                    spaceWithReservation[space.id] = []
+                    spaceWithReservation[space.id]["reservations"] = []
+                    space.reservations.forEach((reservation) => {
+                        spaceWithReservation[space.id]["reservations"].push(reservation)
+                    })
+                })  
+                childElementsSpaces.push(spaceWithReservation)
             })
             this.setState({ buildings, childElementsSpaces })
         });
-     
     }
 
     changeDate(dateType, newDate) {
@@ -67,18 +73,14 @@ class Agenda extends React.Component {
         }
     }
 
-    // changeFetchDataState() {
-    //     this.setState(prevState => ({ fetchedData: !prevState.fetchedData }));
-    // }
-
     componentDidUpdate() {
-        if(this.state.childElementsSpaces.length == 0) {
-            var childElementsSpaces = [];
+        if(this.state.fetchedSpacesFromDom == false) {
+            var childElementsSpaces = this.state.childElementsSpaces;
             [...document.getElementsByClassName("space-row")].forEach((element) => {
                 const elementID = element.getAttribute("data-spaceid")
-                childElementsSpaces.push(element.clientWidth)
+                childElementsSpaces[elementID].push(["width"])
             })
-            this.setState({childElementsSpaces})
+            this.setState({childElementsSpaces, fetchedSpacesFromDom: true})
         }
     }
  

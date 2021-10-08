@@ -6,14 +6,14 @@ export default class BodyContent extends React.Component {
     }
 
     componentDidMount() {
-        console.log('mount')
-        console.log(this.props.childElements)
+        // console.log('mount')
+        // console.log(this.props.childElements)
     }
 
     componentDidUpdate() {
-        console.log('update')
+        // console.log('update')
         this.props.childElements.map((e) => {
-            console.log(e)
+            // console.log(e)
         })
     }
 

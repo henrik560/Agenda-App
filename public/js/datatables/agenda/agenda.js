@@ -2880,16 +2880,14 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
 
   _createClass(BodyContent, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      console.log('mount');
-      console.log(this.props.childElements);
+    value: function componentDidMount() {// console.log('mount')
+      // console.log(this.props.childElements)
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      console.log('update');
-      this.props.childElements.map(function (e) {
-        console.log(e);
+      // console.log('update')
+      this.props.childElements.map(function (e) {// console.log(e)
       });
     }
   }, {
@@ -56037,7 +56035,15 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
                   buildings.push(el);
                 });
                 buildings.flat().forEach(function (building) {
-                  childElementsSpaces.push(building.spaces);
+                  var spaceWithReservation = [];
+                  building.spaces.forEach(function (space) {
+                    spaceWithReservation[space.id] = [];
+                    spaceWithReservation[space.id]["reservations"] = [];
+                    space.reservations.forEach(function (reservation) {
+                      spaceWithReservation[space.id]["reservations"].push(reservation);
+                    });
+                  });
+                  childElementsSpaces.push(spaceWithReservation);
                 });
 
                 _this.setState({
@@ -56064,13 +56070,12 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
       list_month: moment.months(),
       list_day: _this.renderDaysInMonthArray(),
       day: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"],
-      fetchedData: false,
+      fetchedSpacesFromDom: false,
       childElementsSpaces: [],
       buildings: []
     };
     _this.renderDaysInMonthArray = _this.renderDaysInMonthArray.bind(_assertThisInitialized(_this));
-    _this.changeDate = _this.changeDate.bind(_assertThisInitialized(_this)); // this.changeFetchDataState = this.changeFetchDataState.bind(this)
-
+    _this.changeDate = _this.changeDate.bind(_assertThisInitialized(_this));
     _this.fetchBuildings - _this.fetchBuildings.bind(_assertThisInitialized(_this));
 
     _this.fetchBuildings();
@@ -56097,23 +56102,21 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
       if (validTypes.includes(dateType.toLowerCase()) && typeof newDate == "string") {
         this.setState(_defineProperty({}, dateType, newDate));
       }
-    } // changeFetchDataState() {
-    //     this.setState(prevState => ({ fetchedData: !prevState.fetchedData }));
-    // }
-
+    }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      if (this.state.childElementsSpaces.length == 0) {
-        var childElementsSpaces = [];
+      if (this.state.fetchedSpacesFromDom == false) {
+        var childElementsSpaces = this.state.childElementsSpaces;
 
         _toConsumableArray(document.getElementsByClassName("space-row")).forEach(function (element) {
           var elementID = element.getAttribute("data-spaceid");
-          childElementsSpaces.push(element.clientWidth);
+          childElementsSpaces[elementID].push(["width"]);
         });
 
         this.setState({
-          childElementsSpaces: childElementsSpaces
+          childElementsSpaces: childElementsSpaces,
+          fetchedSpacesFromDom: true
         });
       }
     }
