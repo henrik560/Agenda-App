@@ -46560,7 +46560,7 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
     key: "filterListOnKeyWord",
     value: function filterListOnKeyWord(keyWord) {
       var buildingsArray = this.splitInChunks(this.state.buildings.filter(function (word) {
-        return word.name.toLocaleLowerCase().startsWith(keyWord);
+        return word.name.toLocaleLowerCase().includes(keyWord.toLocaleLowerCase());
       }), this.state.listAmount);
 
       if (buildingsArray.length == 0) {

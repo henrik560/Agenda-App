@@ -1,5 +1,5 @@
 import React from 'react';
-import { baseurl } from "../../../../tempConfg.json"
+import config from "../../../../tempConfg.json"
 
 export default class TableContentView extends React.Component {
     constructor(props) {
@@ -23,8 +23,8 @@ export default class TableContentView extends React.Component {
                         <div id="body-row" className="text-white d-flex justify-content-center align-items-center">{element.used_for_external_use == true ? `€${element.price_ex_vat}` : '-'}</div>
                         <div id="body-row" className="text-white d-flex justify-content-center align-items-center">
                             <div className="d-flex gap-3">
-                                <a className="text-white" href={`${baseurl}/buildings/editForm/${element.id}/`}><i className="fas fa-edit"></i></a>
-                                <a className="text-white" href={`${baseurl}/buildings/deleteForm/${element.id}/`}><i className="far fa-trash-alt"></i></a>
+                                <a className="text-white" href={`${config.baseurl}/buildings/editForm/${element.id}/`}><i className="fas fa-edit"></i></a>
+                                <a className="text-white" href={`${config.baseurl}/buildings/deleteForm/${element.id}/`}><i className="far fa-trash-alt"></i></a>
                             </div>
                         </div>
                     </div>)
