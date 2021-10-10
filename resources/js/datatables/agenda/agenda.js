@@ -52,15 +52,14 @@ class Agenda extends React.Component {
             var childElementsSpaces = [];
             Object.values(response.data).map((el, id) => { buildings.push(el) })
             buildings.flat().forEach((building) => {
-                var spaceWithReservation = []
                 building.spaces.forEach((space) => {
-                    spaceWithReservation[space.id] = []
-                    spaceWithReservation[space.id]["reservations"] = []
+                    childElementsSpaces[space.id] = []
+                    childElementsSpaces[space.id].reservations = []
+                    childElementsSpaces[space.id]["width"] = Number;
                     space.reservations.forEach((reservation) => {
-                        spaceWithReservation[space.id]["reservations"].push(reservation)
+                        childElementsSpaces[space.id].reservations.push(reservation)
                     })
-                })  
-                childElementsSpaces.push(spaceWithReservation)
+                })
             })
             this.setState({ buildings, childElementsSpaces })
         });
@@ -78,10 +77,13 @@ class Agenda extends React.Component {
             var childElementsSpaces = this.state.childElementsSpaces;
             [...document.getElementsByClassName("space-row")].forEach((element) => {
                 const elementID = element.getAttribute("data-spaceid")
-                childElementsSpaces[elementID].push(["width"])
+                console.log(element.clientWidth)
+                childElementsSpaces[elementID]["width"] = element.clientWidth
             })
             this.setState({childElementsSpaces, fetchedSpacesFromDom: true})
         }
+        console.log(this.state.buildings)
+        console.log(this.state.childElementsSpaces)
     }
  
     render() {
@@ -109,11 +111,18 @@ class Agenda extends React.Component {
                 <div className="content-container">
                     <div className="time-container">
                         {this.state.day.map((time) => {
-                            return (<span key={time}>{`${time}:00`}</span>)
+                            return (
+                                <div className="time-item">
+                                    <div className="time-item-container">
+                                        <span key={time}>{`${time}:00`}</span>
+                                        <span className="time-line"></span>
+                                    </div>
+                                </div>
+                            )
                         })}
                     </div>
-                    <div className="time-grid flex-grow-1">
-                        <BodyContent childElements={this.state.childElementsSpaces}/>
+                    <div id="time-grid-inner" className="time-grid flex-grow-1">
+                        <BodyContent childElements={this.state.childElementsSpaces} currentDate={`${this.state.current_year}-${this.month}-${this.state.current_day}`}/>
                     </div>
                 </div>
             </div>

@@ -102,6 +102,7 @@
 #view-building-wrapper #container-datatable #table-content #table-data #table-body #table-body-row a .body-row-name,
 #content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row a .body-row-name {
   transition: 250ms;
+  width: 100% !important;
 }
 #view-building-wrapper #container-datatable #table-content #table-data #table-body #table-body-row:nth-child(odd),
 #content-wrapper #container-datatable #table-content #table-data #table-body #table-body-row:nth-child(odd) {

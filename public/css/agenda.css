@@ -79,7 +79,7 @@
 }
 #agenda-wrapper .agenda .agenda-child-container {
   margin-top: 20px;
-  height: 350px;
+  height: 500px;
   background: radial-gradient(ellipse at center, #ec9b4f 0%, #F27500 100%);
   display: flex;
   flex-direction: column;
@@ -131,27 +131,39 @@
 #agenda-wrapper .agenda .agenda-child-container .content-container {
   display: flex;
   flex-direction: row;
-  margin-top: 60px;
+  margin-top: 66px;
   justify-content: space-between;
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-container {
   width: 100px;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-container span {
-  width: 100%;
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-container .time-item {
+  display: block;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-container .time-item .time-item-container {
+  width: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 35px;
-  border: 1px solid black;
-  margin-top: -1px;
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-container span:nth-child(1) {
-  margin-top: 0px !important;
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-container .time-item .time-item-container span {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 35px;
+  margin-left: 10px;
+  position: relative;
+  top: -17.5px;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-container .time-item .time-item-container span.time-line {
+  width: 50px;
+  height: 1px;
+  background-color: gray;
+  margin-right: 5px;
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item {
   width: 100%;
@@ -173,11 +185,4 @@
   border: 1px solid #F27500;
   height: 100%;
   position: relative;
-  background-color: red;
-}
-
-#text-truncate-with-flex {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }

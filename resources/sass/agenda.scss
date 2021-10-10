@@ -98,7 +98,7 @@
 
         .agenda-child-container {
             margin-top: 20px;
-            height: 350px;
+            height: 500px;
             background: radial-gradient(ellipse at center, $themeColorAccent 0%, $themeColor 100%);
             display: flex;
             flex-direction: column;
@@ -158,27 +158,41 @@
             .content-container {
                 display: flex;
                 flex-direction: row;
-                margin-top: 60px;
+                margin-top: 66px;
                 justify-content: space-between;
 
                 .time-container {
                     width: 100px;
                     display: flex;
                     justify-content: center;
-                    align-items: center;
                     flex-direction: column;
 
-                    span {
-                        width: 100%;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 35px;
-                        border: 1px solid black;
-                        margin-top: -1px;
+                    .time-item {
+                        display: block;
 
-                        &:nth-child(1) {
-                            margin-top: 0px !important;
+                        .time-item-container {
+                            width: 100px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+
+                            span {
+                                width: 100%;
+                                display: flex;
+                                justify-content: space-around;
+                                align-items: center;
+                                height: 35px;
+                                margin-left: 10px;
+                                position: relative;
+                                top: -17.5px;
+                            }
+
+                            span.time-line {
+                                width: 50px;
+                                height: 1px;
+                                background-color: gray;
+                                margin-right: 5px;
+                            }
                         }
                     }
                 }
@@ -204,33 +218,12 @@
                                 border: 1px solid $themeColor;
                                 height: 100%;
                                 position: relative;
-                                background-color: red;
                             }
-
-                            // &::after {
-                            //     position: relative;
-                            //     margin-top: -1px;
-                            //     width: 100%;
-                            //     content: "";
-                            //     z-index: 3;
-                            //     pointer-events: none;
-                            //     border-bottom: #dadce0 1px solid;
-                            // }
                         }
-
-
                     }
 
                 }
             }
         }
     }
-}
-
-
-
-#text-truncate-with-flex {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }

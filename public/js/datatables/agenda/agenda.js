@@ -2867,6 +2867,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var BodyContent = /*#__PURE__*/function (_React$Component) {
   _inherits(BodyContent, _React$Component);
 
@@ -2879,29 +2880,43 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(BodyContent, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {// console.log('mount')
-      // console.log(this.props.childElements)
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate() {
-      // console.log('update')
-      this.props.childElements.map(function (e) {// console.log(e)
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
+      var _this = this;
+
       if (this.props.childElements && this.props.childElements.length != 0) {
         var element = this.props.childElements.map(function (element, index) {
+          console.log(_this.props.currentDate);
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "grid-row",
             style: {
-              width: element
+              width: element.width
             },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              className: "reservation-card"
+            children: element.reservations.map(function (reservation) {
+              if (reservation.date == _this.props.currentDate) {
+                var start = reservation.starttime.split(":");
+                var end = reservation.endtime.split(":");
+                var cardMarginTop = (start[0] - 8) * 35 + Math.round(start[1] / 15) * 8.75;
+                var cardHeight = ((end[0] - 8) * 4 + Math.round(end[1] / 15) - (start[0] - 8) * 4 + Math.round(start[1] / 15)) * 8.75;
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  className: "reservation-card d-flex flex-column justify-content-around align-items-center",
+                  style: {
+                    marginLeft: 1,
+                    marginTop: cardMarginTop,
+                    width: element.width,
+                    backgroundColor: "rgb(".concat(Math.random() * 256, ",").concat(Math.random() * 256, ",").concat(Math.random() * 256, ")"),
+                    height: cardHeight
+                  },
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                    children: reservation.title
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+                    style: {
+                      fontSize: '0.75vw'
+                    },
+                    children: [reservation.starttime, " - ", reservation.endtime]
+                  })]
+                }, index);
+              }
             })
           }, index);
         });
@@ -3107,7 +3122,6 @@ var header = /*#__PURE__*/function (_React$Component) {
       if (this.props.buildings.length > 0) {
         var element = this.props.buildings[0].map(function (building, index) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            "data-buildingid": building.id,
             className: "d-flex flex-column justify-content-center flex-grow-1 gap-1",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
               style: {
@@ -3125,7 +3139,8 @@ var header = /*#__PURE__*/function (_React$Component) {
                   style: {
                     backgroundColor: "#".concat(building.color_hex)
                   },
-                  "data-spaceid": building.id,
+                  "data-spaceid": space.id,
+                  "data-buildingid": building.id,
                   className: "space-row d-flex justify-content-center flex-grow-1",
                   children: space.name
                 }, index);
@@ -55853,7 +55868,7 @@ if (false) {} else {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\xampp\\\\htdocs\\\\AgendaApp\\\\Agenda-App"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\xampp\\\\htdocs\\\\AgendaApp\\\\Agenda-App","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
 
 /***/ })
 
@@ -56035,15 +56050,14 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
                   buildings.push(el);
                 });
                 buildings.flat().forEach(function (building) {
-                  var spaceWithReservation = [];
                   building.spaces.forEach(function (space) {
-                    spaceWithReservation[space.id] = [];
-                    spaceWithReservation[space.id]["reservations"] = [];
+                    childElementsSpaces[space.id] = [];
+                    childElementsSpaces[space.id].reservations = [];
+                    childElementsSpaces[space.id]["width"] = Number;
                     space.reservations.forEach(function (reservation) {
-                      spaceWithReservation[space.id]["reservations"].push(reservation);
+                      childElementsSpaces[space.id].reservations.push(reservation);
                     });
                   });
-                  childElementsSpaces.push(spaceWithReservation);
                 });
 
                 _this.setState({
@@ -56111,7 +56125,8 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
 
         _toConsumableArray(document.getElementsByClassName("space-row")).forEach(function (element) {
           var elementID = element.getAttribute("data-spaceid");
-          childElementsSpaces[elementID].push(["width"]);
+          console.log(element.clientWidth);
+          childElementsSpaces[elementID]["width"] = element.clientWidth;
         });
 
         this.setState({
@@ -56119,6 +56134,9 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
           fetchedSpacesFromDom: true
         });
       }
+
+      console.log(this.state.buildings);
+      console.log(this.state.childElementsSpaces);
     }
   }, {
     key: "render",
@@ -56178,14 +56196,24 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "time-container",
               children: this.state.day.map(function (time) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-                  children: "".concat(time, ":00")
-                }, time);
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                  className: "time-item",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                    className: "time-item-container",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                      children: "".concat(time, ":00")
+                    }, time), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                      className: "time-line"
+                    })]
+                  })
+                });
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+              id: "time-grid-inner",
               className: "time-grid flex-grow-1",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_body_content__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                childElements: this.state.childElementsSpaces
+                childElements: this.state.childElementsSpaces,
+                currentDate: "".concat(this.state.current_year, "-").concat(this.month, "-").concat(this.state.current_day)
               })
             })]
           })]

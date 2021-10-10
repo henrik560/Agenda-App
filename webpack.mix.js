@@ -17,7 +17,7 @@ mix
     .js("resources/js/datatables/agenda/agenda.js", "public/js/datatables/agenda")
     .js("resources/js/datatables/buildings/buildingsOverview.js", "public/js/datatables/buildings")
     .js("resources/js/datatables/buildings/viewBuilding.js", "public/js/datatables/buildings")
-    .js("resources/js/datatables/users/user.js", "public/js/datatables/users")
+    .js("resources/js/datatables/users/usersOverview.js", "public/js/datatables/users")
     .react()
     .sass("resources/sass/app.scss", "public/css")
     .sass("resources/sass/login.scss", "public/css")

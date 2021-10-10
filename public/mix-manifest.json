@@ -4,7 +4,7 @@
     "/js/datatables/agenda/agenda.js": "/js/datatables/agenda/agenda.js",
     "/js/datatables/buildings/buildingsOverview.js": "/js/datatables/buildings/buildingsOverview.js",
     "/js/datatables/buildings/viewBuilding.js": "/js/datatables/buildings/viewBuilding.js",
-    "/js/datatables/users/user.js": "/js/datatables/users/user.js",
+    "/js/datatables/users/usersOverview.js": "/js/datatables/users/usersOverview.js",
     "/css/datatable.css": "/css/datatable.css",
     "/css/agenda.css": "/css/agenda.css",
     "/css/login.css": "/css/login.css",

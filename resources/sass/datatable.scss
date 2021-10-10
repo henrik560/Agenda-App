@@ -4,8 +4,8 @@
 // Variables
 @import 'variables';
 
-    #view-building-wrapper,
-    #content-wrapper {
+#view-building-wrapper,
+#content-wrapper {
     #container-datatable {
         width: clamp(50%, 700px, 90%);
         height: clamp(50%, 700px, 50%);
@@ -104,7 +104,7 @@
                                         background-color: white;
                                         transition: width .35s;
                                     }
-    
+
                                     &:hover::after {
                                         width: 100%;
                                     }
@@ -123,8 +123,9 @@
 
                             .body-row-name {
                                 transition: 250ms;
+                                width: 100% !important;
                             }
-                        }   
+                        }
 
                         &:nth-child(odd) {
                             background-color: rgba(255, 255, 255, 0.15);
