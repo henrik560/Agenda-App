@@ -8,7 +8,6 @@ export default class BodyContent extends React.Component {
     render() {
         if(this.props.childElements && this.props.childElements.length != 0) {
             var element = this.props.childElements.map((element, index) => {
-                console.log(this.props.currentDate)
                 return (
                 <div key={index} className="grid-row" style={{width: element.width}}>
                     { element.reservations.map(reservation => {

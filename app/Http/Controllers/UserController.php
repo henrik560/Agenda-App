@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index()
     {
 
-        $user = User::with("userHasBuilding.building")->get();
+        $user = User::with("userHasBuildings.building", "userHasBuildings.building.spaces", "userHasBuildings.building.spaces.reservations")->where("users.id", auth()->user()->id)->get();
 
         return response()->json([
             'users' => $user

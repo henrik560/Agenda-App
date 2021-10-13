@@ -47,10 +47,10 @@ class Agenda extends React.Component {
     }
 
     fetchBuildings = async () => {
-        await axios.get('api/buildings/').then(response => {
+        await axios.get('api/users/').then(response => {
             var buildings = [] 
             var childElementsSpaces = [];
-            Object.values(response.data).map((el, id) => { buildings.push(el) })
+            Object.values(response.data)[0][0].user_has_buildings.map((el, id) => { buildings.push(el.building) })
             buildings.flat().forEach((building) => {
                 building.spaces.forEach((space) => {
                     childElementsSpaces[space.id] = []
@@ -77,13 +77,10 @@ class Agenda extends React.Component {
             var childElementsSpaces = this.state.childElementsSpaces;
             [...document.getElementsByClassName("space-row")].forEach((element) => {
                 const elementID = element.getAttribute("data-spaceid")
-                console.log(element.clientWidth)
                 childElementsSpaces[elementID]["width"] = element.clientWidth
             })
             this.setState({childElementsSpaces, fetchedSpacesFromDom: true})
         }
-        console.log(this.state.buildings)
-        console.log(this.state.childElementsSpaces)
     }
  
     render() {
