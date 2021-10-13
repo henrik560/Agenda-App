@@ -47,4 +47,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Building::class);
     }
+
+    public function userHasBuilding()
+    {
+        return $this->hasMany(User_has_building::class);
+    }
+
 }

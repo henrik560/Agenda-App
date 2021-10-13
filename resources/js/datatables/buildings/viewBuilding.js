@@ -58,7 +58,7 @@ class ViewBuilding extends React.Component {
     }
 
     filterListOnKeyWord(keyWord) {
-        var spacesArray = this.splitInChunks(this.state.building.space.filter((word) => word.name.toLocaleLowerCase().startsWith(keyWord)), this.state.listAmount)
+        var spacesArray = this.splitInChunks(this.state.building.space.filter((word) => word.name.toLocaleLowerCase().includes(keyWord.toLocaleLowerCase())), this.state.listAmount)
         if(spacesArray.length == 0) {
             this.setState({noResults: true, spaces: spacesArray, searchKeyWord: keyWord})
         }else {

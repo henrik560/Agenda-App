@@ -13,7 +13,7 @@ class CreateUserHasBuildingTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_has_building', function (Blueprint $table) {
+        Schema::create('user_has_buildings', function (Blueprint $table) {
             $table->integer("user_id");
             $table->integer("building_id");
             $table->timestamps();

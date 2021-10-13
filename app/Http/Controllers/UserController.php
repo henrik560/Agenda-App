@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index()
     {
 
-        $user = User::all();
+        $user = User::with("userHasBuilding.building")->get();
 
         return response()->json([
             'users' => $user

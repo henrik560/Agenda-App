@@ -4,6 +4,25 @@
 // Variables
 @import 'variables';
 
+.head-row-150,
+.body-row-150 {
+    width: 150px !important;
+}
+
+.users-overview-row {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#row-name {
+    text-align: center;
+}
+
+.table-row-max-height {
+    height: 100% !important;
+}
+
+
 #view-building-wrapper,
 #content-wrapper {
     #container-datatable {
@@ -11,6 +30,7 @@
         height: clamp(50%, 700px, 50%);
         margin-top: 100px;
         border-radius: 25px;
+        margin-bottom: 25px;
         background: radial-gradient(ellipse at center, $themeColorAccent 0%, $themeColor 100%);
 
         #table-head {

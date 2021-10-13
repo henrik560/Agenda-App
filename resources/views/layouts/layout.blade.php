@@ -64,7 +64,7 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
-                @endauth
+                @endauth    
                 @guest
                     <li class="nav-item">
                         <a class="nav-link" id="login" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i>Inloggen</a>
