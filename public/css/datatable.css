@@ -1,10 +1,29 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
+.head-row-150,
+.body-row-150 {
+  width: 150px !important;
+}
+
+.users-overview-row {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#row-name {
+  text-align: center;
+}
+
+.table-row-max-height {
+  height: 100% !important;
+}
+
 #view-building-wrapper #container-datatable,
 #content-wrapper #container-datatable {
   width: clamp(50%, 700px, 90%);
   height: clamp(50%, 700px, 50%);
   margin-top: 100px;
   border-radius: 25px;
+  margin-bottom: 25px;
   background: radial-gradient(ellipse at center, #ec9b4f 0%, #F27500 100%);
 }
 #view-building-wrapper #container-datatable #table-head #searchbbar-input,

@@ -19,20 +19,15 @@ class UserController extends Controller
         return view("users.overview", $data);
     }
 
-    //v-- userWithBuilding
     public function index()
     {
+
+        $user = User::with("userHasBuilding.building")->get();
+
         return response()->json([
-            'users' => User::with("buildings")->get()
+            'users' => $user
         ]);
     }
-
-    // public function index()
-    // {
-    //     return response()->json([
-    //         'users' => User::all()
-    //     ]);
-    // }
     /**
      * Show the form for creating a new resource.
      *
@@ -62,8 +57,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $user = User::where("id", $id)->with("spaces")->get();
+
         return response()->json([
-            'user' => User::where("id", $id)->with("spaces")->get()
+            'user' => $user,
         ]);
     }
 
