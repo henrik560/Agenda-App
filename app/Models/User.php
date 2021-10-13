@@ -45,6 +45,16 @@ class User extends Authenticatable
 
     public function buildings()
     {
-        return $this->hasMany(Building::class);
+        return $this->hasMany(User_has_building::class)->with("building");
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isManager()
+    {
+        return $this->role === 'manager';
     }
 }

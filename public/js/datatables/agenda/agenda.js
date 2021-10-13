@@ -2952,6 +2952,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -3029,7 +3031,6 @@ var dropDown = /*#__PURE__*/function (_React$Component) {
             "data-toggle": "collapse",
             "data-target": "#" + this.props.dataTarget,
             "aria-controls": "dropdown-list",
-            "aria-expanded": "false",
             onClick: this.toggleState,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
               className: "fas fa-arrow-down transition-350ms ".concat(this.state.menuToggled ? "rotate-180deg" : "rotate-0deg")
@@ -3044,13 +3045,16 @@ var dropDown = /*#__PURE__*/function (_React$Component) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "dropdown-items-wrapper",
               children: this.state.list.map(function (element, index) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                var _jsx2;
+
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", (_jsx2 = {
                   onClick: function onClick(e) {
                     _this2.toggleActive(e);
                   },
                   className: "list-item text-truncate text-center",
-                  children: element
-                }, "".concat(element));
+                  "data-toggle": "collapse",
+                  "data-target": "#" + _this2.props.dataTarget
+                }, _defineProperty(_jsx2, "onClick", _this2.toggleState), _defineProperty(_jsx2, "aria-controls", "dropdown-list"), _defineProperty(_jsx2, "children", element), _jsx2), "".concat(element));
               })
             })
           })

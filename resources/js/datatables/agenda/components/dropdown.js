@@ -29,7 +29,7 @@ export default class dropDown extends React.Component {
             <div className="dropdown-menu-container d-flex flex-column justify-content-center align-items-center">   
                 <div className="dropdown-first-child d-flex justify-content-around align-items-center">
                     <div className="dropdown-menu-title fs-5">{this.state.title}</div>
-                    <div className="dropdown-icon" data-toggle="collapse" data-target={"#"+this.props.dataTarget} aria-controls="dropdown-list" aria-expanded="false" onClick={this.toggleState}>
+                    <div className="dropdown-icon" data-toggle="collapse" data-target={"#"+this.props.dataTarget} aria-controls="dropdown-list" onClick={this.toggleState}>
                         <i className={ `fas fa-arrow-down transition-350ms ${this.state.menuToggled ? `rotate-180deg` : `rotate-0deg`}`}></i>
                     </div>
                 </div>
@@ -37,7 +37,7 @@ export default class dropDown extends React.Component {
                     <div id={this.props.dataTarget} className="dropdown-list bg-themeColor collapse position-absolute">
                         <div className="dropdown-items-wrapper">
                             {this.state.list.map((element, index) => {
-                                return <div onClick={(e) => { this.toggleActive(e) }} className="list-item text-truncate text-center" key={`${element}`}>{element}</div>
+                                return <div onClick={(e) => { this.toggleActive(e) }} className="list-item text-truncate text-center" data-toggle="collapse" data-target={"#"+this.props.dataTarget} onClick={this.toggleState} aria-controls="dropdown-list" key={`${element}`}>{element}</div>
                             })}
                         </div>
                     </div>  

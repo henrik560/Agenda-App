@@ -11,7 +11,7 @@ class Building extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User_has_building::class)->with("user");
     }
 
     public function spaces()

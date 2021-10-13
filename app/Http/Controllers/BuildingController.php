@@ -17,6 +17,14 @@ class BuildingController extends Controller
             'buildings' => $building,
         ]);
     }
+    // public function getBuildingWithUserThatHasTheBuilding()
+    // {
+    //     $building = Building::with("users")->get();
+
+    //     return response()->json([
+    //         'buildings' => $building,
+    //     ]);
+    // }
 
     /**
      * Show the form for creating a new resource.

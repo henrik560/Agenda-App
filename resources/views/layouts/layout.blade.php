@@ -48,12 +48,14 @@
                 <li class="nav-item">
                     <a class="nav-link" id="agenda" href="{{ url("agenda")}}"><i class="fas fa-calendar-week"></i>Agenda</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="buildings" href="{{ url("buildings/overview")}}"><i class="far fa-building"></i>Gebouwen</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="users" href="{{ url("users/overview")}}"><i class="fas fa-users"></i>Gebruikers</a>
-                </li>
+                @if (isset($userRole) && $userRole == "admin")
+                    <li class="nav-item">
+                        <a class="nav-link" id="buildings" href="{{ url("buildings/overview")}}"><i class="far fa-building"></i>Gebouwen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="users" href="{{ url("users/overview")}}"><i class="fas fa-users"></i>Gebruikers</a>
+                    </li>
+                @endif
                 <li class="nav-item">
                     <a class="nav-link" id="export" href="{{ url("export")}}"><i class="fas fa-file-excel"></i>Exporteren</a>
                 </li>
