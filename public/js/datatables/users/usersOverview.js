@@ -46438,7 +46438,7 @@ var Users = /*#__PURE__*/function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "setListAmount", /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
-        var newAmount, buildingsInChunks;
+        var newAmount, usersInChunks;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -46449,15 +46449,15 @@ var Users = /*#__PURE__*/function (_React$Component) {
 
               case 3:
                 _context.next = 5;
-                return _this.splitInChunks(_this.state.buildings, newAmount);
+                return _this.splitInChunks(_this.state.users, newAmount);
 
               case 5:
-                buildingsInChunks = _context.sent;
+                usersInChunks = _context.sent;
                 _context.next = 8;
                 return _this.setState({
-                  buildingsInChunks: buildingsInChunks,
+                  usersInChunks: usersInChunks,
                   listAmount: newAmount,
-                  currentPage: _this.state.currentPage <= buildingsInChunks.length ? _this.state.currentPage : buildingsInChunks.length
+                  currentPage: _this.state.currentPage <= usersInChunks.length ? _this.state.currentPage : usersInChunks.length
                 });
 
               case 8:
@@ -46477,26 +46477,26 @@ var Users = /*#__PURE__*/function (_React$Component) {
       };
     }());
 
-    _defineProperty(_assertThisInitialized(_this), "fetchBuildings", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+    _defineProperty(_assertThisInitialized(_this), "fetchusers", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               _this.setState({
                 refresh: true,
-                buildingsInChunks: []
+                usersInChunks: []
               });
 
               _context2.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_6___default().get("".concat(_tempConfg_json__WEBPACK_IMPORTED_MODULE_7__.baseurl, "/api/users/")).then(function (response) {
-                var buildings = [];
+                var users = [];
                 Object.values(response.data).flat().map(function (el, id) {
-                  return buildings.push(el);
+                  return users.push(el);
                 });
 
                 _this.setState({
-                  buildingsInChunks: _this.splitInChunks(buildings, _this.state.listAmount),
-                  buildings: buildings
+                  usersInChunks: _this.splitInChunks(users, _this.state.listAmount),
+                  users: users
                 });
               });
 
@@ -46517,8 +46517,8 @@ var Users = /*#__PURE__*/function (_React$Component) {
       openModal: false,
       listAmount: 8,
       currentPage: 1,
-      buildings: [],
-      buildingsInChunks: [],
+      users: [],
+      usersInChunks: [],
       refresh: false,
       noResults: false,
       searchKeyWord: ''
@@ -46530,9 +46530,9 @@ var Users = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.setModalState = this.setModalState.bind(this);
-      this.fetchBuildings = this.fetchBuildings.bind(this);
+      this.fetchUsers = this.fetchUsers.bind(this);
       this.setCurrentPage = this.setCurrentPage.bind(this);
-      this.fetchBuildings();
+      this.fetchUsers();
     }
   }, {
     key: "setModalState",
@@ -46563,21 +46563,21 @@ var Users = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "filterListOnKeyWord",
     value: function filterListOnKeyWord(keyWord) {
-      var buildingsArray = this.splitInChunks(this.state.buildings.filter(function (word) {
+      var usersArray = this.splitInChunks(this.state.users.filter(function (word) {
         return word.name.toLocaleLowerCase().includes(keyWord.toLocaleLowerCase());
       }), this.state.listAmount);
 
-      if (buildingsArray.length == 0) {
+      if (usersArray.length == 0) {
         this.setState({
           noResults: true,
-          buildingsInChunks: buildingsArray,
+          usersInChunks: usersArray,
           searchKeyWord: keyWord
         });
       } else {
         this.setState({
           noResults: false,
-          buildingsInChunks: buildingsArray,
-          currentPage: this.state.currentPage <= buildingsArray.length ? this.state.currentPage : buildingsArray.length
+          usersInChunks: usersArray,
+          currentPage: this.state.currentPage <= usersArray.length ? this.state.currentPage : usersArray.length
         });
       }
     }
@@ -46610,7 +46610,7 @@ var Users = /*#__PURE__*/function (_React$Component) {
               id: "searchbbar-input"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
               id: "refresh-datatable",
-              onClick: this.fetchBuildings,
+              onClick: this.fetchUsers,
               className: "d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ".concat(this.state.refresh ? "rotate-360-linair" : ""),
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
                 className: "fas fa-sync-alt"
@@ -46671,7 +46671,7 @@ var Users = /*#__PURE__*/function (_React$Component) {
               className: "d-flex flex-grow-1 flex-column",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_table_content__WEBPACK_IMPORTED_MODULE_4__["default"], {
                 loading: this.state.refresh,
-                buildings: this.state.buildingsInChunks,
+                users: this.state.usersInChunks,
                 searchError: this.state.noResults,
                 listAmount: this.state.listAmount,
                 currentPage: this.state.currentPage - 1
@@ -46710,7 +46710,7 @@ var Users = /*#__PURE__*/function (_React$Component) {
                 id: "pages-icons",
                 className: "d-flex",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_page_selector__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                  buildings: this.state.buildingsInChunks,
+                  users: this.state.usersInChunks,
                   searchError: this.state.noResults,
                   currentPage: this.state.currentPage,
                   setCurrentPage: function setCurrentPage(e) {

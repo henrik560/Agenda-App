@@ -84,6 +84,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 #agenda-wrapper .agenda .agenda-child-container::-webkit-scrollbar {
   width: 10px;
@@ -159,11 +160,15 @@
   position: relative;
   top: -17.5px;
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-container .time-item .time-item-container span.time-line {
-  width: 50px;
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-container .time-item::after {
+  content: "";
+  position: relative;
+  width: 1000%;
   height: 1px;
-  background-color: gray;
-  margin-right: 5px;
+  background-color: rgba(128, 128, 128, 0.5);
+  display: block;
+  top: -35px;
+  left: 83px;
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item {
   width: 100%;
@@ -182,7 +187,6 @@
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card {
   width: 90%;
-  border: 1px solid #F27500;
   height: 100%;
   position: relative;
 }

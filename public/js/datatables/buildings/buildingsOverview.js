@@ -46278,7 +46278,7 @@ function __classPrivateFieldSet(receiver, state, value, kind, f) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\xampp\\\\htdocs\\\\AgendaApp\\\\Agenda-App"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\xampp\\\\htdocs\\\\AgendaApp\\\\Agenda-App","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
 
 /***/ }),
 
@@ -46483,7 +46483,21 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
                 buildingsInChunks: []
               });
 
-              _context2.next = 3;
+              if (!localStorage.getItem("buildings")) {
+                _context2.next = 5;
+                break;
+              }
+
+              _this.setState({
+                buildings: JSON.parse(localStorage.getItem("buildings")),
+                buildingsInChunks: _this.splitInChunks(JSON.parse(localStorage.getItem("buildings")), _this.state.listAmount)
+              });
+
+              _context2.next = 7;
+              break;
+
+            case 5:
+              _context2.next = 7;
               return axios__WEBPACK_IMPORTED_MODULE_6___default().get("".concat(_tempConfg_json__WEBPACK_IMPORTED_MODULE_7__.baseurl, "/api/buildings/")).then(function (response) {
                 var buildings = [];
                 Object.values(response.data).flat().map(function (el, id) {
@@ -46494,14 +46508,20 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
                   buildingsInChunks: _this.splitInChunks(buildings, _this.state.listAmount),
                   buildings: buildings
                 });
+
+                try {
+                  localStorage.setItem("buildings", JSON.stringify(buildings));
+                } catch (e) {
+                  console.log("LocaleStorage is full!");
+                }
               });
 
-            case 3:
+            case 7:
               _this.setState({
                 refresh: false
               });
 
-            case 4:
+            case 8:
             case "end":
               return _context2.stop();
           }
@@ -46528,6 +46548,7 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
       this.setModalState = this.setModalState.bind(this);
       this.fetchBuildings = this.fetchBuildings.bind(this);
       this.setCurrentPage = this.setCurrentPage.bind(this);
+      this.refreshData = this.refreshData.bind(this);
       this.fetchBuildings();
     }
   }, {
@@ -46536,6 +46557,12 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
       this.setState({
         openModal: this.state.openModal ? !this.state.openModal : true
       });
+    }
+  }, {
+    key: "refreshData",
+    value: function refreshData() {
+      localStorage.clear();
+      this.fetchBuildings();
     }
   }, {
     key: "splitInChunks",
@@ -46606,7 +46633,7 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
               id: "searchbbar-input"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
               id: "refresh-datatable",
-              onClick: this.fetchBuildings,
+              onClick: this.refreshData,
               className: "d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ".concat(this.state.refresh ? "rotate-360-linair" : ""),
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
                 className: "fas fa-sync-alt"

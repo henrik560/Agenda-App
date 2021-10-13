@@ -14,8 +14,8 @@ class Users extends React.Component {
             openModal: false,
             listAmount: 8,
             currentPage: 1,
-            buildings: [],
-            buildingsInChunks: [],
+            users: [],
+            usersInChunks: [],
             refresh: false,
             noResults: false,
             searchKeyWord: '',
@@ -24,9 +24,9 @@ class Users extends React.Component {
 
     componentDidMount() {
         this.setModalState = this.setModalState.bind(this)
-        this.fetchBuildings = this.fetchBuildings.bind(this);
+        this.fetchUsers = this.fetchUsers.bind(this);
         this.setCurrentPage = this.setCurrentPage.bind(this);
-        this.fetchBuildings();
+        this.fetchUsers();
     }
 
     setModalState() {
@@ -36,17 +36,17 @@ class Users extends React.Component {
     setListAmount = async (e) => {
         var newAmount = parseInt(e.target.innerHTML)
         await this.setModalState()
-        var buildingsInChunks = await this.splitInChunks(this.state.buildings, newAmount)
-        await this.setState({buildingsInChunks: buildingsInChunks, listAmount: newAmount, currentPage: this.state.currentPage <= buildingsInChunks.length ? this.state.currentPage : buildingsInChunks.length})
+        var usersInChunks = await this.splitInChunks(this.state.users, newAmount)
+        await this.setState({usersInChunks: usersInChunks, listAmount: newAmount, currentPage: this.state.currentPage <= usersInChunks.length ? this.state.currentPage : usersInChunks.length})
         await this.filterListOnKeyWord(this.state.searchKeyWord)
     }
 
-    fetchBuildings = async () => {
-        this.setState({ refresh: true, buildingsInChunks: [] })
+    fetchusers = async () => {
+        this.setState({ refresh: true, usersInChunks: [] })
         await axios.get(`${config.baseurl}/api/users/`).then(response => {
-            var buildings = [];
-            Object.values(response.data).flat().map((el, id) => buildings.push(el))
-            this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings })
+            var users = [];
+            Object.values(response.data).flat().map((el, id) => users.push(el))
+            this.setState({ usersInChunks: this.splitInChunks(users, this.state.listAmount), users })
         })
         this.setState({refresh: false})
     }
@@ -65,11 +65,11 @@ class Users extends React.Component {
     }
 
     filterListOnKeyWord(keyWord) {
-        var buildingsArray = this.splitInChunks(this.state.buildings.filter((word) => word.name.toLocaleLowerCase().includes(keyWord.toLocaleLowerCase())), this.state.listAmount)
-        if(buildingsArray.length == 0) {
-            this.setState({noResults: true, buildingsInChunks: buildingsArray, searchKeyWord: keyWord})
+        var usersArray = this.splitInChunks(this.state.users.filter((word) => word.name.toLocaleLowerCase().includes(keyWord.toLocaleLowerCase())), this.state.listAmount)
+        if(usersArray.length == 0) {
+            this.setState({noResults: true, usersInChunks: usersArray, searchKeyWord: keyWord})
         }else {
-            this.setState({noResults: false, buildingsInChunks: buildingsArray, currentPage: this.state.currentPage <= buildingsArray.length ? this.state.currentPage : buildingsArray.length})
+            this.setState({noResults: false, usersInChunks: usersArray, currentPage: this.state.currentPage <= usersArray.length ? this.state.currentPage : usersArray.length})
         }
     }
 
@@ -84,7 +84,7 @@ class Users extends React.Component {
             <div id="table-head" className="mt-3 w-full d-flex justify-content-end align-items-end">
                 <div id="table-buttons-container" className="d-flex justify-content-end align-items-end gap-3 pr-3">
                     <input placeholder="Zoeken" onChange={(e) => this.searchbar(e)} className="border-white-1 text-white" id="searchbbar-input"></input>
-                    <div id="refresh-datatable" onClick={this.fetchBuildings} className={`d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ${this.state.refresh ? `rotate-360-linair` : ``}`}>
+                    <div id="refresh-datatable" onClick={this.fetchUsers} className={`d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ${this.state.refresh ? `rotate-360-linair` : ``}`}>
                         <i className="fas fa-sync-alt"></i>
                     </div>
                 </div>
@@ -111,7 +111,7 @@ class Users extends React.Component {
                         </div>
                     </div>
                     <div id="table-body" className="d-flex flex-grow-1 flex-column">
-                        <TableContent loading={this.state.refresh} buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
+                        <TableContent loading={this.state.refresh} users={ this.state.usersInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
                     </div>
                     <div id="table-footer" className="mt-3 ml-2 mb-3 d-flex flex-row justify-content-between">
                             <Modal openModal={this.state.openModal} current={this.state.listAmount} setListAmount={(e) => {this.setListAmount(e)}} />
@@ -125,7 +125,7 @@ class Users extends React.Component {
                             </div>
                         </div>
                         <div id="pages-icons" className="d-flex">
-                            <TablePageSelector buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} currentPage={this.state.currentPage} setCurrentPage={(e) => { this.setCurrentPage(e) }} />
+                            <TablePageSelector users={ this.state.usersInChunks } searchError={this.state.noResults} currentPage={this.state.currentPage} setCurrentPage={(e) => { this.setCurrentPage(e) }} />
                         </div>
                     </div>
                 </div>

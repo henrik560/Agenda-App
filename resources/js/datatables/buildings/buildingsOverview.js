@@ -23,9 +23,10 @@ class BuildingsOverview extends React.Component {
     }
 
     componentDidMount() {
-        this.setModalState = this.setModalState.bind(this)
+        this.setModalState = this.setModalState.bind(this);
         this.fetchBuildings = this.fetchBuildings.bind(this);
         this.setCurrentPage = this.setCurrentPage.bind(this);
+        this.refreshData = this.refreshData.bind(this);
         this.fetchBuildings();
     }
 
@@ -43,12 +44,26 @@ class BuildingsOverview extends React.Component {
 
     fetchBuildings = async () => {
         this.setState({ refresh: true, buildingsInChunks: [] })
-        await axios.get(`${config.baseurl}/api/buildings/`).then(response => {
-            var buildings = [];
-            Object.values(response.data).flat().map((el, id) => buildings.push(el))
-            this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings })
-        })
+        if(localStorage.getItem("buildings")) {
+            this.setState({buildings: JSON.parse(localStorage.getItem("buildings")), buildingsInChunks: this.splitInChunks(JSON.parse(localStorage.getItem("buildings")), this.state.listAmount)})
+        }else {
+            await axios.get(`${config.baseurl}/api/buildings/`).then(response => {
+                var buildings = [];
+                Object.values(response.data).flat().map((el, id) => buildings.push(el));
+                this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings });
+                try {
+                    localStorage.setItem("buildings", JSON.stringify(buildings))
+                }catch(e) {
+                    console.log("LocaleStorage is full!");
+                }
+            })
+        }
         this.setState({refresh: false})
+    }
+
+    refreshData() {
+        localStorage.clear();
+        this.fetchBuildings()
     }
 
     splitInChunks(array, size) {
@@ -84,7 +99,7 @@ class BuildingsOverview extends React.Component {
             <div id="table-head" className="mt-3 w-full d-flex justify-content-end align-items-end">
                 <div id="table-buttons-container" className="d-flex justify-content-end align-items-end gap-3 pr-3">
                     <input placeholder="Zoeken" onChange={(e) => this.searchbar(e)} className="border-white-1 text-white" id="searchbbar-input"></input>
-                    <div id="refresh-datatable" onClick={this.fetchBuildings} className={`d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ${this.state.refresh ? `rotate-360-linair` : ``}`}>
+                    <div id="refresh-datatable" onClick={this.refreshData} className={`d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ${this.state.refresh ? `rotate-360-linair` : ``}`}>
                         <i className="fas fa-sync-alt"></i>
                     </div>
                 </div>

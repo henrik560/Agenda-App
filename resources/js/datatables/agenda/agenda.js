@@ -4,6 +4,7 @@ import Dropdown  from './components/dropdown';
 import Header from './components/header';
 import BodyContent from './components/body-content';
 import axios from 'axios';
+import { locale } from 'moment';
 const moment = require('moment');
 moment.locale("nl")
 
@@ -35,7 +36,6 @@ class Agenda extends React.Component {
         this.renderDaysInMonthArray = this.renderDaysInMonthArray.bind(this)
         this.changeDate = this.changeDate.bind(this)
         this.fetchBuildings - this.fetchBuildings.bind(this)
-        this.fetchBuildings()
     }
 
     renderDaysInMonthArray() {
@@ -47,22 +47,34 @@ class Agenda extends React.Component {
     }
 
     fetchBuildings = async () => {
-        await axios.get('api/users/').then(response => {
-            var buildings = [] 
-            var childElementsSpaces = [];
-            Object.values(response.data)[0][0].user_has_buildings.map((el, id) => { buildings.push(el.building) })
-            buildings.flat().forEach((building) => {
-                building.spaces.forEach((space) => {
-                    childElementsSpaces[space.id] = []
-                    childElementsSpaces[space.id].reservations = []
-                    childElementsSpaces[space.id]["width"] = Number;
-                    space.reservations.forEach((reservation) => {
-                        childElementsSpaces[space.id].reservations.push(reservation)
+        //agendaChildElementsSpaces
+        //agendaBuildings
+        if(localStorage.getItem("agendaBuildings") && localStorage.getItem("agendaChildElementsSpaces")) {
+            if(localStorage.getItem("agendaBuildings")) {
+                this.setState({buildings: JSON.parse(localStorage.getItem("agendaBuildings"))})
+            }
+            if(localStorage.getItem("agendaChildElementsSpaces")) {
+                this.setState({childElementsSpaces: JSON.parse(localStorage.getItem("agendaChildElementsSpaces"))})
+            }
+        }else {
+            await axios.get('api/users/').then(response => {
+                var buildings = [] 
+                var childElementsSpaces = [];
+                Object.values(response.data)[0][0].user_has_buildings.map((el, id) => { buildings.push(el.building) })
+                buildings.forEach((building) => {
+                    building.spaces.forEach((space) => {
+                        childElementsSpaces[space.id] = {}
+                        childElementsSpaces[space.id].reservations = []
+                        childElementsSpaces[space.id].width = Number;
+                        space.reservations.forEach((reservation) => {
+                            childElementsSpaces[space.id].reservations.push(reservation)
+                        })
                     })
                 })
-            })
-            this.setState({ buildings, childElementsSpaces })
-        });
+                this.setState({ buildings, childElementsSpaces })
+                localStorage.setItem("agendaBuildings", JSON.stringify(this.state.buildings))
+            });
+        }
     }
 
     changeDate(dateType, newDate) {
@@ -70,6 +82,10 @@ class Agenda extends React.Component {
         if(validTypes.includes(dateType.toLowerCase()) && typeof newDate == "string") {
             this.setState({[dateType]: newDate})
         }
+    }
+
+    componentDidMount() {
+        this.fetchBuildings()
     }
 
     componentDidUpdate() {
@@ -80,7 +96,11 @@ class Agenda extends React.Component {
                 childElementsSpaces[elementID]["width"] = element.clientWidth
             })
             this.setState({childElementsSpaces, fetchedSpacesFromDom: true})
+            setTimeout(() => {
+                localStorage.setItem("agendaChildElementsSpaces", JSON.stringify(childElementsSpaces))
+            }, 100);
         }
+        
     }
  
     render() {
@@ -112,7 +132,6 @@ class Agenda extends React.Component {
                                 <div className="time-item">
                                     <div className="time-item-container">
                                         <span key={time}>{`${time}:00`}</span>
-                                        <span className="time-line"></span>
                                     </div>
                                 </div>
                             )
