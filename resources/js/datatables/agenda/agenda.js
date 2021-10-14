@@ -60,17 +60,19 @@ class Agenda extends React.Component {
             await axios.get('api/users/').then(response => {
                 var buildings = [] 
                 var childElementsSpaces = [];
-                Object.values(response.data)[0][0].user_has_buildings.map((el, id) => { buildings.push(el.building) })
-                buildings.forEach((building) => {
-                    building.spaces.forEach((space) => {
-                        childElementsSpaces[space.id] = {}
-                        childElementsSpaces[space.id].reservations = []
-                        childElementsSpaces[space.id].width = Number;
-                        space.reservations.forEach((reservation) => {
-                            childElementsSpaces[space.id].reservations.push(reservation)
-                        })
+                Object.values(response.data)[0][0].user_has_buildings.map((el, id) => { if(el.building != null) { buildings.push(el.building) } })
+                    buildings.forEach((building) => {
+                        if(building && building.spaces.length > 0) {
+                            building.spaces.forEach((space) => {
+                                childElementsSpaces[space.id] = {}
+                                childElementsSpaces[space.id].reservations = []
+                                childElementsSpaces[space.id].width = Number;
+                                space.reservations.forEach((reservation) => {
+                                    childElementsSpaces[space.id].reservations.push(reservation)
+                                })
+                            })
+                        }
                     })
-                })
                 this.setState({ buildings, childElementsSpaces })
                 localStorage.setItem("agendaBuildings", JSON.stringify(this.state.buildings))
             });
