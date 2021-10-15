@@ -67,6 +67,8 @@ class Agenda extends React.Component {
                                 childElementsSpaces[space.id] = {}
                                 childElementsSpaces[space.id].reservations = []
                                 childElementsSpaces[space.id].width = Number;
+                                childElementsSpaces[space.id].backgroundColor = String;
+                                childElementsSpaces[space.id].spaceID = Number;
                                 space.reservations.forEach((reservation) => {
                                     childElementsSpaces[space.id].reservations.push(reservation)
                                 })
@@ -74,7 +76,7 @@ class Agenda extends React.Component {
                         }
                     })
                 this.setState({ buildings, childElementsSpaces })
-                localStorage.setItem("agendaBuildings", JSON.stringify(this.state.buildings))
+                // localStorage.setItem("agendaBuildings", JSON.stringify(this.state.buildings))
             });
         }
     }
@@ -95,11 +97,14 @@ class Agenda extends React.Component {
             var childElementsSpaces = this.state.childElementsSpaces;
             [...document.getElementsByClassName("space-row")].forEach((element) => {
                 const elementID = element.getAttribute("data-spaceid")
-                childElementsSpaces[elementID]["width"] = element.clientWidth
+                childElementsSpaces[elementID]["width"] = element.getBoundingClientRect().width
+                childElementsSpaces[elementID]["backgroundColor"] = element.style.backgroundColor
+                childElementsSpaces[elementID]["spaceID"] = element.getAttribute("data-spaceid")
+                
             })
             this.setState({childElementsSpaces, fetchedSpacesFromDom: true})
             setTimeout(() => {
-                localStorage.setItem("agendaChildElementsSpaces", JSON.stringify(childElementsSpaces))
+                // localStorage.setItem("agendaChildElementsSpaces", JSON.stringify(childElementsSpaces))
             }, 100);
         }
         

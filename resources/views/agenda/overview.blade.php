@@ -8,5 +8,5 @@
 </div>
 @endsection
     @push('script')
-        <script src={{ asset("js/datatables/agenda/agenda.js") }}></script>
+    <script src={{ asset("js/datatables/agenda/agenda.js") }}></script>
     @endpush

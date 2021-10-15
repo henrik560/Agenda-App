@@ -3,34 +3,82 @@ import React from 'react';
 export default class BodyContent extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            mouseDown: true,
+            newestElementID: ''
+        }
+    }
+
+    mouseDownHandler(event) {
+        this.setState(prevState => ({ mouseDown: !prevState.mouseDown }));
+        this.createElement(event)
+    }
+
+    mouseUpHandler() {
+        this.setState(prevState => ({ mouseDown: !prevState.mouseDown }));
+    }
+
+    mouseEvent(event) {
+        if(this.state.mouseDown == true) return
+        var currentElement = document.getElementById(`${this.state.newestElementID}-reservation`)
+        if(currentElement) {
+            currentElement.style.height = `${event.pageY - event.target.offsetTop}px`
+        }
+    }
+
+    createElement(element) {
+        console.log(element.target.offsetTop)
+        console.log(element.clientY)
+        var parentElement = document.querySelector(`[data-spaceid='${element.target.id.split("-")[3]}']`)
+        var newReservationElement = document.createElement("div")
+        newReservationElement.style.backgroundColor = parentElement.style.backgroundColor;
+        newReservationElement.style.height = "1px"
+        newReservationElement.style.marginTop = (Math.round((element.clientY - element.target.offsetTop) / 9)*9) + "px"
+        newReservationElement.classList.add("reservation-card")
+        newReservationElement.id = `${element.target.id}-reservation`
+        this.setState({newestElementID: element.target.id})
+        var appendElement = document.getElementById(element.target.id)
+        appendElement.appendChild(newReservationElement)
     }
 
     render() {
         return(
-            <div className="time-grid-item">
+            <div className="time-grid-item gap-1 d-flex justify-content-between">
                 {
                 this.props.childElements && this.props.childElements.slice(1).map((element, index) => {
+                    var lastElementEndTime = Number;
                     return (
-                        element && element.width && <div key={index} className="grid-row" style={{width: element.width}}>
-                            { element.reservations.map(reservation => {
-                                if(reservation.date == this.props.currentDate && reservation.starttime < reservation.endtime) {
-                                    var start = reservation.starttime.split(":")
-                                    var end = reservation.endtime.split(":")
-                                    var cardMarginTop = ((start[0] -8) * 35) + (Math.round(start[1] / 15) * 8.75) + 3;
-                                    var cardHeight = ((((end[0] - start[0]) * 4) + ((Math.round(end[1]) - Math.round(start[1])) / 15)) * 8.75)  + 1
-                                    if(cardHeight < 577) {
-                                        return ( 
-                                            <div className="reservation-card d-flex flex-column justify-content-around align-items-center" key={index} style={{marginLeft: 1,marginTop: cardMarginTop, width: element.width, backgroundColor: `rgb(${Math.random() * 256},${Math.random() * 256},${Math.random() * 256})`, height: cardHeight}}>
-                                                <span style={{fontSize: '0.6vw'}}>{reservation.title}</span>
-                                                <span style={{fontSize: '0.6vw'}}>{reservation.starttime} - {reservation.endtime}</span>
-                                            </div>
-                                        )
-                                    }
+                        element && element.width && <div 
+                            key={element.width + index + element.backgroundColor} 
+                            className="grid-row"
+                            onMouseUp={(e) => this.mouseUpHandler(e)} 
+                            onMouseDown={(e) => this.mouseDownHandler(e)}
+                            onPointerMoveCapture={(e) => this.mouseEvent(e)}
+                            id={`row-${index}-spaceID-${element.spaceID}`} 
+                            style={{width: element.width, height: 576}}>
+                                { 
+                                    element.reservations.map((reservation, resIndex) => {
+                                        if(reservation.date == this.props.currentDate && reservation.starttime < reservation.endtime) {
+                                            var start = reservation.starttime.split(":")
+                                            var end = reservation.endtime.split(":")
+                                            var cardMarginTop = resIndex == 0 ? ((start[0] -8) * 36) + (Math.round(start[1] / 15) * 9) : ((start[0] * 4 + Math.round(start[1] / 15)) - (lastElementEndTime.split(":")[0] * 4 + Math.round(lastElementEndTime.split(":")[1] / 15))) * 9
+                                            var cardHeight = ((((end[0] - start[0]) * 4) + ((Math.round(end[1]) - Math.round(start[1])) / 15)) * 9) - 1
+                                            lastElementEndTime = `${end[0]}:${end[1]}`;
+                                            if(cardHeight < 577) {
+                                                return ( 
+                                                    <div className="reservation-card d-flex flex-column justify-content-around align-items-center" key={element.width + resIndex} style={{marginTop: cardMarginTop + 1, width: element.width, backgroundColor: element.backgroundColor, height: cardHeight}}>
+                                                        <span style={{fontSize: '0.6vw'}}>{reservation.title}</span>
+                                                        <span style={{fontSize: '0.6vw'}}>{reservation.starttime} - {reservation.endtime}</span>
+                                                    </div>
+                                                )
+                                            }
+                                        }
+                                    })
+                                
                                 }
-                            })}
                         </div>
                     )
-                })
+                })  
                 }
             </div>
         )

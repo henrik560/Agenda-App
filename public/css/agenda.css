@@ -118,11 +118,12 @@
   z-index: 10;
 }
 #agenda-wrapper .agenda .agenda-child-container .header-container .sticky-header {
-  width: calc(90% - 110px);
+  width: calc(90% - 108px);
   height: 60px;
   position: fixed;
   z-index: 15;
   background-color: #f17907;
+  margin-left: -2px;
 }
 #agenda-wrapper .agenda .agenda-child-container .header-container .sticky-header #header-spaces-container {
   height: 60px;
@@ -163,18 +164,20 @@
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-container .time-item::after {
   content: "";
   position: relative;
-  width: 1000%;
+  width: 100000%;
   height: 1px;
   background-color: rgba(128, 128, 128, 0.5);
   display: block;
   top: -35px;
   left: 83px;
+  pointer-events: none;
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item {
   width: 100%;
   display: flex;
   flex-direction: row;
   flex-grow: 1;
+  gap: 4px;
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row {
   display: flex;
@@ -182,11 +185,14 @@
   background-color: transparent;
   height: 100%;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card {
   width: 90%;
   height: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
