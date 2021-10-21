@@ -2908,8 +2908,9 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "mouseEvent",
     value: function mouseEvent(event) {
-      if (this.state.mouseDown == true) return;
+      if (this.state.mouseDown == true || event.target.className == 'reservation-card') return;
       var currentElement = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
+      console.log(event.nativeEvent.offsetY);
 
       if (currentElement) {
         currentElement.style.height = "".concat(event.pageY - event.target.offsetTop, "px");
@@ -2918,13 +2919,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "createElement",
     value: function createElement(element) {
-      console.log(element.target.offsetTop);
-      console.log(element.clientY);
       var parentElement = document.querySelector("[data-spaceid='".concat(element.target.id.split("-")[3], "']"));
       var newReservationElement = document.createElement("div");
+      console.log(element);
       newReservationElement.style.backgroundColor = parentElement.style.backgroundColor;
-      newReservationElement.style.height = "1px";
-      newReservationElement.style.marginTop = Math.round((element.clientY - element.target.offsetTop) / 9) * 9 + "px";
+      newReservationElement.style.height = "0px";
+      newReservationElement.style.marginTop = Math.round(element.nativeEvent.offsetY / 15) * 15 + "px";
       newReservationElement.classList.add("reservation-card");
       newReservationElement.id = "".concat(element.target.id, "-reservation");
       this.setState({
