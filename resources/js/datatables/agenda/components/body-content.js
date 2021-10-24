@@ -5,34 +5,47 @@ export default class BodyContent extends React.Component {
         super(props);
         this.state = {
             mouseDown: true,
+            elementCreated: false,
             newestElementID: ''
         }
     }
 
+    componentDidMount() {
+        var reservations = document.getElementsByClassName("reservation-card")
+        for (let index = 0; index < reservations.length; index++) {
+            reservations[index].addEventListener("click", this.state.reservationClickHandler)
+        }
+        
+    }
+
+    reservationClickHandler() {
+        console.log("test")
+    }
+
     mouseDownHandler(event) {
         this.setState(prevState => ({ mouseDown: !prevState.mouseDown }));
-        this.createElement(event)
     }
 
     mouseUpHandler() {
-        this.setState(prevState => ({ mouseDown: !prevState.mouseDown }));
+        this.setState(prevState => ({ mouseDown: !prevState.mouseDown, elementCreated: false }));
     }
 
     mouseEvent(event) {
         if(this.state.mouseDown == true || event.target.className == 'reservation-card') return
-        var currentElement = document.getElementById(`${this.state.newestElementID}-reservation`)
-        console.log(event.nativeEvent.offsetY)
-        if(currentElement) {
-            currentElement.style.height = `${event.pageY - event.target.offsetTop}px`
+        if(this.state.elementCreated == false) {
+            this.createElement(event)
+            this.setState({elementCreated: true});
+
         }
+        var currentElement = document.getElementById(`${this.state.newestElementID}-reservation`)
+        if(currentElement) currentElement.style.height = `${event.nativeEvent.offsetY - currentElement.style.marginTop.split("px")[0]}px`
     }
 
     createElement(element) {
         var parentElement = document.querySelector(`[data-spaceid='${element.target.id.split("-")[3]}']`)
         var newReservationElement = document.createElement("div")
-        console.log(element)
         newReservationElement.style.backgroundColor = parentElement.style.backgroundColor;
-        newReservationElement.style.height = "0px"
+        newReservationElement.style.height = "1px"
         newReservationElement.style.marginTop = (Math.round(element.nativeEvent.offsetY / 15) * 15) + "px"
         newReservationElement.classList.add("reservation-card")
         newReservationElement.id = `${element.target.id}-reservation`

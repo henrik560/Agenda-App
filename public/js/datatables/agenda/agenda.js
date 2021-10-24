@@ -2881,12 +2881,27 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       mouseDown: true,
+      elementCreated: false,
       newestElementID: ''
     };
     return _this;
   }
 
   _createClass(BodyContent, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var reservations = document.getElementsByClassName("reservation-card");
+
+      for (var index = 0; index < reservations.length; index++) {
+        reservations[index].addEventListener("click", this.state.reservationClickHandler);
+      }
+    }
+  }, {
+    key: "reservationClickHandler",
+    value: function reservationClickHandler() {
+      console.log("test");
+    }
+  }, {
     key: "mouseDownHandler",
     value: function mouseDownHandler(event) {
       this.setState(function (prevState) {
@@ -2894,14 +2909,14 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           mouseDown: !prevState.mouseDown
         };
       });
-      this.createElement(event);
     }
   }, {
     key: "mouseUpHandler",
     value: function mouseUpHandler() {
       this.setState(function (prevState) {
         return {
-          mouseDown: !prevState.mouseDown
+          mouseDown: !prevState.mouseDown,
+          elementCreated: false
         };
       });
     }
@@ -2909,21 +2924,24 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     key: "mouseEvent",
     value: function mouseEvent(event) {
       if (this.state.mouseDown == true || event.target.className == 'reservation-card') return;
-      var currentElement = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
-      console.log(event.nativeEvent.offsetY);
 
-      if (currentElement) {
-        currentElement.style.height = "".concat(event.pageY - event.target.offsetTop, "px");
+      if (this.state.elementCreated == false) {
+        this.createElement(event);
+        this.setState({
+          elementCreated: true
+        });
       }
+
+      var currentElement = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
+      if (currentElement) currentElement.style.height = "".concat(event.nativeEvent.offsetY - currentElement.style.marginTop.split("px")[0], "px");
     }
   }, {
     key: "createElement",
     value: function createElement(element) {
       var parentElement = document.querySelector("[data-spaceid='".concat(element.target.id.split("-")[3], "']"));
       var newReservationElement = document.createElement("div");
-      console.log(element);
       newReservationElement.style.backgroundColor = parentElement.style.backgroundColor;
-      newReservationElement.style.height = "0px";
+      newReservationElement.style.height = "1px";
       newReservationElement.style.marginTop = Math.round(element.nativeEvent.offsetY / 15) * 15 + "px";
       newReservationElement.classList.add("reservation-card");
       newReservationElement.id = "".concat(element.target.id, "-reservation");
