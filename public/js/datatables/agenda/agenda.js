@@ -2844,6 +2844,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -2880,9 +2886,10 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      mouseDown: true,
+      mouseDown: false,
       elementCreated: false,
-      newestElementID: ''
+      newestElementID: '',
+      creatingElement: false
     };
     return _this;
   }
@@ -2904,49 +2911,71 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "mouseDownHandler",
     value: function mouseDownHandler(event) {
-      this.setState(function (prevState) {
-        return {
-          mouseDown: !prevState.mouseDown
-        };
+      this.setState({
+        mouseDown: true,
+        newestElementID: ''
       });
     }
   }, {
     key: "mouseUpHandler",
     value: function mouseUpHandler() {
-      this.setState(function (prevState) {
-        return {
-          mouseDown: !prevState.mouseDown,
-          elementCreated: false
-        };
+      this.setState({
+        mouseDown: false,
+        elementCreated: false
       });
     }
   }, {
     key: "mouseEvent",
     value: function mouseEvent(event) {
-      if (this.state.mouseDown == true || event.target.className == 'reservation-card') return;
+      if (this.state.mouseDown == false || event.target.className == 'reservation-card') return;
 
       if (this.state.elementCreated == false) {
         this.createElement(event);
-        this.setState({
-          elementCreated: true
-        });
       }
 
       var currentElement = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
-      if (currentElement) currentElement.style.height = "".concat(event.nativeEvent.offsetY - currentElement.style.marginTop.split("px")[0], "px");
+
+      if (currentElement) {
+        currentElement.style.height = "".concat(event.nativeEvent.offsetY - currentElement.style.marginTop.split("px")[0], "px");
+        console.log("change to ".concat(currentElement.style.height));
+      }
     }
   }, {
     key: "createElement",
     value: function createElement(element) {
+      console.log(element);
       var parentElement = document.querySelector("[data-spaceid='".concat(element.target.id.split("-")[3], "']"));
       var newReservationElement = document.createElement("div");
+      var marginTop = Math.round(element.nativeEvent.offsetY / 15) * 15;
+      var closestOffset = 0;
+
+      if (element.target.children.length > 0) {
+        var _iterator = _createForOfIteratorHelper(element.target.children),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var child = _step.value;
+            if (child.offsetTop > closestOffset) closestOffset = child.offsetTop;
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+
+        closestOffset > marginTop ? marginTop = 0 : marginTop = marginTop - closestOffset;
+      }
+
+      console.log("Closest offset: ".concat(closestOffset));
       newReservationElement.style.backgroundColor = parentElement.style.backgroundColor;
       newReservationElement.style.height = "1px";
-      newReservationElement.style.marginTop = Math.round(element.nativeEvent.offsetY / 15) * 15 + "px";
+      newReservationElement.style.marginTop = marginTop + "px";
       newReservationElement.classList.add("reservation-card");
       newReservationElement.id = "".concat(element.target.id, "-reservation");
       this.setState({
-        newestElementID: element.target.id
+        newestElementID: element.target.id,
+        elementCreated: true
       });
       var appendElement = document.getElementById(element.target.id);
       appendElement.appendChild(newReservationElement);
@@ -2958,57 +2987,59 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "time-grid-item gap-1 d-flex justify-content-between",
-        children: this.props.childElements && this.props.childElements.slice(1).map(function (element, index) {
+        children: this.props.childElements && this.props.childElements.map(function (building, index) {
           var lastElementEndTime = Number;
-          return element && element.width && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "grid-row",
-            onMouseUp: function onMouseUp(e) {
-              return _this2.mouseUpHandler(e);
-            },
-            onMouseDown: function onMouseDown(e) {
-              return _this2.mouseDownHandler(e);
-            },
-            onPointerMoveCapture: function onPointerMoveCapture(e) {
-              return _this2.mouseEvent(e);
-            },
-            id: "row-".concat(index, "-spaceID-").concat(element.spaceID),
-            style: {
-              width: element.width,
-              height: 576
-            },
-            children: element.reservations.map(function (reservation, resIndex) {
-              if (reservation.date == _this2.props.currentDate && reservation.starttime < reservation.endtime) {
-                var start = reservation.starttime.split(":");
-                var end = reservation.endtime.split(":");
-                var cardMarginTop = resIndex == 0 ? (start[0] - 8) * 36 + Math.round(start[1] / 15) * 9 : (start[0] * 4 + Math.round(start[1] / 15) - (lastElementEndTime.split(":")[0] * 4 + Math.round(lastElementEndTime.split(":")[1] / 15))) * 9;
-                var cardHeight = ((end[0] - start[0]) * 4 + (Math.round(end[1]) - Math.round(start[1])) / 15) * 9 - 1;
-                lastElementEndTime = "".concat(end[0], ":").concat(end[1]);
+          return building.spaces.map(function (space, index) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "grid-row",
+              onMouseUp: function onMouseUp(e) {
+                return _this2.mouseUpHandler(e);
+              },
+              onMouseDown: function onMouseDown(e) {
+                return _this2.mouseDownHandler(e);
+              },
+              onPointerMoveCapture: function onPointerMoveCapture(e) {
+                return _this2.mouseEvent(e);
+              },
+              id: "row-".concat(index, "-spaceID-").concat(space.spaceID),
+              style: {
+                width: space.width,
+                height: 576
+              },
+              children: space.reservations.map(function (reservation, resIndex) {
+                if (reservation.date == _this2.props.currentDate && reservation.starttime < reservation.endtime) {
+                  var start = reservation.starttime.split(":");
+                  var end = reservation.endtime.split(":");
+                  var cardMarginTop = resIndex == 0 ? (start[0] - 8) * 36 + Math.round(start[1] / 15) * 9 : (start[0] * 4 + Math.round(start[1] / 15) - (lastElementEndTime.split(":")[0] * 4 + Math.round(lastElementEndTime.split(":")[1] / 15))) * 9;
+                  var cardHeight = ((end[0] - start[0]) * 4 + (Math.round(end[1]) - Math.round(start[1])) / 15) * 9 - 1;
+                  lastElementEndTime = "".concat(end[0], ":").concat(end[1]);
 
-                if (cardHeight < 577) {
-                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                    className: "reservation-card d-flex flex-column justify-content-around align-items-center",
-                    style: {
-                      marginTop: cardMarginTop + 1,
-                      width: element.width,
-                      backgroundColor: element.backgroundColor,
-                      height: cardHeight
-                    },
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                  if (cardHeight < 577) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                      className: "reservation-card d-flex flex-column justify-content-around align-items-center",
                       style: {
-                        fontSize: '0.6vw'
+                        top: cardMarginTop + 1,
+                        width: space.width,
+                        backgroundColor: building.backgroundColor,
+                        height: cardHeight
                       },
-                      children: reservation.title
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
-                      style: {
-                        fontSize: '0.6vw'
-                      },
-                      children: [reservation.starttime, " - ", reservation.endtime]
-                    })]
-                  }, element.width + resIndex);
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                        style: {
+                          fontSize: '0.6vw'
+                        },
+                        children: reservation.title
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+                        style: {
+                          fontSize: '0.6vw'
+                        },
+                        children: [reservation.starttime, " - ", reservation.endtime]
+                      })]
+                    }, space.width + resIndex);
+                  }
                 }
-              }
-            })
-          }, element.width + index + element.backgroundColor);
+              })
+            }, space.width + index + building.backgroundColor);
+          });
         })
       });
     }
@@ -56152,6 +56183,7 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
             case 5:
               _context.next = 7;
               return axios__WEBPACK_IMPORTED_MODULE_6___default().get('api/users/').then(function (response) {
+                console.log(response.data);
                 var buildings = [];
                 var childElementsSpaces = [];
                 Object.values(response.data)[0][0].user_has_buildings.map(function (el, id) {
@@ -56161,14 +56193,18 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
                 });
                 buildings.forEach(function (building) {
                   if (building && building.spaces.length > 0) {
+                    var bID = building.id;
+                    childElementsSpaces[bID] = [];
+                    childElementsSpaces[bID]["spaces"] = [];
+                    childElementsSpaces[bID]["backgroundColor"] = "";
                     building.spaces.forEach(function (space) {
-                      childElementsSpaces[space.id] = {};
-                      childElementsSpaces[space.id].reservations = [];
-                      childElementsSpaces[space.id].width = Number;
-                      childElementsSpaces[space.id].backgroundColor = String;
-                      childElementsSpaces[space.id].spaceID = Number;
+                      childElementsSpaces[bID]["spaces"][space.id] = [];
+                      childElementsSpaces[bID]["spaces"][space.id]["spaceID"] = "";
+                      childElementsSpaces[bID]["spaces"][space.id]["width"] = "";
+                      childElementsSpaces[bID]["spaces"][space.id]["reservations"] = [];
+                      childElementsSpaces[bID]["spaces"][space.id].push(space);
                       space.reservations.forEach(function (reservation) {
-                        childElementsSpaces[space.id].reservations.push(reservation);
+                        childElementsSpaces[bID]["spaces"][space.id]["reservations"].push(reservation);
                       });
                     });
                   }
@@ -56177,8 +56213,9 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
                 _this.setState({
                   buildings: buildings,
                   childElementsSpaces: childElementsSpaces
-                }); // localStorage.setItem("agendaBuildings", JSON.stringify(this.state.buildings))
+                });
 
+                console.log(childElementsSpaces); // localStorage.setItem("agendaBuildings", JSON.stringify(this.state.buildings))
               });
 
             case 7:
@@ -56241,10 +56278,11 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
         var childElementsSpaces = this.state.childElementsSpaces;
 
         _toConsumableArray(document.getElementsByClassName("space-row")).forEach(function (element) {
-          var elementID = element.getAttribute("data-spaceid");
-          childElementsSpaces[elementID]["width"] = element.getBoundingClientRect().width;
+          var elementID = element.getAttribute("data-buildingid");
+          var spaceID = element.getAttribute("data-spaceID");
+          childElementsSpaces[elementID]["spaces"][spaceID]["width"] = element.getBoundingClientRect().width;
           childElementsSpaces[elementID]["backgroundColor"] = element.style.backgroundColor;
-          childElementsSpaces[elementID]["spaceID"] = element.getAttribute("data-spaceid");
+          childElementsSpaces[elementID]["spaces"][spaceID]["spaceID"] = spaceID;
         });
 
         this.setState({
