@@ -115,13 +115,13 @@
   position: fixed;
   background-color: #f17907;
   display: block;
-  z-index: 10;
+  z-index: 102;
 }
 #agenda-wrapper .agenda .agenda-child-container .header-container .sticky-header {
   width: calc(90% - 108px);
   height: 60px;
   position: fixed;
-  z-index: 15;
+  z-index: 102;
   background-color: #f17907;
   margin-left: -2px;
 }
@@ -135,6 +135,8 @@
   flex-direction: row;
   margin-top: 66px;
   justify-content: space-between;
+  position: relative;
+  z-index: 101;
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-container {
   width: 100px;
@@ -190,9 +192,12 @@
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card {
   width: 90%;
   height: 100%;
-  position: relative;
+  position: absolute;
   display: flex;
+  min-height: 9px;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  box-sizing: border-box;
+  border: 1px solid gray;
 }

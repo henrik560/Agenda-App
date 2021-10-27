@@ -19,6 +19,9 @@ export default class BodyContent extends React.Component {
         }
     }
 
+    componentDidMount() {
+    }
+
     reservationClickHandler(event) {
         const reservation = document.getElementById(event.target.id)
         const timepopup = document.getElementById("time-popup")
@@ -38,33 +41,27 @@ export default class BodyContent extends React.Component {
         if(this.state.elementCreated == false) {
             this.createElement(event)
         }
+        if(!event.target.id.startsWith('row') && event.target.id != `${this.state.newestElementID}-reservation`) return this.setState({mouseDown: false})
         var currentElement = document.getElementById(`${this.state.newestElementID}-reservation`)
         if(currentElement) {
             if(event.target.parentNode.className == "grid-row" && event.target.className == "reservation-card") {
-                currentElement.style.height = `${event.nativeEvent.offsetY}px`
+                currentElement.style.height = `${Math.round((event.nativeEvent.offsetY) / 9) * 9}px`
             }else {
-                currentElement.style.height = `${event.nativeEvent.offsetY - currentElement.style.marginTop.split("px")[0]}px`
+                currentElement.style.height = `${Math.round((event.nativeEvent.offsetY - currentElement.style.top.split("px")[0]) / 9) * 9}px`
             }
         }
     }
 
     createElement(element) {
-        console.log(element)
+        if(!element.target.id.startsWith("row") || element.target.className == "reservation-card") return
         var parentElement = document.querySelector(`[data-spaceid='${element.target.id.split("-")[3]}']`)
         var newReservationElement = document.createElement("div")
-        var marginTop = (Math.round(element.nativeEvent.offsetY / 15) * 15)
-        var closestOffset = 0;
+        var marginTop = (Math.round(element.nativeEvent.offsetY / 9) * 9)
         var randomID = Math.random().toString(16).slice(2)
-        if(element.target.children.length > 0) {
-            for(const child of element.target.children) {
-                if(child.offsetTop > closestOffset) closestOffset = child.offsetTop
-                console.log(child.offsetTop)
-            }
-            closestOffset > marginTop ? marginTop = 0 : marginTop = marginTop - closestOffset
-        }
         newReservationElement.style.backgroundColor = parentElement.style.backgroundColor;
-        newReservationElement.style.height = "1px"
-        newReservationElement.style.marginTop = marginTop + "px"
+        newReservationElement.style.height = "9px"
+        newReservationElement.style.top = marginTop + "px"
+        newReservationElement.style.width = parentElement.getBoundingClientRect().width + "px"
         newReservationElement.classList.add("reservation-card")
         newReservationElement.id = `${marginTop}${randomID}-reservation`
         this.setState({newestElementID: `${marginTop}${randomID}`, elementCreated: true})
@@ -77,7 +74,6 @@ export default class BodyContent extends React.Component {
             <div className="time-grid-item gap-1 d-flex justify-content-between">
                 {
                 this.props.childElements && this.props.childElements.map((building, indexBuilding) => {
-                    var lastElementEndTime = Number
                     return (
                             building.spaces.map((space, index) => {
                                 return (
@@ -91,15 +87,14 @@ export default class BodyContent extends React.Component {
                                         style={{width: space.width, height: 576}}>
                                             {
                                                 space.reservations.map((reservation, resIndex) => {
-                                                    if(reservation.date == this.props.currentDate && reservation.starttime < reservation.endtime) {
+                                                    if(reservation.date == this.props.currentDate || reservation.starttime < reservation.endtime) {
                                                         var start = reservation.starttime.split(":")
                                                         var end = reservation.endtime.split(":")
-                                                        var cardMarginTop = resIndex == 0 ? ((start[0] -8) * 36) + (Math.round(start[1] / 15) * 9) : ((start[0] * 4 + Math.round(start[1] / 15)) - (lastElementEndTime.split(":")[0] * 4 + Math.round(lastElementEndTime.split(":")[1] / 15))) * 9
+                                                        var cardMarginTop = ((start[0] -8) * 36) + (Math.round(start[1] / 15) * 9)
                                                         var cardHeight = ((((end[0] - start[0]) * 4) + ((Math.round(end[1]) - Math.round(start[1])) / 15)) * 9) - 1
-                                                        lastElementEndTime = `${end[0]}:${end[1]}`;
                                                         if(cardHeight < 577) {
                                                             return ( 
-                                                                <div className="reservation-card d-flex flex-column justify-content-around align-items-center" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{marginTop: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
+                                                                <div className="reservation-card d-flex flex-column justify-content-around align-items-center" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
                                                                     <span style={{fontSize: '0.6vw'}}>{reservation.title}</span>
                                                                     <span style={{fontSize: '0.6vw'}}>{reservation.starttime} - {reservation.endtime}</span>
                                                                 </div>

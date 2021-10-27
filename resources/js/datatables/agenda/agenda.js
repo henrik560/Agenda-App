@@ -126,9 +126,9 @@ class Agenda extends React.Component {
                     <span className="year height-45px d-flex justify-content-center align-items-center">{this.state.current_year}</span>
                 </div>
                 <div className="content-header d-flex flex-row justify-content-between">
-                    <Dropdown list={this.state.list_year} changeData={this.changeDate} dataTarget="year-dropdown" dateType="current_year" titleName="Jaar"/>
-                    <Dropdown list={this.state.list_month} changeData={this.changeDate} dataTarget="month-dropdown" dateType="current_month" titleName="Maand"/>
-                    <Dropdown list={this.state.list_day} changeData={this.changeDate} dataTarget="day-dropdown" dateType="current_day" titleName="Dag"/>
+                    <Dropdown key="year" list={this.state.list_year} changeData={this.changeDate} dataTarget="year-dropdown" dateType="current_year" titleName="Jaar"/>
+                    <Dropdown key="month" list={this.state.list_month} changeData={this.changeDate} dataTarget="month-dropdown" dateType="current_month" titleName="Maand"/>
+                    <Dropdown key="day" list={this.state.list_day} changeData={this.changeDate} dataTarget="day-dropdown" dateType="current_day" titleName="Dag"/>
                 </div>
             </div>
             <div className="agenda-child-container">
@@ -140,10 +140,10 @@ class Agenda extends React.Component {
                 </div>
                 <div className="content-container">
                     <div className="time-container">
-                        {this.state.day.map((time) => {
+                        {this.state.day.map((time, index) => {
                             return (
-                                <div className="time-item">
-                                    <div className="time-item-container">
+                                <div key={time + time} className="time-item">
+                                    <div key={time + index} className="time-item-container">
                                         <span key={time}>{`${time}:00`}</span>
                                     </div>
                                 </div>

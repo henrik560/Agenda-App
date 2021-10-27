@@ -2844,12 +2844,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -2908,6 +2902,9 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
     key: "reservationClickHandler",
     value: function reservationClickHandler(event) {
       var reservation = document.getElementById(event.target.id);
@@ -2939,48 +2936,31 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
         this.createElement(event);
       }
 
+      if (!event.target.id.startsWith('row') && event.target.id != "".concat(this.state.newestElementID, "-reservation")) return this.setState({
+        mouseDown: false
+      });
       var currentElement = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
 
       if (currentElement) {
         if (event.target.parentNode.className == "grid-row" && event.target.className == "reservation-card") {
-          currentElement.style.height = "".concat(event.nativeEvent.offsetY, "px");
+          currentElement.style.height = "".concat(Math.round(event.nativeEvent.offsetY / 9) * 9, "px");
         } else {
-          currentElement.style.height = "".concat(event.nativeEvent.offsetY - currentElement.style.marginTop.split("px")[0], "px");
+          currentElement.style.height = "".concat(Math.round((event.nativeEvent.offsetY - currentElement.style.top.split("px")[0]) / 9) * 9, "px");
         }
       }
     }
   }, {
     key: "createElement",
     value: function createElement(element) {
-      console.log(element);
+      if (!element.target.id.startsWith("row") || element.target.className == "reservation-card") return;
       var parentElement = document.querySelector("[data-spaceid='".concat(element.target.id.split("-")[3], "']"));
       var newReservationElement = document.createElement("div");
-      var marginTop = Math.round(element.nativeEvent.offsetY / 15) * 15;
-      var closestOffset = 0;
+      var marginTop = Math.round(element.nativeEvent.offsetY / 9) * 9;
       var randomID = Math.random().toString(16).slice(2);
-
-      if (element.target.children.length > 0) {
-        var _iterator = _createForOfIteratorHelper(element.target.children),
-            _step;
-
-        try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var child = _step.value;
-            if (child.offsetTop > closestOffset) closestOffset = child.offsetTop;
-            console.log(child.offsetTop);
-          }
-        } catch (err) {
-          _iterator.e(err);
-        } finally {
-          _iterator.f();
-        }
-
-        closestOffset > marginTop ? marginTop = 0 : marginTop = marginTop - closestOffset;
-      }
-
       newReservationElement.style.backgroundColor = parentElement.style.backgroundColor;
-      newReservationElement.style.height = "1px";
-      newReservationElement.style.marginTop = marginTop + "px";
+      newReservationElement.style.height = "9px";
+      newReservationElement.style.top = marginTop + "px";
+      newReservationElement.style.width = parentElement.getBoundingClientRect().width + "px";
       newReservationElement.classList.add("reservation-card");
       newReservationElement.id = "".concat(marginTop).concat(randomID, "-reservation");
       this.setState({
@@ -2998,7 +2978,6 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "time-grid-item gap-1 d-flex justify-content-between",
         children: this.props.childElements && this.props.childElements.map(function (building, indexBuilding) {
-          var lastElementEndTime = Number;
           return building.spaces.map(function (space, index) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
               className: "grid-row",
@@ -3017,12 +2996,11 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                 height: 576
               },
               children: space.reservations.map(function (reservation, resIndex) {
-                if (reservation.date == _this3.props.currentDate && reservation.starttime < reservation.endtime) {
+                if (reservation.date == _this3.props.currentDate || reservation.starttime < reservation.endtime) {
                   var start = reservation.starttime.split(":");
                   var end = reservation.endtime.split(":");
-                  var cardMarginTop = resIndex == 0 ? (start[0] - 8) * 36 + Math.round(start[1] / 15) * 9 : (start[0] * 4 + Math.round(start[1] / 15) - (lastElementEndTime.split(":")[0] * 4 + Math.round(lastElementEndTime.split(":")[1] / 15))) * 9;
+                  var cardMarginTop = (start[0] - 8) * 36 + Math.round(start[1] / 15) * 9;
                   var cardHeight = ((end[0] - start[0]) * 4 + (Math.round(end[1]) - Math.round(start[1])) / 15) * 9 - 1;
-                  lastElementEndTime = "".concat(end[0], ":").concat(end[1]);
 
                   if (cardHeight < 577) {
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -3031,7 +3009,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                       "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
                       "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
                       style: {
-                        marginTop: cardMarginTop + 1,
+                        top: cardMarginTop + 1,
                         width: space.width,
                         backgroundColor: building.backgroundColor,
                         height: cardHeight
@@ -56334,19 +56312,19 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               dataTarget: "year-dropdown",
               dateType: "current_year",
               titleName: "Jaar"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            }, "year"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
               list: this.state.list_month,
               changeData: this.changeDate,
               dataTarget: "month-dropdown",
               dateType: "current_month",
               titleName: "Maand"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            }, "month"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
               list: this.state.list_day,
               changeData: this.changeDate,
               dataTarget: "day-dropdown",
               dateType: "current_day",
               titleName: "Dag"
-            })]
+            }, "day")]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "agenda-child-container",
@@ -56364,7 +56342,7 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
             className: "content-container",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
               className: "time-container",
-              children: this.state.day.map(function (time) {
+              children: this.state.day.map(function (time, index) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                   className: "time-item",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
@@ -56372,8 +56350,8 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
                       children: "".concat(time, ":00")
                     }, time)
-                  })
-                });
+                  }, time + index)
+                }, time + time);
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
               id: "time-grid-inner",
