@@ -4,7 +4,7 @@
     @endpush
 @section('content')
 <div id="agenda-wrapper" class="agenda-container">
- 
+    
 </div>
 @endsection
     @push('script')

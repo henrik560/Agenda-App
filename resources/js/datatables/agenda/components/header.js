@@ -18,7 +18,7 @@ export default class header extends React.Component {
                                     {
                                         building.spaces.map((space, index) => {
                                             return ( 
-                                                    <span key={index} style={{backgroundColor: `#${building.color_hex}`}} data-spaceid={space.id} data-buildingid={building.id} className="space-row d-flex justify-content-center flex-grow-1">{space.name}</span>
+                                                    <span key={index} style={{backgroundColor: `#${building.color_hex}`}} data-uniqueid={`${index}${space.id}${building.id}`} data-spaceid={space.id} data-buildingid={building.id} className="space-row d-flex justify-content-center flex-grow-1">{space.name}</span>
                                             )
                                         })
                                     }

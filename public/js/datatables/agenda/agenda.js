@@ -2895,18 +2895,24 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(BodyContent, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var reservations = document.getElementsByClassName("reservation-card");
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      var _this2 = this;
 
-      for (var index = 0; index < reservations.length; index++) {
-        reservations[index].addEventListener("click", this.state.reservationClickHandler);
+      var userSelection = document.getElementsByClassName('reservation-card');
+
+      for (var i = 0; i < userSelection.length; i++) {
+        userSelection[i].addEventListener("click", function (e) {
+          return _this2.reservationClickHandler(e);
+        });
       }
     }
   }, {
     key: "reservationClickHandler",
-    value: function reservationClickHandler() {
-      console.log("test");
+    value: function reservationClickHandler(event) {
+      var reservation = document.getElementById(event.target.id);
+      var timepopup = document.getElementById("time-popup");
+      timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime");
     }
   }, {
     key: "mouseDownHandler",
@@ -2927,7 +2933,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "mouseEvent",
     value: function mouseEvent(event) {
-      if (this.state.mouseDown == false || event.target.className == 'reservation-card') return;
+      if (this.state.mouseDown == false) return;
 
       if (this.state.elementCreated == false) {
         this.createElement(event);
@@ -2936,8 +2942,11 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       var currentElement = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
 
       if (currentElement) {
-        currentElement.style.height = "".concat(event.nativeEvent.offsetY - currentElement.style.marginTop.split("px")[0], "px");
-        console.log("change to ".concat(currentElement.style.height));
+        if (event.target.parentNode.className == "grid-row" && event.target.className == "reservation-card") {
+          currentElement.style.height = "".concat(event.nativeEvent.offsetY, "px");
+        } else {
+          currentElement.style.height = "".concat(event.nativeEvent.offsetY - currentElement.style.marginTop.split("px")[0], "px");
+        }
       }
     }
   }, {
@@ -2948,6 +2957,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       var newReservationElement = document.createElement("div");
       var marginTop = Math.round(element.nativeEvent.offsetY / 15) * 15;
       var closestOffset = 0;
+      var randomID = Math.random().toString(16).slice(2);
 
       if (element.target.children.length > 0) {
         var _iterator = _createForOfIteratorHelper(element.target.children),
@@ -2957,6 +2967,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
             var child = _step.value;
             if (child.offsetTop > closestOffset) closestOffset = child.offsetTop;
+            console.log(child.offsetTop);
           }
         } catch (err) {
           _iterator.e(err);
@@ -2967,14 +2978,13 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
         closestOffset > marginTop ? marginTop = 0 : marginTop = marginTop - closestOffset;
       }
 
-      console.log("Closest offset: ".concat(closestOffset));
       newReservationElement.style.backgroundColor = parentElement.style.backgroundColor;
       newReservationElement.style.height = "1px";
       newReservationElement.style.marginTop = marginTop + "px";
       newReservationElement.classList.add("reservation-card");
-      newReservationElement.id = "".concat(element.target.id, "-reservation");
+      newReservationElement.id = "".concat(marginTop).concat(randomID, "-reservation");
       this.setState({
-        newestElementID: element.target.id,
+        newestElementID: "".concat(marginTop).concat(randomID),
         elementCreated: true
       });
       var appendElement = document.getElementById(element.target.id);
@@ -2983,23 +2993,23 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "time-grid-item gap-1 d-flex justify-content-between",
-        children: this.props.childElements && this.props.childElements.map(function (building, index) {
+        children: this.props.childElements && this.props.childElements.map(function (building, indexBuilding) {
           var lastElementEndTime = Number;
           return building.spaces.map(function (space, index) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
               className: "grid-row",
               onMouseUp: function onMouseUp(e) {
-                return _this2.mouseUpHandler(e);
+                return _this3.mouseUpHandler(e);
               },
               onMouseDown: function onMouseDown(e) {
-                return _this2.mouseDownHandler(e);
+                return _this3.mouseDownHandler(e);
               },
               onPointerMoveCapture: function onPointerMoveCapture(e) {
-                return _this2.mouseEvent(e);
+                return _this3.mouseEvent(e);
               },
               id: "row-".concat(index, "-spaceID-").concat(space.spaceID),
               style: {
@@ -3007,7 +3017,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                 height: 576
               },
               children: space.reservations.map(function (reservation, resIndex) {
-                if (reservation.date == _this2.props.currentDate && reservation.starttime < reservation.endtime) {
+                if (reservation.date == _this3.props.currentDate && reservation.starttime < reservation.endtime) {
                   var start = reservation.starttime.split(":");
                   var end = reservation.endtime.split(":");
                   var cardMarginTop = resIndex == 0 ? (start[0] - 8) * 36 + Math.round(start[1] / 15) * 9 : (start[0] * 4 + Math.round(start[1] / 15) - (lastElementEndTime.split(":")[0] * 4 + Math.round(lastElementEndTime.split(":")[1] / 15))) * 9;
@@ -3017,8 +3027,11 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                   if (cardHeight < 577) {
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                       className: "reservation-card d-flex flex-column justify-content-around align-items-center",
+                      id: Math.random().toString(16).slice(2),
+                      "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
+                      "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
                       style: {
-                        top: cardMarginTop + 1,
+                        marginTop: cardMarginTop + 1,
                         width: space.width,
                         backgroundColor: building.backgroundColor,
                         height: cardHeight
@@ -3260,6 +3273,7 @@ var header = /*#__PURE__*/function (_React$Component) {
                   style: {
                     backgroundColor: "#".concat(building.color_hex)
                   },
+                  "data-uniqueid": "".concat(index).concat(space.id).concat(building.id),
                   "data-spaceid": space.id,
                   "data-buildingid": building.id,
                   className: "space-row d-flex justify-content-center flex-grow-1",

@@ -11,16 +11,18 @@ export default class BodyContent extends React.Component {
         }
     }
 
-    componentDidMount() {
-        var reservations = document.getElementsByClassName("reservation-card")
-        for (let index = 0; index < reservations.length; index++) {
-            reservations[index].addEventListener("click", this.state.reservationClickHandler)
+    componentDidUpdate() {
+        var userSelection = document.getElementsByClassName('reservation-card');
+
+        for(let i = 0; i < userSelection.length; i++) {
+          userSelection[i].addEventListener("click", (e) => this.reservationClickHandler(e))
         }
-        
     }
 
-    reservationClickHandler() {
-        console.log("test")
+    reservationClickHandler(event) {
+        const reservation = document.getElementById(event.target.id)
+        const timepopup = document.getElementById("time-popup")
+        timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime")
     }
 
     mouseDownHandler(event) {
@@ -32,37 +34,40 @@ export default class BodyContent extends React.Component {
     }
 
     mouseEvent(event) {
-        if(this.state.mouseDown == false || event.target.className == 'reservation-card') return
+        if(this.state.mouseDown == false) return
         if(this.state.elementCreated == false) {
             this.createElement(event)
         }
         var currentElement = document.getElementById(`${this.state.newestElementID}-reservation`)
         if(currentElement) {
-            currentElement.style.height = `${event.nativeEvent.offsetY - currentElement.style.marginTop.split("px")[0]}px`
-            console.log(`change to ${currentElement.style.height}`)
+            if(event.target.parentNode.className == "grid-row" && event.target.className == "reservation-card") {
+                currentElement.style.height = `${event.nativeEvent.offsetY}px`
+            }else {
+                currentElement.style.height = `${event.nativeEvent.offsetY - currentElement.style.marginTop.split("px")[0]}px`
+            }
         }
     }
 
     createElement(element) {
-
         console.log(element)
         var parentElement = document.querySelector(`[data-spaceid='${element.target.id.split("-")[3]}']`)
         var newReservationElement = document.createElement("div")
         var marginTop = (Math.round(element.nativeEvent.offsetY / 15) * 15)
         var closestOffset = 0;
+        var randomID = Math.random().toString(16).slice(2)
         if(element.target.children.length > 0) {
             for(const child of element.target.children) {
-                if(child.offsetTop > closestOffset) closestOffset = child.offsetTop 
+                if(child.offsetTop > closestOffset) closestOffset = child.offsetTop
+                console.log(child.offsetTop)
             }
             closestOffset > marginTop ? marginTop = 0 : marginTop = marginTop - closestOffset
         }
-        console.log(`Closest offset: ${closestOffset}`)
         newReservationElement.style.backgroundColor = parentElement.style.backgroundColor;
         newReservationElement.style.height = "1px"
         newReservationElement.style.marginTop = marginTop + "px"
         newReservationElement.classList.add("reservation-card")
-        newReservationElement.id = `${element.target.id}-reservation`
-        this.setState({newestElementID: element.target.id, elementCreated: true})
+        newReservationElement.id = `${marginTop}${randomID}-reservation`
+        this.setState({newestElementID: `${marginTop}${randomID}`, elementCreated: true})
         var appendElement = document.getElementById(element.target.id)
         appendElement.appendChild(newReservationElement)
     }
@@ -71,7 +76,7 @@ export default class BodyContent extends React.Component {
         return(
             <div className="time-grid-item gap-1 d-flex justify-content-between">
                 {
-                this.props.childElements && this.props.childElements.map((building, index) => {
+                this.props.childElements && this.props.childElements.map((building, indexBuilding) => {
                     var lastElementEndTime = Number
                     return (
                             building.spaces.map((space, index) => {
@@ -94,7 +99,7 @@ export default class BodyContent extends React.Component {
                                                         lastElementEndTime = `${end[0]}:${end[1]}`;
                                                         if(cardHeight < 577) {
                                                             return ( 
-                                                                <div className="reservation-card d-flex flex-column justify-content-around align-items-center" key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
+                                                                <div className="reservation-card d-flex flex-column justify-content-around align-items-center" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{marginTop: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
                                                                     <span style={{fontSize: '0.6vw'}}>{reservation.title}</span>
                                                                     <span style={{fontSize: '0.6vw'}}>{reservation.starttime} - {reservation.endtime}</span>
                                                                 </div>
@@ -109,6 +114,9 @@ export default class BodyContent extends React.Component {
                         )
                     })
                 }
+                {/* <div className="position-absolute dg-dark h-25 w-25 zindex-tooltip d-flex justify-content-center align-items-center text-white">
+                    <span id="time-popup"></span>
+                </div> */}
             </div>
         )
 

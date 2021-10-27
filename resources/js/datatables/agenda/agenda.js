@@ -107,7 +107,6 @@ class Agenda extends React.Component {
                 childElementsSpaces[elementID]["spaces"][spaceID]["width"] = element.getBoundingClientRect().width
                 childElementsSpaces[elementID]["backgroundColor"] = element.style.backgroundColor
                 childElementsSpaces[elementID]["spaces"][spaceID]["spaceID"] = spaceID
-                
             })
             this.setState({childElementsSpaces, fetchedSpacesFromDom: true})
             setTimeout(() => {
