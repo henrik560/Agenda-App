@@ -236,9 +236,23 @@
                                 // pointer-events: none;
                             }
                         }
+
+                        #create-reservation-popup {
+                            width: 100px;
+                            height: 200px;
+                            background-color: red;
+                        }
                     }
                 }
             }
         }
     }
+}
+
+#reservation-modal {
+    width: 100px;
+    height: 200px;
+    left: 0;
+    position: absolute;
+    background-color: red;
 }

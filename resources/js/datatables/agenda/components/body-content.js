@@ -1,4 +1,5 @@
 import React from 'react';
+import {Modal} from './modal'
 
 export default class BodyContent extends React.Component {
     constructor(props) {
@@ -8,6 +9,8 @@ export default class BodyContent extends React.Component {
             elementCreated: false,
             newestElementID: '',
             creatingElement: false,
+            createReservationPopupOpen: false,
+            modalSaved: false,
         }
     }
 
@@ -22,6 +25,21 @@ export default class BodyContent extends React.Component {
     componentDidMount() {
     }
 
+    setModalState() {
+        this.setState(prev => ({createReservationPopupOpen: !prev.createReservationPopupOpen}))
+    }
+
+    removeChild() {
+        const child = document.getElementById(`${this.state.newestElementID}-reservation`)
+        if(child) {
+            child.parentNode.removeChild(child)
+        }
+    }
+
+    saveModal() {
+        this.setState({modalSaved: true, createReservationPopupOpen: false})
+    }
+
     reservationClickHandler(event) {
         const reservation = document.getElementById(event.target.id)
         const timepopup = document.getElementById("time-popup")
@@ -29,11 +47,16 @@ export default class BodyContent extends React.Component {
     }
 
     mouseDownHandler(event) {
-        this.setState({ mouseDown: true, newestElementID: '' });
+        (event.target.className == "reservation-card" || event.target.className == "grid-row") && this.setState({ mouseDown: true, newestElementID: '', createReservationPopupOpen: false });
+        this.state.modalSaved == false && this.removeChild()
     }
 
     mouseUpHandler() {
-        this.setState({ mouseDown: false, elementCreated: false });
+        if(this.state.elementCreated == true) {
+            this.setState({ mouseDown: false, elementCreated: false, createReservationPopupOpen: true, modalSaved: false});
+        }else {
+            this.setState({mouseDown: false, elementCreated: false})
+        }
     }
 
     mouseEvent(event) {
@@ -109,9 +132,12 @@ export default class BodyContent extends React.Component {
                         )
                     })
                 }
-                {/* <div className="position-absolute dg-dark h-25 w-25 zindex-tooltip d-flex justify-content-center align-items-center text-white">
-                    <span id="time-popup"></span>
-                </div> */}
+                <Modal 
+                    marginLeft={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).getBoundingClientRect().left : ''} 
+                    marginTop={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).offsetTop : ''} 
+                    openModal={this.state.createReservationPopupOpen}
+                    saveModal={() => this.saveModal()} 
+                />
             </div>
         )
 

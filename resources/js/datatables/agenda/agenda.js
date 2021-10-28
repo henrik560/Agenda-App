@@ -94,6 +94,7 @@ class Agenda extends React.Component {
         }
     }
 
+
     componentDidMount() {
         this.fetchBuildings()
     }

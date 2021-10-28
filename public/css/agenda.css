@@ -201,3 +201,16 @@
   box-sizing: border-box;
   border: 1px solid gray;
 }
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item #create-reservation-popup {
+  width: 100px;
+  height: 200px;
+  background-color: red;
+}
+
+#reservation-modal {
+  width: 100px;
+  height: 200px;
+  left: 0;
+  position: absolute;
+  background-color: red;
+}
