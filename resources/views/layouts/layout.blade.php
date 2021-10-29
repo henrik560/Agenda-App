@@ -38,7 +38,7 @@
 </head>
 <body> 
         <nav class="navbar navbar-expand-custom navbar-mainbg" id="main-nav">
-        <a class="navbar-brand navbar-logo" href="{{ url("/")}}">Pkn - Rhenen</a>
+        <a class="navbar-brand navbar-logo text-white text-decoration-none" href="{{ url("/")}}">Pkn - Rhenen</a>
         <button class="navbar-toggler" id="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars text-white"></i>
         </button>

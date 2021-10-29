@@ -10,7 +10,7 @@ export default class header extends React.Component {
             <div id="header-spaces-container" className="w-full h-full d-flex flex-grow-1 justify-content-between gap-1">
                 {
                     this.props.buildings.length > 0 && this.props.buildings.map((building, index) => {
-                        return (<div key={index} className="d-flex flex-column justify-content-center flex-grow-1 gap-1">
+                        return (<div key={index} className="d-flex flex-column justify-content-center flex-grow-1 gap-2">
                             <div style={{backgroundColor: `#${building.color_hex}`}} className="buildings-list-item-header d-flex text-truncate justify-content-center">
                                 <span id="text-truncate-with-flex">{building.name}</span>
                             </div>  

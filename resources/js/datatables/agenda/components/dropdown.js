@@ -27,11 +27,11 @@ export default class dropDown extends React.Component {
 
     render() {
         return(
-            <div className="dropdown-menu-container d-flex flex-column justify-content-center align-items-center">   
+            <div className={`dropdown-menu-container d-flex flex-column justify-content-center align-items-center ${this.state.menuToggled &&'dropdown-active'}`} data-toggle="collapse" data-target={"#"+this.props.dataTarget} aria-controls="dropdown-list" onClick={this.toggleState}>   
                 <div className="dropdown-first-child d-flex justify-content-around align-items-center">
-                    <div className="dropdown-menu-title fs-5">{this.state.title}</div>
-                    <div className="dropdown-icon" data-toggle="collapse" data-target={"#"+this.props.dataTarget} aria-controls="dropdown-list" onClick={this.toggleState}>
-                        <i className={ `fas fa-arrow-down transition-350ms ${this.state.menuToggled ? `rotate-180deg` : `rotate-0deg`}`}></i>
+                    <div className="dropdown-menu-title transition-150ms fs-6 fw-bold">{this.state.title}</div>
+                    <div className="dropdown-icon">
+                        <i className={ `fas fa-arrow-down transition-150ms ${this.state.menuToggled ? `rotate-180deg` : `rotate-0deg`}`}></i>
                     </div>
                 </div>
                 <div id="dropdown-list-container" className="dropdown-list-container">

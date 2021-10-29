@@ -2896,8 +2896,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ BodyContent)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modal */ "./resources/js/datatables/agenda/components/modal.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _modals_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modals/modal */ "./resources/js/datatables/agenda/components/modals/modal.js");
+/* harmony import */ var _modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modals/contact-person-modal */ "./resources/js/datatables/agenda/components/modals/contact-person-modal.js");
+/* harmony import */ var _modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modals/invoice-address-modal */ "./resources/js/datatables/agenda/components/modals/invoice-address-modal.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2925,6 +2927,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var BodyContent = /*#__PURE__*/function (_React$Component) {
   _inherits(BodyContent, _React$Component);
 
@@ -2942,7 +2946,9 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       newestElementID: '',
       creatingElement: false,
       createReservationPopupOpen: false,
-      modalSaved: false
+      modalSaved: false,
+      addContactPersonModalOpen: false,
+      invoiceAddressModalOpen: false
     };
     return _this;
   }
@@ -2982,11 +2988,81 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "closeReservationModal",
+    value: function closeReservationModal() {
+      this.setModalState();
+      this.removeChild();
+    }
+  }, {
+    key: "contactPersonInvoiceModals",
+    value: function contactPersonInvoiceModals() {
+      this.setState(function (prev) {
+        return {
+          addContactPersonModalOpen: !prev.addContactPersonModalOpen,
+          invoiceAddressModalOpen: !prev.invoiceAddressModalOpen
+        };
+      });
+    }
+  }, {
+    key: "contactPersonModal",
+    value: function contactPersonModal() {
+      this.setState(function (prev) {
+        return {
+          addContactPersonModalOpen: !prev.addContactPersonModalOpen
+        };
+      });
+    }
+  }, {
+    key: "closeInvoiceAddressModal",
+    value: function closeInvoiceAddressModal() {
+      this.setState(function (prev) {
+        return {
+          invoiceAddressModalOpen: !prev.invoiceAddressModalOpen
+        };
+      });
+    }
+  }, {
     key: "saveModal",
     value: function saveModal() {
       this.setState({
         modalSaved: true,
         createReservationPopupOpen: false
+      });
+      var newestReservation = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
+
+      if (newestReservation) {
+        //Add Hover class 
+        newestReservation.classList.add("reservation-card-hover"); //Starting time
+
+        var time = (newestReservation.style.top.split("px")[0] / 36 + 8).toString().split(".");
+        var hour = time[0];
+        var minutes = time[1] ? parseInt(time[1]) / 100 * 60 : '00'; //Ending time
+
+        var endTime = (newestReservation.style.height.split("px")[0] / 36 + newestReservation.style.top.split("px")[0] / 36 + 8).toString().split(".");
+        var endHour = parseInt(endTime[0]);
+        var endMinutes = endTime[1] ? parseInt(endTime[1]) / 100 * 60 : '00';
+        newestReservation.children[0].innerHTML = "".concat(hour, ":").concat(minutes == 3 ? minutes + '0' : minutes);
+        newestReservation.children[1].innerHTML = "".concat(endHour, ":").concat(endMinutes == 3 ? endMinutes + '0' : endMinutes);
+      }
+    }
+  }, {
+    key: "setContactPersonModalState",
+    value: function setContactPersonModalState() {
+      //Save Data
+      this.setState(function (prev) {
+        return {
+          addContactPersonModalOpen: !prev.addContactPersonModalOpen
+        };
+      });
+    }
+  }, {
+    key: "setInvoiceAddresModalState",
+    value: function setInvoiceAddresModalState() {
+      //Save data
+      this.setState(function (prev) {
+        return {
+          invoiceAddressModalOpen: !prev.invoiceAddressModalOpen
+        };
       });
     }
   }, {
@@ -3004,7 +3080,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
         newestElementID: '',
         createReservationPopupOpen: false
       });
-      this.state.modalSaved == false && this.removeChild();
+
+      if (this.state.addContactPersonModalOpen == true) {
+        this.setContactPersonModalState();
+      } else {
+        this.state.modalSaved == false && this.removeChild();
+      }
     }
   }, {
     key: "mouseUpHandler",
@@ -3052,7 +3133,17 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       var parentElement = document.querySelector("[data-spaceid='".concat(element.target.id.split("-")[3], "']"));
       var newReservationElement = document.createElement("div");
       var marginTop = Math.round(element.nativeEvent.offsetY / 9) * 9;
-      var randomID = Math.random().toString(16).slice(2);
+      var randomID = Math.random().toString(16).slice(2); //Card Title
+
+      var cardTitle = document.createElement("div");
+      cardTitle.style.fontSize = '1vw'; //Card Time
+
+      var cardTime = document.createElement("div");
+      cardTime.style.fontSize = '1vw'; //Append Card Details to card
+
+      newReservationElement.appendChild(cardTitle);
+      newReservationElement.appendChild(cardTime); //Style card element
+
       newReservationElement.style.backgroundColor = parentElement.style.backgroundColor;
       newReservationElement.style.height = "9px";
       newReservationElement.style.top = marginTop + "px";
@@ -3071,11 +3162,11 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "time-grid-item gap-1 d-flex justify-content-between",
         children: [this.props.childElements && this.props.childElements.map(function (building, indexBuilding) {
           return building.spaces.map(function (space, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
               className: "grid-row",
               onMouseUp: function onMouseUp(e) {
                 return _this3.mouseUpHandler(e);
@@ -3099,8 +3190,8 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                   var cardHeight = ((end[0] - start[0]) * 4 + (Math.round(end[1]) - Math.round(start[1])) / 15) * 9 - 1;
 
                   if (cardHeight < 577) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-                      className: "reservation-card d-flex flex-column justify-content-around align-items-center",
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                      className: "reservation-card reservation-card-hover d-flex flex-column justify-content-around align-items-center",
                       id: Math.random().toString(16).slice(2),
                       "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
                       "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
@@ -3110,12 +3201,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                         backgroundColor: building.backgroundColor,
                         height: cardHeight
                       },
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                         style: {
                           fontSize: '0.6vw'
                         },
                         children: reservation.title
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
                         style: {
                           fontSize: '0.6vw'
                         },
@@ -3127,12 +3218,50 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
               })
             }, space.width + index + building.backgroundColor);
           });
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_modal__WEBPACK_IMPORTED_MODULE_1__.Modal, {
-          marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left : '',
-          marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '',
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modals_modal__WEBPACK_IMPORTED_MODULE_1__.Modal // marginLeft={100} 
+        , {
+          marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left : '' // marginTop={100} 
+          ,
+          marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // openModal={true}
+          ,
           openModal: this.state.createReservationPopupOpen,
           saveModal: function saveModal() {
             return _this3.saveModal();
+          },
+          closeModal: function closeModal() {
+            return _this3.closeReservationModal();
+          },
+          addContactPerson: function addContactPerson() {
+            return _this3.contactPersonInvoiceModals();
+          }
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_2__.ContactPersonModal // openModal={true} 
+        , {
+          openModal: this.state.addContactPersonModalOpen,
+          marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
+          ,
+          marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left + 155 : '' // marginLeft={400}
+          ,
+          saveModal: function saveModal() {
+            return _this3.setContactPersonModalState();
+          },
+          closePersonModal: function closePersonModal() {
+            return _this3.contactPersonModal();
+          },
+          closeInvoiceModal: function closeInvoiceModal() {
+            return _this3.closeInvoiceAddressModal();
+          }
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_3__.InvoiceAdressModal // openModal={true} 
+        , {
+          openModal: this.state.invoiceAddressModalOpen,
+          marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
+          ,
+          marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left + 360 : '' // marginLeft={600}
+          ,
+          saveModal: function saveModal() {
+            return _this3.setInvoiceAddresModalState();
+          },
+          closeInvoiceAdressModal: function closeInvoiceAdressModal() {
+            return _this3.closeInvoiceAddressModal();
           }
         })]
       });
@@ -3229,20 +3358,20 @@ var dropDown = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        className: "dropdown-menu-container d-flex flex-column justify-content-center align-items-center",
+        className: "dropdown-menu-container d-flex flex-column justify-content-center align-items-center ".concat(this.state.menuToggled && 'dropdown-active'),
+        "data-toggle": "collapse",
+        "data-target": "#" + this.props.dataTarget,
+        "aria-controls": "dropdown-list",
+        onClick: this.toggleState,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "dropdown-first-child d-flex justify-content-around align-items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            className: "dropdown-menu-title fs-5",
+            className: "dropdown-menu-title transition-150ms fs-6 fw-bold",
             children: this.state.title
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "dropdown-icon",
-            "data-toggle": "collapse",
-            "data-target": "#" + this.props.dataTarget,
-            "aria-controls": "dropdown-list",
-            onClick: this.toggleState,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-              className: "fas fa-arrow-down transition-350ms ".concat(this.state.menuToggled ? "rotate-180deg" : "rotate-0deg")
+              className: "fas fa-arrow-down transition-150ms ".concat(this.state.menuToggled ? "rotate-180deg" : "rotate-0deg")
             })
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -3337,7 +3466,7 @@ var header = /*#__PURE__*/function (_React$Component) {
         className: "w-full h-full d-flex flex-grow-1 justify-content-between gap-1",
         children: this.props.buildings.length > 0 && this.props.buildings.map(function (building, index) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            className: "d-flex flex-column justify-content-center flex-grow-1 gap-1",
+            className: "d-flex flex-column justify-content-center flex-grow-1 gap-2",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
               style: {
                 backgroundColor: "#".concat(building.color_hex)
@@ -3375,10 +3504,360 @@ var header = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./resources/js/datatables/agenda/components/modal.js":
-/*!************************************************************!*\
-  !*** ./resources/js/datatables/agenda/components/modal.js ***!
-  \************************************************************/
+/***/ "./resources/js/datatables/agenda/components/modals/components/input-animated.js":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/datatables/agenda/components/modals/components/input-animated.js ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AnimatedInput": () => (/* binding */ AnimatedInput)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+var AnimatedInput = function AnimatedInput(_ref) {
+  var maxInputLength = _ref.maxInputLength,
+      required = _ref.required,
+      inputName = _ref.inputName,
+      placeholder = _ref.placeholder,
+      autoFocus = _ref.autoFocus;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      inputFocussed = _useState2[0],
+      setInputFocus = _useState2[1];
+
+  var setInputFocusHandler = function setInputFocusHandler() {
+    setInputFocus(function (current) {
+      return !current;
+    });
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "d-flex justify-content-center align-items-center flex-column",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      onFocus: setInputFocusHandler,
+      onBlur: setInputFocusHandler,
+      className: "title w-100 mt-3 border-none rounded-5",
+      type: "text",
+      maxLength: maxInputLength,
+      required: required,
+      minLength: "1",
+      name: inputName,
+      placeholder: placeholder
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "title-underline-wrapper",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_2__.AnimatePresence, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.motion.div, {
+          className: "title-underline"
+        }, "gray-line"), inputFocussed && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.motion.div, {
+          className: "title-underline-themeColor title-underline",
+          initial: {
+            scaleX: 0.1
+          },
+          animate: {
+            scaleX: 1
+          },
+          exit: {
+            scaleX: 0.1
+          },
+          transition: {
+            duration: .4
+          }
+        }, "orange-line")]
+      })
+    })]
+  }, "input-".concat(inputName));
+};
+
+/***/ }),
+
+/***/ "./resources/js/datatables/agenda/components/modals/contact-person-modal.js":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/datatables/agenda/components/modals/contact-person-modal.js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContactPersonModal": () => (/* binding */ ContactPersonModal)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
+/* harmony import */ var _components_input_animated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/input-animated */ "./resources/js/datatables/agenda/components/modals/components/input-animated.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+var ContactPersonModal = function ContactPersonModal(_ref) {
+  var openModal = _ref.openModal,
+      marginTop = _ref.marginTop,
+      marginLeft = _ref.marginLeft,
+      saveModal = _ref.saveModal,
+      closePersonModal = _ref.closePersonModal,
+      closeInvoiceModal = _ref.closeInvoiceModal;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      invoiceAddressSame = _useState2[0],
+      setInvoiceStatus = _useState2[1];
+
+  var setInvoiceStatusHandler = function setInvoiceStatusHandler() {
+    setInvoiceStatus(function (current) {
+      return !current;
+    });
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
+    children: openModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+      id: "reservation-modal",
+      className: "add-contact-person-modal d-flex flex-column position-absolute justify-content-center align-items-center",
+      initial: {
+        opacity: 0,
+        top: marginTop - 20 + 'px',
+        left: marginLeft - 20 + 'px',
+        scale: 0.75
+      },
+      animate: {
+        opacity: 1,
+        top: marginTop + "px",
+        left: marginLeft + "px",
+        scale: 1
+      },
+      exit: {
+        opacity: 0,
+        scale: 0
+      },
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "close-icon",
+        onClick: function onClick() {
+          return closePersonModal();
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+          className: "fas fa-times"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "position-relative w-100 h-100 mt-3 rounded-5",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "position-relative flex-column d-flex justify-content-center align-items-center w-60 h-90",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "w-75",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              maxInputLength: "120",
+              autoFocus: "true",
+              required: true,
+              inputName: "contactPerson-name",
+              placeholder: "Naam"
+            }, "name"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              maxInputLength: "120",
+              autoFocus: "false",
+              required: true,
+              inputName: "contactPerson-email",
+              placeholder: "Email"
+            }, "email"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              maxInputLength: "120",
+              autoFocus: "false",
+              required: true,
+              inputName: "contactPerson-phone",
+              placeholder: "Telefoon"
+            }, "phone"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              maxInputLength: "120",
+              autoFocus: "false",
+              required: true,
+              inputName: "contactPerson-iban",
+              placeholder: "Iban"
+            }, "iban")]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "w-75",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h5", {
+              className: "mt-3 mb-n2",
+              children: "Adres"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              maxInputLength: "120",
+              autoFocus: "false",
+              required: true,
+              inputName: "contactPerson-address",
+              placeholder: "Adres"
+            }, "address"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              maxInputLength: "120",
+              autoFocus: "false",
+              required: true,
+              inputName: "contactPerson-housenumber",
+              placeholder: "Huisnummer"
+            }, "housenumber"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              maxInputLength: "120",
+              autoFocus: "false",
+              required: true,
+              inputName: "contactPerson-city",
+              placeholder: "Plaats"
+            }, "city"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              maxInputLength: "120",
+              autoFocus: "false",
+              required: true,
+              inputName: "contactPerson-postalCode",
+              placeholder: "Postcode"
+            }, "postalCode")]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "invoice-wrapper",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h5", {
+              className: "mt-2",
+              children: "Factuuradres"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "d-flex justify-content-begin align-items-center flex-row mt-n2",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                onClick: function onClick() {
+                  closeInvoiceModal();
+                },
+                id: "invoice-address-same",
+                type: "checkbox",
+                className: "invoice-adress-input"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                id: "invoice-address",
+                style: {
+                  fontSize: '0.7rem'
+                },
+                htmlFor: "invoice-address-same",
+                className: "mt-2",
+                children: "Zelfde als adres"
+              })]
+            })]
+          })]
+        })
+      })]
+    })
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/js/datatables/agenda/components/modals/invoice-address-modal.js":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/datatables/agenda/components/modals/invoice-address-modal.js ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "InvoiceAdressModal": () => (/* binding */ InvoiceAdressModal)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
+/* harmony import */ var _components_input_animated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/input-animated */ "./resources/js/datatables/agenda/components/modals/components/input-animated.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+var InvoiceAdressModal = function InvoiceAdressModal(_ref) {
+  var openModal = _ref.openModal,
+      marginTop = _ref.marginTop,
+      marginLeft = _ref.marginLeft,
+      saveModal = _ref.saveModal,
+      closeInvoiceAdressModal = _ref.closeInvoiceAdressModal;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
+    children: openModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+      id: "reservation-modal",
+      className: "d-flex flex-column position-absolute justify-content-center align-items-center",
+      initial: {
+        opacity: 0,
+        top: marginTop - 20 + 'px',
+        left: marginLeft - 20 + 'px',
+        scale: 0.75
+      },
+      animate: {
+        opacity: 1,
+        top: marginTop + "px",
+        left: marginLeft + "px",
+        scale: 1
+      },
+      exit: {
+        opacity: 0,
+        scale: 0
+      },
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "close-icon",
+        onClick: function onClick() {
+          return closeInvoiceAdressModal();
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+          className: "fas fa-times"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "invoice-form reservation-form position-relative d-flex justify-content-center align-items-center w-60 rounded-5",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "position-relative flex-column d-flex justify-content-center align-items-center w-75",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+            maxInputLength: "120",
+            required: true,
+            inputName: "invoice-address",
+            placeholder: "Adres"
+          }, "adress"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+            maxInputLength: "120",
+            required: true,
+            inputName: "invoice-houseNumber",
+            placeholder: "Huisnummer"
+          }, "houseNumber"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+            maxInputLength: "120",
+            required: true,
+            inputName: "invoice-city",
+            placeholder: "Plaats"
+          }, "city"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+            maxInputLength: "120",
+            required: true,
+            inputName: "invoice-postalCode",
+            placeholder: "Postcode"
+          }, "postalCode")]
+        })
+      })]
+    })
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/js/datatables/agenda/components/modals/modal.js":
+/*!*******************************************************************!*\
+  !*** ./resources/js/datatables/agenda/components/modals/modal.js ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3387,9 +3866,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Modal": () => (/* binding */ Modal)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
-/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
+/* harmony import */ var _components_input_animated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/input-animated */ "./resources/js/datatables/agenda/components/modals/components/input-animated.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
 
 
 
@@ -3397,31 +3891,166 @@ var Modal = function Modal(_ref) {
   var openModal = _ref.openModal,
       marginTop = _ref.marginTop,
       marginLeft = _ref.marginLeft,
-      saveModal = _ref.saveModal;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_2__.AnimatePresence, {
-    children: openModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.motion.div, {
+      saveModal = _ref.saveModal,
+      addContactPerson = _ref.addContactPerson,
+      closeModal = _ref.closeModal;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      inputFocussedDesc = _useState2[0],
+      setDesFocus = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      inputFocussedPerson = _useState4[0],
+      setPersonFocus = _useState4[1];
+
+  var setDesFocusHandler = function setDesFocusHandler() {
+    setDesFocus(function (current) {
+      return !current;
+    });
+  };
+
+  var setPersonFocusHandler = function setPersonFocusHandler() {
+    setPersonFocus(function (current) {
+      return !current;
+    });
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
+    children: openModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
       id: "reservation-modal",
-      className: "d-flex flex-column position-absolute",
+      className: "d-flex flex-column position-absolute justify-content-center align-items-center",
       initial: {
         opacity: 0,
-        marginTop: marginTop - 20 + 'px',
-        marginLeft: marginLeft - 20 + 'px',
+        top: marginTop - 20 + 'px',
+        left: marginLeft - 20 + 'px',
         scale: 0.75
       },
       animate: {
         opacity: 1,
-        marginTop: marginTop + "px",
-        marginLeft: marginLeft + "px",
+        top: marginTop + "px",
+        left: marginLeft + "px",
         scale: 1
       },
       exit: {
         opacity: 0,
         scale: 0
       },
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-        onClick: saveModal,
-        children: "Save"
-      })
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "close-icon",
+        onClick: function onClick() {
+          closeModal();
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+          className: "fas fa-times"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "reservation-form position-relative d-flex justify-content-center align-items-center w-60 rounded-5",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "position-relative flex-column d-flex justify-content-center align-items-center w-75",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+            maxInputLength: "120",
+            required: true,
+            inputName: "contactPerson-name",
+            placeholder: "Titel"
+          }, "name"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "d-flex justify-content-center align-items-center flex-column",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("textarea", {
+              onFocus: setDesFocusHandler,
+              onBlur: setDesFocusHandler,
+              style: {
+                resize: "none"
+              },
+              className: "title w-100 mt-3 border-none rounded-5",
+              type: "text",
+              maxLength: "450",
+              required: true,
+              minLength: "1",
+              name: "reservation-desc",
+              placeholder: "Beschrijving"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "title-underline-wrapper",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+                  className: "title-underline"
+                }, "gray-line"), inputFocussedDesc && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+                  className: "title-underline-themeColor title-underline",
+                  initial: {
+                    scaleX: 0.1
+                  },
+                  animate: {
+                    scaleX: 1
+                  },
+                  exit: {
+                    scaleX: 0.1
+                  },
+                  transition: {
+                    duration: .4
+                  }
+                }, "orange-line")]
+              })
+            })]
+          }, "input-description"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "d-flex justify-content-center align-items-center flex-column",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "d-flex justify-content-between align-items-center flex-row",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                onFocus: setPersonFocusHandler,
+                onBlur: setPersonFocusHandler,
+                style: {
+                  resize: "none"
+                },
+                className: "title w-100 mt-3 border-none rounded-5",
+                type: "text",
+                maxLength: "450",
+                required: true,
+                minLength: "1",
+                name: "reservation-person",
+                placeholder: "Persoon"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                onClick: addContactPerson,
+                className: "fas fa-plus mt-3 w-25 d-flex justify-content-end align-items-center",
+                style: {
+                  color: '#8e8e8e'
+                }
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "title-underline-wrapper",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+                  className: "title-underline"
+                }, "gray-line"), inputFocussedPerson && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+                  className: "title-underline-themeColor title-underline",
+                  initial: {
+                    scaleX: 0.1
+                  },
+                  animate: {
+                    scaleX: 1
+                  },
+                  exit: {
+                    scaleX: 0.1
+                  },
+                  transition: {
+                    duration: .4
+                  }
+                }, "orange-line")]
+              })
+            })]
+          }, "input-person"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            style: {
+              fontSize: '.8rem'
+            },
+            className: "form-footer d-flex justify-content-end align-items-center flex-row mt-5 w-75",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              onClick: saveModal,
+              id: "saveReservation",
+              className: "",
+              children: "Opslaan"
+            }, "save-reservation")
+          }, "form-footer")]
+        })
+      })]
     })
   });
 };
@@ -68229,15 +68858,15 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "content-header-wrapper d-flex justify-content-between",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-            className: "header-date d-flex w-10 width-190px justify-content-center align-items-center h-0 fs-5 bg-themeColor text-white",
+            className: "header-date d-flex w-10 width-190px justify-content-center align-items-center h-0 fs-6 fw-bold ",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-              className: "day mr-2 height-45px d-flex justify-content-center align-items-center",
+              className: "day mr-2 d-flex justify-content-center align-items-center",
               children: this.state.current_day
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-              className: "month mr-2 height-45px d-flex justify-content-center align-items-center",
+              className: "month mr-2 d-flex justify-content-center align-items-center",
               children: this.state.current_month
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-              className: "year height-45px d-flex justify-content-center align-items-center",
+              className: "year d-flex justify-content-center align-items-center",
               children: this.state.current_year
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {

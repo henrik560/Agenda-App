@@ -4,7 +4,6 @@
 // Variables
 @import 'variables';
 
-
 #agenda-wrapper {
     display: flex;
     justify-content: center;
@@ -22,26 +21,52 @@
             column-gap: 15px;
 
             .header-date {
-                color: currentColor;
-                border-radius: 10px;
+                color: white;
+                border: 2px solid $themeColor;
+                background-color: $themeColor;
+                border-radius: 5px;
+                height: 40px;
+                transition: .35s ease-in-out;
+
+                &:hover {
+                    opacity: 0.9;
+                }
             }
 
             .content-header {
                 column-gap: 15px;
 
+                .dropdown-active {
+                    background-color: $themeColor !important;
+                    color: white !important;
+                }
+
                 .dropdown-menu-container {
                     width: 10rem;
                     min-width: 100px;
-                    background-color: $themeColor;
-                    color: white;
-                    border-radius: 10px;
+                    background-color: #eff0f6;
+                    border: 2px solid $themeColor;
+                    color: $themeColor;
+                    border-radius: 5px;
+                    height: 40px;
+                    transition: .35s all ease-in-out;
+                    gap: 8px;
+
+                    &:hover {
+                        background-color: $themeColor;
+                        color: white;
+                    }
 
                     .dropdown-first-child {
                         width: 10rem;
                         min-width: 100px;
+                        margin-top: 8px;
                     }
 
                     .dropdown-list-container {
+                        position: relative;
+                        z-index: 2000;
+
                         .dropdown-list {
                             position: relative;
                             z-index: 100;
@@ -52,6 +77,9 @@
                             -moz-transform: translateX(-50%);
                             -ms-transform: translateX(-50%);
                             -o-transform: translateX(-50%);
+                            border-top: 2px solid $themeColor;
+                            transition: .35s all ease-in-out;
+                            border-radius: 5px;
 
                             .dropdown-items-wrapper {
                                 max-height: 300px;
@@ -59,35 +87,27 @@
                                 overflow-y: auto;
                                 overflow-x: hidden;
                                 height: auto;
+                                border-radius: 5px;
 
                                 .list-item {
                                     padding: 5px 1px;
-                                    border-bottom: 2px solid $themeColorAccent;
                                     transition: .35s ease-in-out;
-                                    color: white;
+                                    color: $themeColor;
+                                    background-color: white;
+                                    border: 2px solid $themeColor;
                                     cursor: pointer;
+                                    margin-top: -1px;
+
+                                    &:nth-last-child(1) {
+                                        border-bottom-left-radius: 5px;
+                                        border-bottom-right-radius: 5px;
+                                    }
 
                                     &:hover {
-                                        border-bottom: 2px solid white;
+                                        border: 2px solid transparent;
                                         color: white;
+                                        background-color: $themeColor;
                                     }
-                                }
-
-                                &::-webkit-scrollbar {
-                                    width: 2px;
-                                    margin-left: 1px;
-                                }
-
-                                &::-webkit-scrollbar-track {
-                                    background: #F27500;
-                                }
-
-                                &::-webkit-scrollbar-thumb {
-                                    background: #ffff;
-                                }
-
-                                &::-webkit-scrollbar-thumb:hover {
-                                    background: #ffff;
                                 }
                             }
                         }
@@ -98,30 +118,15 @@
 
         .agenda-child-container {
             margin-top: 20px;
-            height: 400px;
-            background: radial-gradient(ellipse at center, $themeColorAccent 0%, $themeColor 100%);
+            height: 60vh;
+            border-radius: 25px;
+            background-color: white;
             display: flex;
             flex-direction: column;
             overflow-y: scroll;
             overflow-x: hidden;
-
-            &::-webkit-scrollbar {
-                width: 10px;
-            }
-
-            &::-webkit-scrollbar-track {
-                box-shadow: inset 0 0 5px #f5c598;
-                background-color: white;
-            }
-
-            &::-webkit-scrollbar-thumb {
-                background: $themeColorAccent;
-                border-radius: 10px;
-            }
-
-            &::-webkit-scrollbar-thumb:hover {
-                background: $themeColor;
-            }
+            padding-top: 1.5rem;
+            padding-right: 2.5rem;
 
             .header-container {
                 width: calc(100% - 100px);
@@ -133,24 +138,27 @@
 
                 .fake-header-time-item {
                     width: 100px;
-                    height: 60px;
+                    height: 84px;
                     margin-left: -100px;
                     position: fixed;
-                    background-color: #f17907;
+                    background-color: white;
+                    border-top-left-radius: 25px;
                     display: block;
                     z-index: 102;
+                    margin-top: -24px;
                 }
 
                 .sticky-header {
-                    width: calc(90% - 108px);
-                    height: 60px;
+                    width: calc(90% - 148px);
+                    height: 84px;
                     position: fixed;
                     z-index: 102;
-                    background-color: #f17907;
+                    background-color: white;
                     margin-left: -2px;
+                    margin-top: -24px;
 
                     #header-spaces-container {
-                        height: 60px;
+                        height: 84px;
                         margin-left: 2px;
                         width: calc(100% - 2px);
                     }
@@ -195,7 +203,7 @@
                         &::after {
                             content: "";
                             position: relative;
-                            width: 100000%;
+                            width: calc(79vw - 2px);
                             height: 1px;
                             background-color: rgba($color: #808080, $alpha: 0.5);
                             display: block;
@@ -224,7 +232,6 @@
 
                             .reservation-card {
                                 width: 90%;
-                                height: 100%;
                                 position: absolute;
                                 display: flex;
                                 min-height: 9px;
@@ -232,8 +239,16 @@
                                 justify-content: space-around;
                                 align-items: center;
                                 box-sizing: border-box;
-                                border: 1px solid gray;
+                                border: 1px solid #ddd;
                                 // pointer-events: none;
+                            }
+
+                            .reservation-card-hover {
+                                transition: background .3s ease-in-out;
+
+                                &:hover {
+                                    background: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25));
+                                }
                             }
                         }
 
@@ -249,10 +264,151 @@
     }
 }
 
+.add-contact-person-modal {
+    width: 200px !important;
+    height: 400px !important;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    div {
+        div {
+            .invoice-wrapper {
+                margin-top: 10px;
+                width: 75%;
+
+                div {
+                    #invoice-address {
+                        margin-left: 8px;
+                        margin-top: 1px;
+                    }
+                }
+            }
+        }
+    }
+}
+
 #reservation-modal {
-    width: 100px;
-    height: 200px;
+    pointer-events: all;
+    width: 150px;
+    height: 250px;
     left: 0;
     position: absolute;
-    background-color: red;
+    background-color: white;
+    -webkit-box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.51);
+    box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.51);
+    border-radius: 5px;
+
+    .close-icon {
+        position: absolute;
+        z-index: 1;
+        color: #8e8e8e;
+        right: 19px;
+        top: 10px;
+        transition: all .35s ease-in-out;
+
+        &:hover {
+            color: $themeColor;
+        }
+    }
+
+    .invoice-form {
+        margin-top: -60px;
+    }
+
+    .reservation-form {
+        width: 150px;
+        height: 200px;
+        // margin-top: -40px;
+
+        div {
+
+            .fa-plus {
+                transition: all .35s ease-in-out;
+
+                &:hover {
+
+                    &::before {
+                        color: $themeColor;
+                    }
+                }
+            }
+
+            .person-icon-active {
+                &::before {
+                    color: $themeColor !important;
+                }
+            }
+
+            .form-footer {
+                #saveReservation {
+                    background-color: white;
+                    color: $themeColor;
+                    border: 1px solid $themeColor;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    transition: all .35s ease-in-out;
+
+                    &:hover {
+                        color: white;
+                        background-color: $themeColor;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.title-underline-wrapper {
+    display: grid;
+    width: 100%;
+    height: 1px;
+    text-align: center;
+    justify-items: center;
+    align-items: center;
+
+    .title-underline {
+        height: 3px;
+        background-color: gray;
+        width: 100%;
+        position: relative;
+        z-index: 2001;
+        grid-area: 1/1/1/1;
+    }
+
+    .title-underline-themeColor {
+        position: relative;
+        z-index: 2002;
+        background-color: $themeColor !important;
+        grid-area: 1/1/1/1 !important;
+    }
+}
+
+.title {
+    outline: none;
+    border-radius: 5px;
+    border: none;
+}
+
+* {
+    scrollbar-color: #d5daf0 #eff0f6;
+    scrollbar-width: thin;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* Width */
+::-webkit-scrollbar {
+    width: 10px;
+    margin-right: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #eff0f6;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #f0c7a1;
+    border-radius: 10px;
 }

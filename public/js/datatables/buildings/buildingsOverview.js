@@ -3037,20 +3037,21 @@ var TableContentOverview = /*#__PURE__*/function (_React$Component) {
                   id: "body-row",
                   className: "body-row-name flex-grow-1 text-white d-flex justify-content-center align-items-center",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                    className: "text-center w-full text-truncate",
                     children: element.name
                   })
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
                 id: "body-row",
-                className: "body-row-hex text-white d-flex justify-content-center align-items-center",
+                className: "body-row-hex text-white d-flex justify-content-center align-items-center text-center w-full text-truncate",
                 children: "#".concat(element.color_hex)
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
                 id: "body-row",
-                className: "body-row-added text-white d-flex justify-content-center align-items-center",
+                className: "body-row-added text-white d-flex justify-content-center align-items-center text-center w-full text-truncate",
                 children: element.created_at.split("T")[0]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
                 id: "body-row",
-                className: "body-row-edited text-white d-flex justify-content-center align-items-center",
+                className: "body-row-edited text-white d-flex justify-content-center align-items-center text-center w-full text-truncate",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
                   className: "d-flex gap-3",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {

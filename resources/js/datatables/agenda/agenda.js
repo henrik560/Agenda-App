@@ -121,10 +121,10 @@ class Agenda extends React.Component {
         return (
         <div className="agenda mb-3 d-flex justify-content-center"> 
             <div className="content-header-wrapper d-flex justify-content-between">
-                <div className="header-date d-flex w-10 width-190px justify-content-center align-items-center h-0 fs-5 bg-themeColor text-white">
-                    <span className="day mr-2 height-45px d-flex justify-content-center align-items-center">{this.state.current_day}</span>
-                    <span className="month mr-2 height-45px d-flex justify-content-center align-items-center">{this.state.current_month}</span>
-                    <span className="year height-45px d-flex justify-content-center align-items-center">{this.state.current_year}</span>
+                <div className="header-date d-flex w-10 width-190px justify-content-center align-items-center h-0 fs-6 fw-bold ">
+                    <span className="day mr-2 d-flex justify-content-center align-items-center">{this.state.current_day}</span>
+                    <span className="month mr-2 d-flex justify-content-center align-items-center">{this.state.current_month}</span>
+                    <span className="year d-flex justify-content-center align-items-center">{this.state.current_year}</span>
                 </div>
                 <div className="content-header d-flex flex-row justify-content-between">
                     <Dropdown key="year" list={this.state.list_year} changeData={this.changeDate} dataTarget="year-dropdown" dateType="current_year" titleName="Jaar"/>

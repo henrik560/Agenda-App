@@ -17,23 +17,47 @@
        column-gap: 15px;
 }
 #agenda-wrapper .agenda .content-header-wrapper .header-date {
-  color: currentColor;
-  border-radius: 10px;
+  color: white;
+  border: 2px solid #F27500;
+  background-color: #F27500;
+  border-radius: 5px;
+  height: 40px;
+  transition: 0.35s ease-in-out;
+}
+#agenda-wrapper .agenda .content-header-wrapper .header-date:hover {
+  opacity: 0.9;
 }
 #agenda-wrapper .agenda .content-header-wrapper .content-header {
   -moz-column-gap: 15px;
        column-gap: 15px;
 }
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-active {
+  background-color: #F27500 !important;
+  color: white !important;
+}
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container {
   width: 10rem;
   min-width: 100px;
+  background-color: #eff0f6;
+  border: 2px solid #F27500;
+  color: #F27500;
+  border-radius: 5px;
+  height: 40px;
+  transition: 0.35s all ease-in-out;
+  gap: 8px;
+}
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container:hover {
   background-color: #F27500;
   color: white;
-  border-radius: 10px;
 }
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-first-child {
   width: 10rem;
   min-width: 100px;
+  margin-top: 8px;
+}
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container {
+  position: relative;
+  z-index: 2000;
 }
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list {
   position: relative;
@@ -45,6 +69,9 @@
   -moz-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   -o-transform: translateX(-50%);
+  border-top: 2px solid #F27500;
+  transition: 0.35s all ease-in-out;
+  border-radius: 5px;
 }
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper {
   max-height: 300px;
@@ -52,53 +79,37 @@
   overflow-y: auto;
   overflow-x: hidden;
   height: auto;
+  border-radius: 5px;
 }
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper .list-item {
   padding: 5px 1px;
-  border-bottom: 2px solid #ec9b4f;
   transition: 0.35s ease-in-out;
-  color: white;
+  color: #F27500;
+  background-color: white;
+  border: 2px solid #F27500;
   cursor: pointer;
+  margin-top: -1px;
+}
+#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper .list-item:nth-last-child(1) {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 #agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper .list-item:hover {
-  border-bottom: 2px solid white;
+  border: 2px solid transparent;
   color: white;
-}
-#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar {
-  width: 2px;
-  margin-left: 1px;
-}
-#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-track {
-  background: #F27500;
-}
-#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-thumb {
-  background: #ffff;
-}
-#agenda-wrapper .agenda .content-header-wrapper .content-header .dropdown-menu-container .dropdown-list-container .dropdown-list .dropdown-items-wrapper::-webkit-scrollbar-thumb:hover {
-  background: #ffff;
+  background-color: #F27500;
 }
 #agenda-wrapper .agenda .agenda-child-container {
   margin-top: 20px;
-  height: 400px;
-  background: radial-gradient(ellipse at center, #ec9b4f 0%, #F27500 100%);
+  height: 60vh;
+  border-radius: 25px;
+  background-color: white;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   overflow-x: hidden;
-}
-#agenda-wrapper .agenda .agenda-child-container::-webkit-scrollbar {
-  width: 10px;
-}
-#agenda-wrapper .agenda .agenda-child-container::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px #f5c598;
-  background-color: white;
-}
-#agenda-wrapper .agenda .agenda-child-container::-webkit-scrollbar-thumb {
-  background: #ec9b4f;
-  border-radius: 10px;
-}
-#agenda-wrapper .agenda .agenda-child-container::-webkit-scrollbar-thumb:hover {
-  background: #F27500;
+  padding-top: 1.5rem;
+  padding-right: 2.5rem;
 }
 #agenda-wrapper .agenda .agenda-child-container .header-container {
   width: calc(100% - 100px);
@@ -110,23 +121,26 @@
 }
 #agenda-wrapper .agenda .agenda-child-container .header-container .fake-header-time-item {
   width: 100px;
-  height: 60px;
+  height: 84px;
   margin-left: -100px;
   position: fixed;
-  background-color: #f17907;
+  background-color: white;
+  border-top-left-radius: 25px;
   display: block;
   z-index: 102;
+  margin-top: -24px;
 }
 #agenda-wrapper .agenda .agenda-child-container .header-container .sticky-header {
-  width: calc(90% - 108px);
-  height: 60px;
+  width: calc(90% - 148px);
+  height: 84px;
   position: fixed;
   z-index: 102;
-  background-color: #f17907;
+  background-color: white;
   margin-left: -2px;
+  margin-top: -24px;
 }
 #agenda-wrapper .agenda .agenda-child-container .header-container .sticky-header #header-spaces-container {
-  height: 60px;
+  height: 84px;
   margin-left: 2px;
   width: calc(100% - 2px);
 }
@@ -166,7 +180,7 @@
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-container .time-item::after {
   content: "";
   position: relative;
-  width: 100000%;
+  width: calc(79vw - 2px);
   height: 1px;
   background-color: rgba(128, 128, 128, 0.5);
   display: block;
@@ -191,7 +205,6 @@
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card {
   width: 90%;
-  height: 100%;
   position: absolute;
   display: flex;
   min-height: 9px;
@@ -199,7 +212,13 @@
   justify-content: space-around;
   align-items: center;
   box-sizing: border-box;
-  border: 1px solid gray;
+  border: 1px solid #ddd;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card-hover {
+  transition: background 0.3s ease-in-out;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card-hover:hover {
+  background: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25));
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item #create-reservation-popup {
   width: 100px;
@@ -207,10 +226,120 @@
   background-color: red;
 }
 
+.add-contact-person-modal {
+  width: 200px !important;
+  height: 400px !important;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.add-contact-person-modal div div .invoice-wrapper {
+  margin-top: 10px;
+  width: 75%;
+}
+.add-contact-person-modal div div .invoice-wrapper div #invoice-address {
+  margin-left: 8px;
+  margin-top: 1px;
+}
+
 #reservation-modal {
-  width: 100px;
-  height: 200px;
+  pointer-events: all;
+  width: 150px;
+  height: 250px;
   left: 0;
   position: absolute;
-  background-color: red;
+  background-color: white;
+  box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.51);
+  border-radius: 5px;
+}
+#reservation-modal .close-icon {
+  position: absolute;
+  z-index: 1;
+  color: #8e8e8e;
+  right: 19px;
+  top: 10px;
+  transition: all 0.35s ease-in-out;
+}
+#reservation-modal .close-icon:hover {
+  color: #F27500;
+}
+#reservation-modal .invoice-form {
+  margin-top: -60px;
+}
+#reservation-modal .reservation-form {
+  width: 150px;
+  height: 200px;
+}
+#reservation-modal .reservation-form div .fa-plus {
+  transition: all 0.35s ease-in-out;
+}
+#reservation-modal .reservation-form div .fa-plus:hover::before {
+  color: #F27500;
+}
+#reservation-modal .reservation-form div .person-icon-active::before {
+  color: #F27500 !important;
+}
+#reservation-modal .reservation-form div .form-footer #saveReservation {
+  background-color: white;
+  color: #F27500;
+  border: 1px solid #F27500;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: all 0.35s ease-in-out;
+}
+#reservation-modal .reservation-form div .form-footer #saveReservation:hover {
+  color: white;
+  background-color: #F27500;
+}
+
+.title-underline-wrapper {
+  display: grid;
+  width: 100%;
+  height: 1px;
+  text-align: center;
+  justify-items: center;
+  align-items: center;
+}
+.title-underline-wrapper .title-underline {
+  height: 3px;
+  background-color: gray;
+  width: 100%;
+  position: relative;
+  z-index: 2001;
+  grid-area: 1/1/1/1;
+}
+.title-underline-wrapper .title-underline-themeColor {
+  position: relative;
+  z-index: 2002;
+  background-color: #F27500 !important;
+  grid-area: 1/1/1/1 !important;
+}
+
+.title {
+  outline: none;
+  border-radius: 5px;
+  border: none;
+}
+
+* {
+  scrollbar-color: #d5daf0 #eff0f6;
+  scrollbar-width: thin;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* Width */
+::-webkit-scrollbar {
+  width: 10px;
+  margin-right: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #eff0f6;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f0c7a1;
+  border-radius: 10px;
 }
