@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedInput } from './components/input-animated'
 
-export const InvoiceAdressModal = ({ openModal, marginTop, marginLeft, saveModal, closeInvoiceAdressModal }) => {
+export const InvoiceAdressModal = ({ modalOpen, marginTop, marginLeft, saveModal, closeInvoiceAdressModal }) => {
     return (
         <AnimatePresence >
-        {openModal && (
+        {modalOpen && (
             <motion.div 
                 id="reservation-modal" 
                 className="d-flex flex-column position-absolute justify-content-center align-items-center" 
-                initial={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0.75 }}
+                initial={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0 }}
                 animate={{ opacity: 1, top: marginTop + "px", left: marginLeft + "px", scale: 1 }}
-                exit={{ opacity: 0, scale: 0 }}
+                exit={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0.25 }}
                 >
                     <div className="close-icon" onClick={() => closeInvoiceAdressModal()}>
                         <i className="fas fa-times"></i>

@@ -2945,8 +2945,8 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       elementCreated: false,
       newestElementID: '',
       creatingElement: false,
-      createReservationPopupOpen: false,
       modalSaved: false,
+      createReservationPopupOpen: false,
       addContactPersonModalOpen: false,
       invoiceAddressModalOpen: false
     };
@@ -2970,15 +2970,6 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {}
   }, {
-    key: "setModalState",
-    value: function setModalState() {
-      this.setState(function (prev) {
-        return {
-          createReservationPopupOpen: !prev.createReservationPopupOpen
-        };
-      });
-    }
-  }, {
     key: "removeChild",
     value: function removeChild() {
       var child = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
@@ -2988,46 +2979,95 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
-    key: "closeReservationModal",
-    value: function closeReservationModal() {
-      this.setModalState();
-      this.removeChild();
-    }
-  }, {
-    key: "contactPersonInvoiceModals",
-    value: function contactPersonInvoiceModals() {
+    key: "setModalState",
+    value: function setModalState() {
       this.setState(function (prev) {
         return {
-          addContactPersonModalOpen: !prev.addContactPersonModalOpen,
-          invoiceAddressModalOpen: !prev.invoiceAddressModalOpen
+          createReservationPopupOpen: !prev.createReservationPopupOpen
         };
       });
     }
   }, {
-    key: "contactPersonModal",
-    value: function contactPersonModal() {
-      this.setState(function (prev) {
-        return {
-          addContactPersonModalOpen: !prev.addContactPersonModalOpen
-        };
-      });
+    key: "openModal",
+    value: function openModal(Modal) {
+      if (Modal == "reservation") {
+        this.setState(function (prev) {
+          return {
+            createReservationPopupOpen: true
+          };
+        });
+      } else if (Modal == "person") {
+        this.setState(function (prev) {
+          return {
+            addContactPersonModalOpen: true,
+            InvoiceAdressModal: true
+          };
+        });
+      } else if (Modal == "invoice") {
+        this.setState(function (prev) {
+          return {
+            invoiceAddressModalOpen: true
+          };
+        });
+      }
     }
   }, {
-    key: "closeInvoiceAddressModal",
-    value: function closeInvoiceAddressModal() {
-      this.setState(function (prev) {
-        return {
-          invoiceAddressModalOpen: !prev.invoiceAddressModalOpen
-        };
-      });
+    key: "closeModal",
+    value: function closeModal(Modal) {
+      if (Modal == "reservation") {
+        this.removeChild();
+        this.setState(function (prev) {
+          return {
+            createReservationPopupOpen: false
+          };
+        });
+      } else if (Modal == "person") {
+        this.setState(function (prev) {
+          return {
+            addContactPersonModalOpen: false
+          };
+        });
+      } else if (Modal == "invoice") {
+        this.setState(function (prev) {
+          return {
+            invoiceAddressModalOpen: false
+          };
+        });
+      }
     }
   }, {
     key: "saveModal",
-    value: function saveModal() {
-      this.setState({
-        modalSaved: true,
-        createReservationPopupOpen: false
-      });
+    value: function saveModal(Modal) {
+      if (Modal == "reservation") {
+        this.setState(function (prev) {
+          return {
+            createReservationPopupOpen: false,
+            addContactPersonModalOpen: false,
+            invoiceAddressModalOpen: false,
+            modalSaved: true
+          };
+        });
+        this.saveReservationToFrontEnd();
+      } else if (Modal == "person") {
+        this.setState(function (prev) {
+          return {
+            addContactPersonModalOpen: false,
+            invoiceAddressModalOpen: false,
+            modalSaved: true
+          };
+        });
+      } else if (Modal == "invoice") {
+        this.setState(function (prev) {
+          return {
+            invoiceAddressModalOpen: false,
+            modalSaved: true
+          };
+        });
+      }
+    }
+  }, {
+    key: "saveReservationToFrontEnd",
+    value: function saveReservationToFrontEnd() {
       var newestReservation = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
 
       if (newestReservation) {
@@ -3044,26 +3084,6 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
         newestReservation.children[0].innerHTML = "".concat(hour, ":").concat(minutes == 3 ? minutes + '0' : minutes);
         newestReservation.children[1].innerHTML = "".concat(endHour, ":").concat(endMinutes == 3 ? endMinutes + '0' : endMinutes);
       }
-    }
-  }, {
-    key: "setContactPersonModalState",
-    value: function setContactPersonModalState() {
-      //Save Data
-      this.setState(function (prev) {
-        return {
-          addContactPersonModalOpen: !prev.addContactPersonModalOpen
-        };
-      });
-    }
-  }, {
-    key: "setInvoiceAddresModalState",
-    value: function setInvoiceAddresModalState() {
-      //Save data
-      this.setState(function (prev) {
-        return {
-          invoiceAddressModalOpen: !prev.invoiceAddressModalOpen
-        };
-      });
     }
   }, {
     key: "reservationClickHandler",
@@ -3224,44 +3244,44 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           ,
           marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // openModal={true}
           ,
-          openModal: this.state.createReservationPopupOpen,
+          modalOpen: this.state.createReservationPopupOpen,
           saveModal: function saveModal() {
-            return _this3.saveModal();
+            return _this3.saveModal("reservation");
           },
           closeModal: function closeModal() {
-            return _this3.closeReservationModal();
+            return _this3.closeModal("reservation");
           },
           addContactPerson: function addContactPerson() {
-            return _this3.contactPersonInvoiceModals();
+            return _this3.openModal("person");
           }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_2__.ContactPersonModal // openModal={true} 
         , {
-          openModal: this.state.addContactPersonModalOpen,
           marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
           ,
           marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left + 155 : '' // marginLeft={400}
           ,
+          modalOpen: this.state.addContactPersonModalOpen,
           saveModal: function saveModal() {
-            return _this3.setContactPersonModalState();
+            return _this3.saveModal("person");
           },
           closePersonModal: function closePersonModal() {
-            return _this3.contactPersonModal();
+            return _this3.closeModal("person");
           },
           closeInvoiceModal: function closeInvoiceModal() {
-            return _this3.closeInvoiceAddressModal();
+            return _this3.closeModal("invoice");
           }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_3__.InvoiceAdressModal // openModal={true} 
         , {
-          openModal: this.state.invoiceAddressModalOpen,
           marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
           ,
           marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left + 360 : '' // marginLeft={600}
           ,
+          modalOpen: this.state.invoiceAddressModalOpen,
           saveModal: function saveModal() {
-            return _this3.setInvoiceAddresModalState();
+            return _this3.saveModal("invoice");
           },
           closeInvoiceAdressModal: function closeInvoiceAdressModal() {
-            return _this3.closeInvoiceAddressModal();
+            return _this3.closeModal("invoice");
           }
         })]
       });
@@ -3626,7 +3646,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var ContactPersonModal = function ContactPersonModal(_ref) {
-  var openModal = _ref.openModal,
+  var modalOpen = _ref.modalOpen,
       marginTop = _ref.marginTop,
       marginLeft = _ref.marginLeft,
       saveModal = _ref.saveModal,
@@ -3645,14 +3665,14 @@ var ContactPersonModal = function ContactPersonModal(_ref) {
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
-    children: openModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+    children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
       id: "reservation-modal",
       className: "add-contact-person-modal d-flex flex-column position-absolute justify-content-center align-items-center",
       initial: {
         opacity: 0,
         top: marginTop - 20 + 'px',
         left: marginLeft - 20 + 'px',
-        scale: 0.75
+        scale: 0
       },
       animate: {
         opacity: 1,
@@ -3662,7 +3682,9 @@ var ContactPersonModal = function ContactPersonModal(_ref) {
       },
       exit: {
         opacity: 0,
-        scale: 0
+        top: marginTop - 20 + 'px',
+        left: marginLeft - 20 + 'px',
+        scale: 0.25
       },
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "close-icon",
@@ -3788,20 +3810,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var InvoiceAdressModal = function InvoiceAdressModal(_ref) {
-  var openModal = _ref.openModal,
+  var modalOpen = _ref.modalOpen,
       marginTop = _ref.marginTop,
       marginLeft = _ref.marginLeft,
       saveModal = _ref.saveModal,
       closeInvoiceAdressModal = _ref.closeInvoiceAdressModal;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
-    children: openModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+    children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
       id: "reservation-modal",
       className: "d-flex flex-column position-absolute justify-content-center align-items-center",
       initial: {
         opacity: 0,
         top: marginTop - 20 + 'px',
         left: marginLeft - 20 + 'px',
-        scale: 0.75
+        scale: 0
       },
       animate: {
         opacity: 1,
@@ -3811,7 +3833,9 @@ var InvoiceAdressModal = function InvoiceAdressModal(_ref) {
       },
       exit: {
         opacity: 0,
-        scale: 0
+        top: marginTop - 20 + 'px',
+        left: marginLeft - 20 + 'px',
+        scale: 0.25
       },
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "close-icon",
@@ -3888,7 +3912,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var Modal = function Modal(_ref) {
-  var openModal = _ref.openModal,
+  var modalOpen = _ref.modalOpen,
       marginTop = _ref.marginTop,
       marginLeft = _ref.marginLeft,
       saveModal = _ref.saveModal,
@@ -3918,14 +3942,14 @@ var Modal = function Modal(_ref) {
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
-    children: openModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+    children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
       id: "reservation-modal",
       className: "d-flex flex-column position-absolute justify-content-center align-items-center",
       initial: {
         opacity: 0,
         top: marginTop - 20 + 'px',
         left: marginLeft - 20 + 'px',
-        scale: 0.75
+        scale: 0
       },
       animate: {
         opacity: 1,
@@ -3935,7 +3959,9 @@ var Modal = function Modal(_ref) {
       },
       exit: {
         opacity: 0,
-        scale: 0
+        top: marginTop - 20 + 'px',
+        left: marginLeft - 20 + 'px',
+        scale: 0.25
       },
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "close-icon",

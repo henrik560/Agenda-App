@@ -11,8 +11,8 @@ export default class BodyContent extends React.Component {
             elementCreated: false,
             newestElementID: '',
             creatingElement: false,
-            createReservationPopupOpen: false,
             modalSaved: false,
+            createReservationPopupOpen: false,
             addContactPersonModalOpen: false,
             invoiceAddressModalOpen: false,
         }
@@ -29,36 +29,50 @@ export default class BodyContent extends React.Component {
     componentDidMount() {
     }
 
-    setModalState() {
-        this.setState(prev => ({createReservationPopupOpen: !prev.createReservationPopupOpen}))
-    }
-
     removeChild() {
         const child = document.getElementById(`${this.state.newestElementID}-reservation`)
         if(child) {
             child.parentNode.removeChild(child)
         }
     }
-
-    closeReservationModal() {
-        this.setModalState()
-        this.removeChild()
+    
+    setModalState() {
+        this.setState(prev => ({createReservationPopupOpen: !prev.createReservationPopupOpen}))
     }
 
-    contactPersonInvoiceModals() {
-        this.setState(prev => ({addContactPersonModalOpen: !prev.addContactPersonModalOpen, invoiceAddressModalOpen: !prev.invoiceAddressModalOpen}))
+    openModal(Modal) {
+        if(Modal == "reservation") {
+            this.setState(prev => ({createReservationPopupOpen: true}))
+        }else if(Modal == "person") {
+            this.setState(prev => ({addContactPersonModalOpen: true, InvoiceAdressModal: true}))
+        }else if(Modal == "invoice") {
+            this.setState(prev => ({invoiceAddressModalOpen: true}))
+        }  
     }
 
-    contactPersonModal() {
-        this.setState(prev => ({addContactPersonModalOpen: !prev.addContactPersonModalOpen}))
+    closeModal(Modal) {
+        if(Modal == "reservation") {
+            this.removeChild()
+            this.setState(prev => ({createReservationPopupOpen: false}))
+        }else if(Modal == "person") {
+            this.setState(prev => ({addContactPersonModalOpen: false}))
+        }else if(Modal == "invoice") {
+            this.setState(prev => ({invoiceAddressModalOpen: false}))
+        }
     }
 
-    closeInvoiceAddressModal() {
-        this.setState(prev => ({invoiceAddressModalOpen: !prev.invoiceAddressModalOpen})) 
+    saveModal(Modal) {
+        if(Modal == "reservation") {
+            this.setState(prev => ({createReservationPopupOpen: false, addContactPersonModalOpen: false, invoiceAddressModalOpen: false, modalSaved: true}))
+            this.saveReservationToFrontEnd()
+        }else if(Modal == "person") {
+            this.setState(prev => ({addContactPersonModalOpen: false, invoiceAddressModalOpen: false, modalSaved: true}))
+        }else if(Modal == "invoice") {
+            this.setState(prev => ({invoiceAddressModalOpen: false, modalSaved: true}))
+        }
     }
 
-    saveModal() {
-        this.setState({modalSaved: true, createReservationPopupOpen: false})
+    saveReservationToFrontEnd() {
         var newestReservation = document.getElementById(`${this.state.newestElementID}-reservation`)
         if(newestReservation) {
             //Add Hover class 
@@ -77,16 +91,6 @@ export default class BodyContent extends React.Component {
             newestReservation.children[0].innerHTML = `${hour}:${minutes == 3 ? minutes + '0' : minutes}`
             newestReservation.children[1].innerHTML = `${endHour}:${endMinutes == 3 ? endMinutes + '0' : endMinutes}`
         }
-    }
-
-    setContactPersonModalState() {
-        //Save Data
-        this.setState(prev => ({addContactPersonModalOpen: !prev.addContactPersonModalOpen}))
-    }
-
-    setInvoiceAddresModalState() {
-        //Save data
-        this.setState(prev => ({invoiceAddressModalOpen: !prev.invoiceAddressModalOpen}))
     }
 
     reservationClickHandler(event) {    
@@ -204,31 +208,31 @@ export default class BodyContent extends React.Component {
                     // marginTop={100} 
                     marginTop={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).offsetTop : ''} 
                     // openModal={true}
-                    openModal={this.state.createReservationPopupOpen}
-                    saveModal={() => this.saveModal()} 
-                    closeModal={() => this.closeReservationModal()}
-                    addContactPerson={() => this.contactPersonInvoiceModals()}
+                    modalOpen={this.state.createReservationPopupOpen}
+                    saveModal={() => this.saveModal("reservation")} 
+                    closeModal={() => this.closeModal("reservation")}
+                    addContactPerson={() => this.openModal("person")}
                 />
                 <ContactPersonModal 
                     // openModal={true} 
-                    openModal={this.state.addContactPersonModalOpen} 
                     marginTop={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).offsetTop : ''} 
                     // marginTop={50} 
                     marginLeft={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).getBoundingClientRect().left + 155: ''}
                     // marginLeft={400}
-                    saveModal={() => this.setContactPersonModalState()}
-                    closePersonModal={() => this.contactPersonModal()}
-                    closeInvoiceModal={() => this.closeInvoiceAddressModal()}
+                    modalOpen={this.state.addContactPersonModalOpen} 
+                    saveModal={() => this.saveModal("person")}
+                    closePersonModal={() => this.closeModal("person")}
+                    closeInvoiceModal={() => this.closeModal("invoice")}
                 />
                 <InvoiceAdressModal  
                     // openModal={true} 
-                    openModal={this.state.invoiceAddressModalOpen} 
                     marginTop={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).offsetTop : ''} 
                     // marginTop={50} 
                     marginLeft={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).getBoundingClientRect().left + 360: ''}
                     // marginLeft={600}
-                    saveModal={() => this.setInvoiceAddresModalState()}
-                    closeInvoiceAdressModal={() => this.closeInvoiceAddressModal()}
+                    modalOpen={this.state.invoiceAddressModalOpen} 
+                    saveModal={() => this.saveModal("invoice")}
+                    closeInvoiceAdressModal={() => this.closeModal("invoice")}
                     
                 />
             </div>
