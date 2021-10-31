@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedInput } from './components/input-animated'
 
-export const ContactPersonModal = ({ modalOpen, marginTop, marginLeft, saveModal, closePersonModal, closeInvoiceModal }) => {
-    const [ invoiceAddressSame, setInvoiceStatus ] = useState(false);
-
-    const setInvoiceStatusHandler = () => {
-        setInvoiceStatus(current => !current)
-    }
-
+export const ContactPersonModal = ({ modalOpen, marginTop, marginLeft, saveModal, closePersonModal, toggleInvoiceModal, closeInvoiceAdressModal, openInvoiceAdressModal }) => {
     return (
         <AnimatePresence >
         {modalOpen && (
@@ -40,7 +34,7 @@ export const ContactPersonModal = ({ modalOpen, marginTop, marginLeft, saveModal
                             <div className="invoice-wrapper">
                                 <h5 className="mt-2">Factuuradres</h5>
                                 <div className="d-flex justify-content-begin align-items-center flex-row mt-n2">
-                                    <input onClick={() => { closeInvoiceModal() }} id="invoice-address-same" type="checkbox" className="invoice-adress-input"></input>
+                                    <input onChange={(e) => { e.target.checked ? closeInvoiceAdressModal() : openInvoiceAdressModal() }} id="invoice-address-same" type="checkbox" className="invoice-adress-input"></input>
                                     <label id="invoice-address" style={{fontSize: '0.7rem'}} htmlFor="invoice-address-same" className="mt-2">Zelfde als adres</label>
                                 </div>
                             </div>

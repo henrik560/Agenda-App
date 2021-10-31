@@ -2979,13 +2979,27 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
-    key: "setModalState",
-    value: function setModalState() {
-      this.setState(function (prev) {
-        return {
-          createReservationPopupOpen: !prev.createReservationPopupOpen
-        };
-      });
+    key: "toggleModal",
+    value: function toggleModal(Modal) {
+      if (Modal == "reservation") {
+        this.setState(function (prev) {
+          return {
+            createReservationPopupOpen: !prev.createReservationPopupOpen
+          };
+        });
+      } else if (Modal == "person") {
+        this.setState(function (prev) {
+          return {
+            addContactPersonModalOpen: !prev.addContactPersonModalOpen
+          };
+        });
+      } else if (Modal == "invoice") {
+        this.setState(function (prev) {
+          return {
+            invoiceAddressModalOpen: !prev.invoiceAddressModalOpen
+          };
+        });
+      }
     }
   }, {
     key: "openModal",
@@ -3000,7 +3014,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
         this.setState(function (prev) {
           return {
             addContactPersonModalOpen: true,
-            InvoiceAdressModal: true
+            invoiceAddressModalOpen: true
           };
         });
       } else if (Modal == "invoice") {
@@ -3267,8 +3281,14 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           closePersonModal: function closePersonModal() {
             return _this3.closeModal("person");
           },
-          closeInvoiceModal: function closeInvoiceModal() {
+          closeInvoiceAdressModal: function closeInvoiceAdressModal() {
             return _this3.closeModal("invoice");
+          },
+          openInvoiceAdressModal: function openInvoiceAdressModal() {
+            return _this3.openModal("invoice");
+          },
+          toggleInvoiceModal: function toggleInvoiceModal() {
+            return _this3.toggleModal("invoice");
           }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_3__.InvoiceAdressModal // openModal={true} 
         , {
@@ -3628,18 +3648,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
 /* harmony import */ var _components_input_animated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/input-animated */ "./resources/js/datatables/agenda/components/modals/components/input-animated.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -3651,19 +3659,9 @@ var ContactPersonModal = function ContactPersonModal(_ref) {
       marginLeft = _ref.marginLeft,
       saveModal = _ref.saveModal,
       closePersonModal = _ref.closePersonModal,
-      closeInvoiceModal = _ref.closeInvoiceModal;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      invoiceAddressSame = _useState2[0],
-      setInvoiceStatus = _useState2[1];
-
-  var setInvoiceStatusHandler = function setInvoiceStatusHandler() {
-    setInvoiceStatus(function (current) {
-      return !current;
-    });
-  };
-
+      toggleInvoiceModal = _ref.toggleInvoiceModal,
+      closeInvoiceAdressModal = _ref.closeInvoiceAdressModal,
+      openInvoiceAdressModal = _ref.openInvoiceAdressModal;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
     children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
       id: "reservation-modal",
@@ -3763,8 +3761,8 @@ var ContactPersonModal = function ContactPersonModal(_ref) {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
               className: "d-flex justify-content-begin align-items-center flex-row mt-n2",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
-                onClick: function onClick() {
-                  closeInvoiceModal();
+                onChange: function onChange(e) {
+                  e.target.checked ? closeInvoiceAdressModal() : openInvoiceAdressModal();
                 },
                 id: "invoice-address-same",
                 type: "checkbox",
@@ -3816,7 +3814,7 @@ var InvoiceAdressModal = function InvoiceAdressModal(_ref) {
       saveModal = _ref.saveModal,
       closeInvoiceAdressModal = _ref.closeInvoiceAdressModal;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
-    children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+    children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
       id: "reservation-modal",
       className: "d-flex flex-column position-absolute justify-content-center align-items-center",
       initial: {
@@ -3837,15 +3835,7 @@ var InvoiceAdressModal = function InvoiceAdressModal(_ref) {
         left: marginLeft - 20 + 'px',
         scale: 0.25
       },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-        className: "close-icon",
-        onClick: function onClick() {
-          return closeInvoiceAdressModal();
-        },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-          className: "fas fa-times"
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "invoice-form reservation-form position-relative d-flex justify-content-center align-items-center w-60 rounded-5",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "position-relative flex-column d-flex justify-content-center align-items-center w-75",
@@ -3871,7 +3861,7 @@ var InvoiceAdressModal = function InvoiceAdressModal(_ref) {
             placeholder: "Postcode"
           }, "postalCode")]
         })
-      })]
+      })
     })
   });
 };

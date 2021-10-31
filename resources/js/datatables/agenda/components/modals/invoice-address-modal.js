@@ -13,9 +13,6 @@ export const InvoiceAdressModal = ({ modalOpen, marginTop, marginLeft, saveModal
                 animate={{ opacity: 1, top: marginTop + "px", left: marginLeft + "px", scale: 1 }}
                 exit={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0.25 }}
                 >
-                    <div className="close-icon" onClick={() => closeInvoiceAdressModal()}>
-                        <i className="fas fa-times"></i>
-                    </div>
                     <div className="invoice-form reservation-form position-relative d-flex justify-content-center align-items-center w-60 rounded-5">
                         <div className="position-relative flex-column d-flex justify-content-center align-items-center w-75">
                             <AnimatedInput key="adress" maxInputLength="120" required={true} inputName="invoice-address" placeholder="Adres"/>

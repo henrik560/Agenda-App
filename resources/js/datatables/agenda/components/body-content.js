@@ -36,15 +36,21 @@ export default class BodyContent extends React.Component {
         }
     }
     
-    setModalState() {
-        this.setState(prev => ({createReservationPopupOpen: !prev.createReservationPopupOpen}))
+    toggleModal(Modal) {
+        if(Modal == "reservation") {
+            this.setState(prev => ({createReservationPopupOpen: !prev.createReservationPopupOpen}))
+        }else if(Modal == "person") {
+            this.setState(prev => ({addContactPersonModalOpen: !prev.addContactPersonModalOpen}))
+        }else if(Modal == "invoice") {
+            this.setState(prev => ({invoiceAddressModalOpen: !prev.invoiceAddressModalOpen}))
+        }  
     }
 
     openModal(Modal) {
         if(Modal == "reservation") {
             this.setState(prev => ({createReservationPopupOpen: true}))
         }else if(Modal == "person") {
-            this.setState(prev => ({addContactPersonModalOpen: true, InvoiceAdressModal: true}))
+            this.setState(prev => ({addContactPersonModalOpen: true, invoiceAddressModalOpen: true}))
         }else if(Modal == "invoice") {
             this.setState(prev => ({invoiceAddressModalOpen: true}))
         }  
@@ -222,7 +228,9 @@ export default class BodyContent extends React.Component {
                     modalOpen={this.state.addContactPersonModalOpen} 
                     saveModal={() => this.saveModal("person")}
                     closePersonModal={() => this.closeModal("person")}
-                    closeInvoiceModal={() => this.closeModal("invoice")}
+                    closeInvoiceAdressModal={() => this.closeModal("invoice")}
+                    openInvoiceAdressModal={() => this.openModal("invoice")}
+                    toggleInvoiceModal={() => this.toggleModal("invoice")}
                 />
                 <InvoiceAdressModal  
                     // openModal={true} 
