@@ -2,40 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
 use Illuminate\Http\Request;
-use App\Models\User;
 
-class UserController extends Controller
+class ReservationController extends Controller
 {
-    public function getAllUsers()
+    public function index(Request $request)
     {
-        $users = User::all();
-
-        $data = [
-            "Title" => "Building",
-            "users" => $users
-        ];
-
-        return view("users.overview", $data);
-    }
-
-    public function index()
-    {
-
-        $user = User::with("userHasBuildings.building", "userHasBuildings.building.spaces", "userHasBuildings.building.spaces.reservations")->get();
-
-        return response()->json([
-            'users' => $user
-        ]);
+        return $request;
     }
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        return $request;
     }
 
     /**
@@ -46,7 +30,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $reservation = new Reservation();
+        $reservation->date = $request->resDate;
+        $reservation->starttime = $request->starttime;
+        $reservation->endtime = $request->endtime;
+        $reservation->space_id = $request->resSpaceID;
+        $reservation->title = $request->resTitle;
+        $reservation->description = $request->resDesc;
+        $reservation->reserved_by_user_id = auth()->user()->id;
+        $reservation->save();
+
+        return response($content = 'SUCCESSS!', $status = 201);
+        // return $request;
+
+        // return response($content = 'Succesfully!');
     }
 
     /**
@@ -57,16 +54,6 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //     $user = User::where("id", $id)->with("spaces")->get();
-
-        //     return response()->json([
-        //         'user' => $user,
-        //     ]);
-        $user = User::with("userHasBuildings.building", "userHasBuildings.building.spaces", "userHasBuildings.building.spaces.reservations")->where("users.id", $id)->get();
-
-        return response()->json([
-            'user' => $user
-        ]);
     }
 
     /**

@@ -2895,12 +2895,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ BodyContent)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _modals_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modals/modal */ "./resources/js/datatables/agenda/components/modals/modal.js");
-/* harmony import */ var _modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modals/contact-person-modal */ "./resources/js/datatables/agenda/components/modals/contact-person-modal.js");
-/* harmony import */ var _modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modals/invoice-address-modal */ "./resources/js/datatables/agenda/components/modals/invoice-address-modal.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _modals_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modals/modal */ "./resources/js/datatables/agenda/components/modals/modal.js");
+/* harmony import */ var _modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modals/contact-person-modal */ "./resources/js/datatables/agenda/components/modals/contact-person-modal.js");
+/* harmony import */ var _modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modals/invoice-address-modal */ "./resources/js/datatables/agenda/components/modals/invoice-address-modal.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2922,6 +2932,9 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -2940,6 +2953,32 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, BodyContent);
 
     _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "fetchUsers", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_5___default().get('api/users/').then(function (response) {
+                var users = [];
+                Object.values(response.data)[0].forEach(function (user) {
+                  users.push([user.name]);
+                });
+
+                _this.setState({
+                  listOfUsers: users
+                });
+              });
+
+            case 2:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    })));
+
     _this.state = {
       mouseDown: false,
       elementCreated: false,
@@ -2948,8 +2987,11 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       modalSaved: false,
       createReservationPopupOpen: false,
       addContactPersonModalOpen: false,
-      invoiceAddressModalOpen: false
+      invoiceAddressModalOpen: false,
+      listOfUsers: _this.fetchUsers(),
+      crsfToken: ''
     };
+    _this.fetchUsers = _this.fetchUsers.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2968,7 +3010,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "componentDidMount",
-    value: function componentDidMount() {}
+    value: function componentDidMount() {
+      var token = document.getElementById("csrf_Token");
+      this.setState({
+        crsfToken: token.getAttribute("value")
+      });
+    }
   }, {
     key: "removeChild",
     value: function removeChild() {
@@ -3053,6 +3100,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     key: "saveModal",
     value: function saveModal(Modal) {
       if (Modal == "reservation") {
+        this.saveReservationToFrontEnd();
         this.setState(function (prev) {
           return {
             createReservationPopupOpen: false,
@@ -3061,7 +3109,6 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
             modalSaved: true
           };
         });
-        this.saveReservationToFrontEnd();
       } else if (Modal == "person") {
         this.setState(function (prev) {
           return {
@@ -3083,6 +3130,9 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     key: "saveReservationToFrontEnd",
     value: function saveReservationToFrontEnd() {
       var newestReservation = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
+      var form = document.getElementById("reservation-form");
+      var starttime = document.getElementById("form-starttime");
+      var endtime = document.getElementById("form-endtime");
 
       if (newestReservation) {
         //Add Hover class 
@@ -3095,8 +3145,33 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
         var endTime = (newestReservation.style.height.split("px")[0] / 36 + newestReservation.style.top.split("px")[0] / 36 + 8).toString().split(".");
         var endHour = parseInt(endTime[0]);
         var endMinutes = endTime[1] ? parseInt(endTime[1]) / 100 * 60 : '00';
+        starttime.setAttribute("value", "".concat(hour, ":").concat(minutes == 3 ? minutes + '0' : minutes));
+        endtime.setAttribute("value", "".concat(endHour, ":").concat(endMinutes == 3 ? endMinutes + '0' : endMinutes));
         newestReservation.children[0].innerHTML = "".concat(hour, ":").concat(minutes == 3 ? minutes + '0' : minutes);
         newestReservation.children[1].innerHTML = "".concat(endHour, ":").concat(endMinutes == 3 ? endMinutes + '0' : endMinutes);
+        this.submitReservationToDB();
+      }
+    }
+  }, {
+    key: "submitReservationToDB",
+    value: function submitReservationToDB() {
+      var form = document.getElementById("reservation-form");
+
+      if (form) {
+        axios__WEBPACK_IMPORTED_MODULE_5___default()({
+          method: 'POST',
+          url: '/api/reservations/',
+          data: new FormData(form),
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }).then(function (response) {
+          //handle success
+          console.log(response);
+        })["catch"](function (response) {
+          //handle error
+          console.log(response);
+        });
       }
     }
   }, {
@@ -3167,7 +3242,10 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       var parentElement = document.querySelector("[data-spaceid='".concat(element.target.id.split("-")[3], "']"));
       var newReservationElement = document.createElement("div");
       var marginTop = Math.round(element.nativeEvent.offsetY / 9) * 9;
-      var randomID = Math.random().toString(16).slice(2); //Card Title
+      var randomID = Math.random().toString(16).slice(2); //Set spaceID in form for form submission
+
+      var spaceIDInput = document.getElementById("resSpaceID");
+      if (spaceIDInput) spaceIDInput.setAttribute('value', element.target.id.split("-")[3]); //Card Title
 
       var cardTitle = document.createElement("div");
       cardTitle.style.fontSize = '1vw'; //Card Time
@@ -3192,15 +3270,101 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       appendElement.appendChild(newReservationElement);
     }
   }, {
+    key: "setFormInputValue",
+    value: function setFormInputValue(value, input) {
+      var formInput = document.getElementById(input);
+
+      if (formInput) {
+        formInput.setAttribute('value', value);
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
+        id: "reservation-form",
+        method: "post",
+        action: "/api/reservations",
         className: "time-grid-item gap-1 d-flex justify-content-between",
-        children: [this.props.childElements && this.props.childElements.map(function (building, indexBuilding) {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          id: "form-starttime",
+          type: "hidden",
+          name: "starttime"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          id: "form-endtime",
+          type: "hidden",
+          name: "endtime"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          id: "token",
+          type: "hidden",
+          name: "_token",
+          value: this.state.crsfToken
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "resDate",
+          name: "resDate",
+          value: this.props.currentDate
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "resSpaceID",
+          name: "resSpaceID"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "cName",
+          name: "cName"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "cEmail",
+          name: "cEmail"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "cPhone",
+          name: "cPhone"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "cIban",
+          name: "cIban"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "cAddress",
+          name: "cAddress"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "cCity",
+          name: "cCity"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "cHouseNumber",
+          name: "cHouseNumber"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "cPostalCode",
+          name: "cPostalCode"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "ivAddress",
+          name: "ivAddress"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "ivCity",
+          name: "ivCity"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "ivHouseNumber",
+          name: "ivHouseNumber"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "ivPostalCode",
+          name: "ivPostalCode"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          type: "hidden",
+          id: "ivAddressSame",
+          name: "ivAddressSame"
+        }), this.props.childElements && this.props.childElements.map(function (building, indexBuilding) {
           return building.spaces.map(function (space, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
               className: "grid-row",
               onMouseUp: function onMouseUp(e) {
                 return _this3.mouseUpHandler(e);
@@ -3224,7 +3388,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                   var cardHeight = ((end[0] - start[0]) * 4 + (Math.round(end[1]) - Math.round(start[1])) / 15) * 9 - 1;
 
                   if (cardHeight < 577) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
                       className: "reservation-card reservation-card-hover d-flex flex-column justify-content-around align-items-center",
                       id: Math.random().toString(16).slice(2),
                       "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
@@ -3235,12 +3399,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                         backgroundColor: building.backgroundColor,
                         height: cardHeight
                       },
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                         style: {
                           fontSize: '0.6vw'
                         },
                         children: reservation.title
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
                         style: {
                           fontSize: '0.6vw'
                         },
@@ -3252,7 +3416,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
               })
             }, space.width + index + building.backgroundColor);
           });
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modals_modal__WEBPACK_IMPORTED_MODULE_1__.Modal // marginLeft={100} 
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_modals_modal__WEBPACK_IMPORTED_MODULE_2__.Modal // marginLeft={100} 
         , {
           marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left : '' // marginTop={100} 
           ,
@@ -3267,8 +3431,9 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           },
           addContactPerson: function addContactPerson() {
             return _this3.openModal("person");
-          }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_2__.ContactPersonModal // openModal={true} 
+          },
+          listOfUsers: this.state.listOfUsers
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_3__.ContactPersonModal // openModal={true} 
         , {
           marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
           ,
@@ -3289,8 +3454,11 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           },
           toggleInvoiceModal: function toggleInvoiceModal() {
             return _this3.toggleModal("invoice");
+          },
+          inputOnChange: function inputOnChange(value, input) {
+            _this3.setFormInputValue(value, input);
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_3__.InvoiceAdressModal // openModal={true} 
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_4__.InvoiceAdressModal // openModal={true} 
         , {
           marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
           ,
@@ -3302,6 +3470,9 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           },
           closeInvoiceAdressModal: function closeInvoiceAdressModal() {
             return _this3.closeModal("invoice");
+          },
+          inputOnChange: function inputOnChange(value, input) {
+            _this3.setFormInputValue(value, input);
           }
         })]
       });
@@ -3309,7 +3480,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return BodyContent;
-}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
 
 
@@ -3580,7 +3751,9 @@ var AnimatedInput = function AnimatedInput(_ref) {
       required = _ref.required,
       inputName = _ref.inputName,
       placeholder = _ref.placeholder,
-      autoFocus = _ref.autoFocus;
+      autoFocus = _ref.autoFocus,
+      formName = _ref.formName,
+      onInputChange = _ref.onInputChange;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -3596,6 +3769,7 @@ var AnimatedInput = function AnimatedInput(_ref) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "d-flex justify-content-center align-items-center flex-column",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      form: formName,
       onFocus: setInputFocusHandler,
       onBlur: setInputFocusHandler,
       className: "title w-100 mt-3 border-none rounded-5",
@@ -3603,6 +3777,9 @@ var AnimatedInput = function AnimatedInput(_ref) {
       maxLength: maxInputLength,
       required: required,
       minLength: "1",
+      onChange: function onChange(e) {
+        onInputChange(e.target.value, inputName);
+      },
       name: inputName,
       placeholder: placeholder
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -3659,9 +3836,25 @@ var ContactPersonModal = function ContactPersonModal(_ref) {
       marginLeft = _ref.marginLeft,
       saveModal = _ref.saveModal,
       closePersonModal = _ref.closePersonModal,
-      toggleInvoiceModal = _ref.toggleInvoiceModal,
       closeInvoiceAdressModal = _ref.closeInvoiceAdressModal,
-      openInvoiceAdressModal = _ref.openInvoiceAdressModal;
+      openInvoiceAdressModal = _ref.openInvoiceAdressModal,
+      inputOnChange = _ref.inputOnChange;
+
+  var closePersonInvoiceModal = function closePersonInvoiceModal() {
+    closeInvoiceAdressModal();
+    closePersonModal();
+  };
+
+  var closeInvoiceAddressModalAndUploadData = function closeInvoiceAddressModalAndUploadData() {
+    inputOnChange('true', 'ivAddressSame');
+    closeInvoiceAdressModal();
+  };
+
+  var openInvoiceAddressModalAndUploadData = function openInvoiceAddressModalAndUploadData() {
+    inputOnChange('false', 'ivAddressSame');
+    openInvoiceAdressModal();
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
     children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
       id: "reservation-modal",
@@ -3687,7 +3880,7 @@ var ContactPersonModal = function ContactPersonModal(_ref) {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "close-icon",
         onClick: function onClick() {
-          return closePersonModal();
+          return closePersonInvoiceModal();
         },
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
           className: "fas fa-times"
@@ -3699,28 +3892,44 @@ var ContactPersonModal = function ContactPersonModal(_ref) {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
             className: "w-75",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
               maxInputLength: "120",
               autoFocus: "true",
               required: true,
-              inputName: "contactPerson-name",
+              inputName: "cName",
               placeholder: "Naam"
             }, "name"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
               maxInputLength: "120",
               autoFocus: "false",
               required: true,
-              inputName: "contactPerson-email",
+              inputName: "cEmail",
               placeholder: "Email"
             }, "email"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
               maxInputLength: "120",
               autoFocus: "false",
               required: true,
-              inputName: "contactPerson-phone",
+              inputName: "cPhone",
               placeholder: "Telefoon"
             }, "phone"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
               maxInputLength: "120",
               autoFocus: "false",
               required: true,
-              inputName: "contactPerson-iban",
+              inputName: "cIban",
               placeholder: "Iban"
             }, "iban")]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -3729,28 +3938,44 @@ var ContactPersonModal = function ContactPersonModal(_ref) {
               className: "mt-3 mb-n2",
               children: "Adres"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
               maxInputLength: "120",
               autoFocus: "false",
               required: true,
-              inputName: "contactPerson-address",
+              inputName: "cAddress",
               placeholder: "Adres"
             }, "address"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
               maxInputLength: "120",
               autoFocus: "false",
               required: true,
-              inputName: "contactPerson-housenumber",
+              inputName: "cHouseNumber",
               placeholder: "Huisnummer"
             }, "housenumber"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
               maxInputLength: "120",
               autoFocus: "false",
               required: true,
-              inputName: "contactPerson-city",
+              inputName: "cCity",
               placeholder: "Plaats"
             }, "city"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
               maxInputLength: "120",
               autoFocus: "false",
               required: true,
-              inputName: "contactPerson-postalCode",
+              inputName: "cPostalCode",
               placeholder: "Postcode"
             }, "postalCode")]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -3762,7 +3987,7 @@ var ContactPersonModal = function ContactPersonModal(_ref) {
               className: "d-flex justify-content-begin align-items-center flex-row mt-n2",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
                 onChange: function onChange(e) {
-                  e.target.checked ? closeInvoiceAdressModal() : openInvoiceAdressModal();
+                  e.target.checked ? closeInvoiceAddressModalAndUploadData() : openInvoiceAddressModalAndUploadData();
                 },
                 id: "invoice-address-same",
                 type: "checkbox",
@@ -3777,7 +4002,18 @@ var ContactPersonModal = function ContactPersonModal(_ref) {
                 children: "Zelfde als adres"
               })]
             })]
-          })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            style: {
+              fontSize: '.8rem'
+            },
+            className: "form-footer d-flex justify-content-end align-items-center flex-row mt-2 mb-2 w-75",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              onClick: saveModal,
+              id: "saveReservation",
+              className: "",
+              children: "Opslaan"
+            }, "save-reservation")
+          }, "form-footer")]
         })
       })]
     })
@@ -3812,7 +4048,8 @@ var InvoiceAdressModal = function InvoiceAdressModal(_ref) {
       marginTop = _ref.marginTop,
       marginLeft = _ref.marginLeft,
       saveModal = _ref.saveModal,
-      closeInvoiceAdressModal = _ref.closeInvoiceAdressModal;
+      closeInvoiceAdressModal = _ref.closeInvoiceAdressModal,
+      inputOnChange = _ref.inputOnChange;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
     children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
       id: "reservation-modal",
@@ -3827,7 +4064,8 @@ var InvoiceAdressModal = function InvoiceAdressModal(_ref) {
         opacity: 1,
         top: marginTop + "px",
         left: marginLeft + "px",
-        scale: 1
+        scale: 1,
+        width: 200
       },
       exit: {
         opacity: 0,
@@ -3836,30 +4074,52 @@ var InvoiceAdressModal = function InvoiceAdressModal(_ref) {
         scale: 0.25
       },
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-        className: "invoice-form reservation-form position-relative d-flex justify-content-center align-items-center w-60 rounded-5",
+        className: "invoice-form reservation-form position-relative d-flex w-full rounded-5",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          className: "position-relative flex-column d-flex justify-content-center align-items-center w-75",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
-            maxInputLength: "120",
-            required: true,
-            inputName: "invoice-address",
-            placeholder: "Adres"
-          }, "adress"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
-            maxInputLength: "120",
-            required: true,
-            inputName: "invoice-houseNumber",
-            placeholder: "Huisnummer"
-          }, "houseNumber"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
-            maxInputLength: "120",
-            required: true,
-            inputName: "invoice-city",
-            placeholder: "Plaats"
-          }, "city"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
-            maxInputLength: "120",
-            required: true,
-            inputName: "invoice-postalCode",
-            placeholder: "Postcode"
-          }, "postalCode")]
+          className: "position-relative flex-column d-flex w-75",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h5", {
+            className: "mt-3 mb-n1",
+            children: "Factuurgegevens"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "d-flex flex-column w-100",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
+              maxInputLength: "120",
+              required: true,
+              inputName: "ivAddress",
+              placeholder: "Adres"
+            }, "adress"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
+              maxInputLength: "120",
+              required: true,
+              inputName: "ivHouseNumber",
+              placeholder: "Huisnummer"
+            }, "houseNumber"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
+              maxInputLength: "120",
+              required: true,
+              inputName: "ivCity",
+              placeholder: "Plaats"
+            }, "city"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+              onInputChange: function onInputChange(value, input) {
+                return inputOnChange(value, input);
+              },
+              formName: "reservation-form",
+              maxInputLength: "120",
+              required: true,
+              inputName: "ivPostalCode",
+              placeholder: "Postcode"
+            }, "postalCode")]
+          })]
         })
       })
     })
@@ -3907,7 +4167,8 @@ var Modal = function Modal(_ref) {
       marginLeft = _ref.marginLeft,
       saveModal = _ref.saveModal,
       addContactPerson = _ref.addContactPerson,
-      closeModal = _ref.closeModal;
+      closeModal = _ref.closeModal,
+      listOfUsers = _ref.listOfUsers;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -3919,6 +4180,26 @@ var Modal = function Modal(_ref) {
       inputFocussedPerson = _useState4[0],
       setPersonFocus = _useState4[1];
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      userListOpen = _useState6[0],
+      setUserListOpen = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("Persoon"),
+      _useState8 = _slicedToArray(_useState7, 2),
+      selectedUser = _useState8[0],
+      setSelectedUser = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState10 = _slicedToArray(_useState9, 2),
+      selectedUserChanged = _useState10[0],
+      setUserChanged = _useState10[1];
+
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState12 = _slicedToArray(_useState11, 2),
+      addUserModalOpen = _useState12[0],
+      setAddUserModalState = _useState12[1];
+
   var setDesFocusHandler = function setDesFocusHandler() {
     setDesFocus(function (current) {
       return !current;
@@ -3927,6 +4208,31 @@ var Modal = function Modal(_ref) {
 
   var setPersonFocusHandler = function setPersonFocusHandler() {
     setPersonFocus(function (current) {
+      return !current;
+    });
+  };
+
+  var setUserListState = function setUserListState() {
+    setUserListOpen(function (current) {
+      return !current;
+    });
+  };
+
+  var setSelectedUserHandler = function setSelectedUserHandler(user) {
+    setSelectedUser(user);
+    var input = document.getElementById("reservation-person-input");
+
+    if (input) {
+      input.setAttribute('value', user);
+    }
+
+    setUserChanged(true);
+    setUserListState();
+  };
+
+  var toggleAddPersonModal = function toggleAddPersonModal() {
+    addContactPerson();
+    setAddUserModalState(function (current) {
       return !current;
     });
   };
@@ -3966,9 +4272,11 @@ var Modal = function Modal(_ref) {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "position-relative flex-column d-flex justify-content-center align-items-center w-75",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+            onInputChange: function onInputChange() {},
+            formName: "reservation-form",
             maxInputLength: "120",
             required: true,
-            inputName: "contactPerson-name",
+            inputName: "resTitle",
             placeholder: "Titel"
           }, "name"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
             className: "d-flex justify-content-center align-items-center flex-column",
@@ -3983,7 +4291,7 @@ var Modal = function Modal(_ref) {
               maxLength: "450",
               required: true,
               minLength: "1",
-              name: "reservation-desc",
+              name: "resDesc",
               placeholder: "Beschrijving"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "title-underline-wrapper",
@@ -4012,6 +4320,7 @@ var Modal = function Modal(_ref) {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
               className: "d-flex justify-content-between align-items-center flex-row",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                form: "reservation-form",
                 onFocus: setPersonFocusHandler,
                 onBlur: setPersonFocusHandler,
                 style: {
@@ -4022,10 +4331,18 @@ var Modal = function Modal(_ref) {
                 maxLength: "450",
                 required: true,
                 minLength: "1",
-                name: "reservation-person",
-                placeholder: "Persoon"
+                name: "resCPerson",
+                id: "reservation-person-input",
+                placeholder: "Persoon",
+                disabled: addUserModalOpen
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-                onClick: addContactPerson,
+                onClick: setUserListState,
+                className: "fas fa-sort-down",
+                style: {
+                  color: '#8e8e8e'
+                }
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                onClick: toggleAddPersonModal,
                 className: "fas fa-plus mt-3 w-25 d-flex justify-content-end align-items-center",
                 style: {
                   color: '#8e8e8e'
@@ -4035,7 +4352,7 @@ var Modal = function Modal(_ref) {
               className: "title-underline-wrapper",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
-                  className: "title-underline"
+                  className: "title-person-underline title-underline ".concat(selectedUserChanged == true && 'title-underline-green')
                 }, "gray-line"), inputFocussedPerson && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
                   className: "title-underline-themeColor title-underline",
                   initial: {
@@ -4059,12 +4376,39 @@ var Modal = function Modal(_ref) {
             },
             className: "form-footer d-flex justify-content-end align-items-center flex-row mt-5 w-75",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-              onClick: saveModal,
+              onClick: function onClick(e) {
+                saveModal();
+              },
               id: "saveReservation",
               className: "",
               children: "Opslaan"
             }, "save-reservation")
-          }, "form-footer")]
+          }, "form-footer"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
+            children: userListOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+              className: "usersList",
+              initial: {
+                height: 0,
+                opacity: 0
+              },
+              animate: {
+                height: "auto",
+                opacity: 1
+              },
+              exit: {
+                height: 0,
+                opacity: 0
+              },
+              children: listOfUsers.map(function (user) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                  onClick: function onClick() {
+                    return setSelectedUserHandler(user);
+                  },
+                  className: "user-item",
+                  children: user
+                }, user);
+              })
+            }, "usersList")
+          })]
         })
       })]
     })
@@ -68755,8 +69099,7 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
 
             case 5:
               _context.next = 7;
-              return axios__WEBPACK_IMPORTED_MODULE_6___default().get('api/users/').then(function (response) {
-                console.log(response.data);
+              return axios__WEBPACK_IMPORTED_MODULE_6___default().get("api/users/".concat(document.getElementById("userID") ? document.getElementById("userID").value : '')).then(function (response) {
                 var buildings = [];
                 var childElementsSpaces = [];
                 Object.values(response.data)[0][0].user_has_buildings.map(function (el, id) {
@@ -68786,9 +69129,8 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
                 _this.setState({
                   buildings: buildings,
                   childElementsSpaces: childElementsSpaces
-                });
+                }); // localStorage.setItem("agendaBuildings", JSON.stringify(this.state.buildings))
 
-                console.log(childElementsSpaces); // localStorage.setItem("agendaBuildings", JSON.stringify(this.state.buildings))
               });
 
             case 7:
@@ -68922,6 +69264,8 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
             className: "content-container",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "time-line-end-disabler"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
               className: "time-container",
               children: this.state.day.map(function (time, index) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {

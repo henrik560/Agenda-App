@@ -203,7 +203,7 @@
                         &::after {
                             content: "";
                             position: relative;
-                            width: calc(79vw - 2px);
+                            width: 1000vw;
                             height: 1px;
                             background-color: rgba($color: #808080, $alpha: 0.5);
                             display: block;
@@ -297,6 +297,7 @@
     -webkit-box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.51);
     box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.51);
     border-radius: 5px;
+    z-index: 2000;
 
     .close-icon {
         position: absolute;
@@ -322,6 +323,21 @@
 
         div {
 
+            .fa-sort-down {
+                &::before {
+                    position: relative;
+                    display: block;
+                    margin-top: 10px;
+                }
+
+                &:hover {
+
+                    &::before {
+                        color: $themeColor;
+                    }
+                }
+            }
+
             .fa-plus {
                 transition: all .35s ease-in-out;
 
@@ -339,14 +355,42 @@
                 }
             }
 
-            .form-footer {
-                #saveReservation {
-                    background-color: white;
+
+
+            .usersList {
+                width: 125%;
+                background-color: white;
+                top: 162px;
+                left: 0;
+                position: absolute;
+                border-radius: 5px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                max-height: 150px;
+
+                box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.51);
+
+                .user-item {
+                    position: relative;
+                    border: 2px solid $themeColor;
                     color: $themeColor;
-                    border: 1px solid $themeColor;
-                    padding: 5px 10px;
-                    border-radius: 5px;
+                    margin-top: -2px;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     transition: all .35s ease-in-out;
+
+                    &:nth-child(1) {
+                        border-top-left-radius: 5px;
+                        border-top-right-radius: 5px;
+                        margin-top: 0px;
+                    }
+
+                    &:nth-last-child(1) {
+                        border-bottom-left-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                    }
 
                     &:hover {
                         color: white;
@@ -354,6 +398,22 @@
                     }
                 }
             }
+        }
+    }
+}
+
+.form-footer {
+    #saveReservation {
+        background-color: white;
+        color: $themeColor;
+        border: 1px solid $themeColor;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: all .35s ease-in-out;
+
+        &:hover {
+            color: white;
+            background-color: $themeColor;
         }
     }
 }
@@ -380,6 +440,15 @@
         z-index: 2002;
         background-color: $themeColor !important;
         grid-area: 1/1/1/1 !important;
+    }
+
+    .title-underline-green {
+        background-color: #28a745 !important;
+    }
+
+    .title-person-underline {
+        width: 85%;
+        margin-left: -15%;
     }
 }
 
@@ -411,4 +480,14 @@
 ::-webkit-scrollbar-thumb {
     background: #f0c7a1;
     border-radius: 10px;
+}
+
+.time-line-end-disabler {
+    position: absolute;
+    width: 50px;
+    height: 100%;
+    top: 0;
+    right: -50px;
+    background-color: white;
+    z-index: 100;
 }

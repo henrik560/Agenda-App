@@ -57,8 +57,7 @@ class Agenda extends React.Component {
                 this.setState({childElementsSpaces: JSON.parse(localStorage.getItem("agendaChildElementsSpaces"))})
             }
         }else {
-            await axios.get('api/users/').then(response => {
-                console.log(response.data)
+            await axios.get(`api/users/${document.getElementById("userID") ? document.getElementById("userID").value : ''}`).then(response => {
                 var buildings = [] 
                 var childElementsSpaces = [];
                 Object.values(response.data)[0][0].user_has_buildings.map((el, id) => { if(el.building != null) { buildings.push(el.building) } })
@@ -81,7 +80,6 @@ class Agenda extends React.Component {
                         }
                     })
                 this.setState({ buildings, childElementsSpaces })
-                console.log(childElementsSpaces)
                 // localStorage.setItem("agendaBuildings", JSON.stringify(this.state.buildings))
             });
         }
@@ -140,6 +138,7 @@ class Agenda extends React.Component {
                     </div>
                 </div>
                 <div className="content-container">
+                    <div className="time-line-end-disabler"></div>
                     <div className="time-container">
                         {this.state.day.map((time, index) => {
                             return (

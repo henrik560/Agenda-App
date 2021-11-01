@@ -180,7 +180,7 @@
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-container .time-item::after {
   content: "";
   position: relative;
-  width: calc(79vw - 2px);
+  width: 1000vw;
   height: 1px;
   background-color: rgba(128, 128, 128, 0.5);
   display: block;
@@ -250,6 +250,7 @@
   background-color: white;
   box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.51);
   border-radius: 5px;
+  z-index: 2000;
 }
 #reservation-modal .close-icon {
   position: absolute;
@@ -269,6 +270,14 @@
   width: 150px;
   height: 200px;
 }
+#reservation-modal .reservation-form div .fa-sort-down::before {
+  position: relative;
+  display: block;
+  margin-top: 10px;
+}
+#reservation-modal .reservation-form div .fa-sort-down:hover::before {
+  color: #F27500;
+}
 #reservation-modal .reservation-form div .fa-plus {
   transition: all 0.35s ease-in-out;
 }
@@ -278,7 +287,44 @@
 #reservation-modal .reservation-form div .person-icon-active::before {
   color: #F27500 !important;
 }
-#reservation-modal .reservation-form div .form-footer #saveReservation {
+#reservation-modal .reservation-form div .usersList {
+  width: 125%;
+  background-color: white;
+  top: 162px;
+  left: 0;
+  position: absolute;
+  border-radius: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 150px;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.51);
+}
+#reservation-modal .reservation-form div .usersList .user-item {
+  position: relative;
+  border: 2px solid #F27500;
+  color: #F27500;
+  margin-top: -2px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.35s ease-in-out;
+}
+#reservation-modal .reservation-form div .usersList .user-item:nth-child(1) {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin-top: 0px;
+}
+#reservation-modal .reservation-form div .usersList .user-item:nth-last-child(1) {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+#reservation-modal .reservation-form div .usersList .user-item:hover {
+  color: white;
+  background-color: #F27500;
+}
+
+.form-footer #saveReservation {
   background-color: white;
   color: #F27500;
   border: 1px solid #F27500;
@@ -286,7 +332,7 @@
   border-radius: 5px;
   transition: all 0.35s ease-in-out;
 }
-#reservation-modal .reservation-form div .form-footer #saveReservation:hover {
+.form-footer #saveReservation:hover {
   color: white;
   background-color: #F27500;
 }
@@ -312,6 +358,13 @@
   z-index: 2002;
   background-color: #F27500 !important;
   grid-area: 1/1/1/1 !important;
+}
+.title-underline-wrapper .title-underline-green {
+  background-color: #28a745 !important;
+}
+.title-underline-wrapper .title-person-underline {
+  width: 85%;
+  margin-left: -15%;
 }
 
 .title {
@@ -342,4 +395,14 @@
 ::-webkit-scrollbar-thumb {
   background: #f0c7a1;
   border-radius: 10px;
+}
+
+.time-line-end-disabler {
+  position: absolute;
+  width: 50px;
+  height: 100%;
+  top: 0;
+  right: -50px;
+  background-color: white;
+  z-index: 100;
 }

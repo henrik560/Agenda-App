@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 
-export const AnimatedInput = ({ maxInputLength, required, inputName, placeholder, autoFocus }) => {
+export const AnimatedInput = ({ maxInputLength, required, inputName, placeholder, autoFocus, formName, onInputChange }) => {
     const [ inputFocussed, setInputFocus ] = useState(false);
 
     const setInputFocusHandler = () => {
@@ -11,6 +11,7 @@ export const AnimatedInput = ({ maxInputLength, required, inputName, placeholder
     return (
         <div key={`input-${inputName}`} className="d-flex justify-content-center align-items-center flex-column">
                 <input 
+                    form={formName}
                     onFocus={setInputFocusHandler} 
                     onBlur={setInputFocusHandler}
                     className="title w-100 mt-3 border-none rounded-5" 
@@ -18,6 +19,7 @@ export const AnimatedInput = ({ maxInputLength, required, inputName, placeholder
                     maxLength={maxInputLength} 
                     required={required} 
                     minLength="1" 
+                    onChange={(e) => {onInputChange(e.target.value, inputName)}}
                     name={inputName} 
                     placeholder={placeholder}>
                 </input>

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BuildingController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +47,7 @@ Route::group(["middleware" => ["auth"]], function () {
     Route::prefix('/api')->group(function () {
         Route::resource('/buildings', BuildingController::class);
         Route::resource('/users', UserController::class);
+        Route::resource('/reservations', ReservationController::class);
     });
     // Route::resource('api/buildings/get/{id}/', BuildingController::class);
 });

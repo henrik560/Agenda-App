@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal } from './modals/modal'
 import { ContactPersonModal } from './modals/contact-person-modal';
 import { InvoiceAdressModal } from './modals/invoice-address-modal';
+import axios from 'axios';
 
 export default class BodyContent extends React.Component {
     constructor(props) {
@@ -15,7 +16,10 @@ export default class BodyContent extends React.Component {
             createReservationPopupOpen: false,
             addContactPersonModalOpen: false,
             invoiceAddressModalOpen: false,
+            listOfUsers: this.fetchUsers(),
+            crsfToken: ''
         }
+        this.fetchUsers = this.fetchUsers.bind(this);
     }
 
     componentDidUpdate() {
@@ -27,6 +31,19 @@ export default class BodyContent extends React.Component {
     }
 
     componentDidMount() {
+        var token = document.getElementById("csrf_Token");
+        this.setState({crsfToken: token.getAttribute("value")});
+    }
+
+    
+    fetchUsers = async () => {
+        await axios.get('api/users/').then(response => {
+            var users = [];
+            Object.values(response.data)[0].forEach((user) => {
+                users.push([user.name]);
+            })
+            this.setState({listOfUsers: users})
+        });
     }
 
     removeChild() {
@@ -69,8 +86,8 @@ export default class BodyContent extends React.Component {
 
     saveModal(Modal) {
         if(Modal == "reservation") {
-            this.setState(prev => ({createReservationPopupOpen: false, addContactPersonModalOpen: false, invoiceAddressModalOpen: false, modalSaved: true}))
             this.saveReservationToFrontEnd()
+            this.setState(prev => ({createReservationPopupOpen: false, addContactPersonModalOpen: false, invoiceAddressModalOpen: false, modalSaved: true}))
         }else if(Modal == "person") {
             this.setState(prev => ({addContactPersonModalOpen: false, invoiceAddressModalOpen: false, modalSaved: true}))
         }else if(Modal == "invoice") {
@@ -80,6 +97,9 @@ export default class BodyContent extends React.Component {
 
     saveReservationToFrontEnd() {
         var newestReservation = document.getElementById(`${this.state.newestElementID}-reservation`)
+        var form = document.getElementById("reservation-form");
+        var starttime = document.getElementById("form-starttime");
+        var endtime = document.getElementById("form-endtime");
         if(newestReservation) {
             //Add Hover class 
             newestReservation.classList.add("reservation-card-hover")
@@ -94,8 +114,32 @@ export default class BodyContent extends React.Component {
             var endHour = parseInt(endTime[0])
             var endMinutes = endTime[1] ? (parseInt(endTime[1]) / 100) * 60:'00'
   
+            starttime.setAttribute("value", `${hour}:${minutes == 3 ? minutes + '0' : minutes}`)
+            endtime.setAttribute("value", `${endHour}:${endMinutes == 3 ? endMinutes + '0' : endMinutes}`)
             newestReservation.children[0].innerHTML = `${hour}:${minutes == 3 ? minutes + '0' : minutes}`
             newestReservation.children[1].innerHTML = `${endHour}:${endMinutes == 3 ? endMinutes + '0' : endMinutes}`
+
+            this.submitReservationToDB()
+        }
+    
+    }
+
+    submitReservationToDB() {
+        const form = document.getElementById("reservation-form")
+        if(form) {
+            axios({
+                method: 'POST',
+                url: '/api/reservations/',
+                data: new FormData(form),
+                headers: { "Content-Type": "multipart/form-data" },
+            }).then(function (response) {
+                //handle success
+                console.log(response);
+              })
+              .catch(function (response) {
+                //handle error
+                console.log(response);
+              });
         }
     }
 
@@ -144,6 +188,9 @@ export default class BodyContent extends React.Component {
         var newReservationElement = document.createElement("div")
         var marginTop = (Math.round(element.nativeEvent.offsetY / 9) * 9)
         var randomID = Math.random().toString(16).slice(2)
+        //Set spaceID in form for form submission
+        var spaceIDInput = document.getElementById("resSpaceID")
+        if(spaceIDInput) spaceIDInput.setAttribute('value', element.target.id.split("-")[3])
 
         //Card Title
         var cardTitle = document.createElement("div")
@@ -168,9 +215,34 @@ export default class BodyContent extends React.Component {
         appendElement.appendChild(newReservationElement)
     }
 
+    setFormInputValue(value, input) {
+        var formInput = document.getElementById(input);
+        if(formInput) {
+            formInput.setAttribute('value', value)
+        }
+    }
+
     render() {
         return(
-            <div className="time-grid-item gap-1 d-flex justify-content-between">
+            <form id="reservation-form" method="post" action="/api/reservations" className="time-grid-item gap-1 d-flex justify-content-between">
+                <input id="form-starttime" type="hidden" name="starttime"></input>
+                <input id="form-endtime" type="hidden" name="endtime"></input>
+                <input id="token" type="hidden" name="_token" value={this.state.crsfToken}></input>
+                <input type="hidden" id="resDate" name="resDate" value={this.props.currentDate}></input>
+                <input type="hidden" id="resSpaceID" name="resSpaceID"></input>
+                <input type="hidden" id="cName" name="cName"></input>
+                <input type="hidden" id="cEmail" name="cEmail"></input>
+                <input type="hidden" id="cPhone" name="cPhone"></input>
+                <input type="hidden" id="cIban" name="cIban"></input>
+                <input type="hidden" id="cAddress" name="cAddress"></input>
+                <input type="hidden" id="cCity" name="cCity"></input>
+                <input type="hidden" id="cHouseNumber" name="cHouseNumber"></input>
+                <input type="hidden" id="cPostalCode" name="cPostalCode"></input>
+                <input type="hidden" id="ivAddress" name="ivAddress"></input>
+                <input type="hidden" id="ivCity" name="ivCity"></input>
+                <input type="hidden" id="ivHouseNumber" name="ivHouseNumber"></input>
+                <input type="hidden" id="ivPostalCode" name="ivPostalCode"></input>
+                <input type="hidden" id="ivAddressSame" name="ivAddressSame"></input>
                 {
                 this.props.childElements && this.props.childElements.map((building, indexBuilding) => {
                     return (
@@ -218,6 +290,7 @@ export default class BodyContent extends React.Component {
                     saveModal={() => this.saveModal("reservation")} 
                     closeModal={() => this.closeModal("reservation")}
                     addContactPerson={() => this.openModal("person")}
+                    listOfUsers={this.state.listOfUsers}
                 />
                 <ContactPersonModal 
                     // openModal={true} 
@@ -231,6 +304,7 @@ export default class BodyContent extends React.Component {
                     closeInvoiceAdressModal={() => this.closeModal("invoice")}
                     openInvoiceAdressModal={() => this.openModal("invoice")}
                     toggleInvoiceModal={() => this.toggleModal("invoice")}
+                    inputOnChange={(value, input) => {this.setFormInputValue(value, input)}}
                 />
                 <InvoiceAdressModal  
                     // openModal={true} 
@@ -241,9 +315,9 @@ export default class BodyContent extends React.Component {
                     modalOpen={this.state.invoiceAddressModalOpen} 
                     saveModal={() => this.saveModal("invoice")}
                     closeInvoiceAdressModal={() => this.closeModal("invoice")}
-                    
+                    inputOnChange={(value, input) => {this.setFormInputValue(value, input)}}
                 />
-            </div>
+            </form>
         )
 
     }
