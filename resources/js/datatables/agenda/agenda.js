@@ -32,6 +32,8 @@ class Agenda extends React.Component {
             fetchedSpacesFromDom: false,
             childElementsSpaces: [],
             buildings: [],
+            succesBoxOpen: false,
+            errorBoxOpen: false,
         }
         this.renderDaysInMonthArray = this.renderDaysInMonthArray.bind(this)
         this.changeDate = this.changeDate.bind(this)
@@ -44,6 +46,14 @@ class Agenda extends React.Component {
             daysInMonthArray.push(i) 
         }
         return daysInMonthArray
+    }
+
+    setBoxStatus(box) {
+        if(box == "error") {
+            this.setState(prev => ({errorBoxOpen: !prev.errorBoxOpen}))
+        }else if (box== "succes") {
+            this.setState(prev => ({succesBoxOpen: !prev.succesBoxOpen}))
+        }
     }
 
     fetchBuildings = async () => {
@@ -118,6 +128,59 @@ class Agenda extends React.Component {
     render() {
         return (
         <div className="agenda mb-3 d-flex justify-content-center"> 
+            {/* Reservation box wrappers */}
+                {/* Reservation succes box */}
+                {
+                    this.state.succesBoxOpen && (
+                        <div className="reservation-box-wrapper">
+                            <div className="reservation-succes-box d-flex flex-column">
+                                <div className="box-header w-100 d-flex justify-content-end align-items-end ">
+                                    <i className="fas fa-times mr-3 mt-3" onClick={this.setBoxStatus("succes")}></i>
+                                </div>
+                                <div className="box-body d-flex w-100">
+                                    <div className="box-body-message d-flex flex-column mt-2 w-100 justify-content-center align-items-center">
+                                        <span className="box-body-title">Succes!</span>
+                                        <span className="box-body-desc">Uw reservering is succesvol geplaatst.</span>
+                                        <div className="body-image d-flex justify-content-center align-items-center mt-4">
+                                            <img src="/images/checked.png" width="35%"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="box-footer">
+                                    <button className="box-footer-button" onClick={this.setBoxStatus("succes")} style={{backgroundColor: '#32ba7c'}}>Doorgaan</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    )
+                }
+                
+                {/* Reservation error box  */}
+                {
+                    this.state.errorBoxOpen && (
+                        <div className="reservation-box-wrapper">
+                            <div className="reservation-error-box d-flex flex-column">
+                                <div className="box-header w-100 d-flex justify-content-end align-items-end ">
+                                    <i className="fas fa-times mr-3 mt-3" onClick={this.setBoxStatus("error")}></i>
+                                </div>
+                                <div className="box-body d-flex w-100">
+                                    <div className="box-body-message d-flex flex-column mt-2 w-100 justify-content-center align-items-center">
+                                        <span className="box-body-title">Error!</span>
+                                        <span className="box-body-desc">Er is iets fout gegaan bij het plaatsen van uw reservering.</span>
+                                        <div className="body-image d-flex justify-content-center align-items-center mt-4">
+                                            <img src="/images/cancel.png" width="35%"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="box-footer">
+                                    <button onClick={this.setBoxStatus("error")} className="box-footer-button" style={{backgroundColor: '#e24c4b'}}>Opnieuw</button>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+                
+ 
             <div className="content-header-wrapper d-flex justify-content-between">
                 <div className="header-date d-flex w-10 width-190px justify-content-center align-items-center h-0 fs-6 fw-bold ">
                     <span className="day mr-2 d-flex justify-content-center align-items-center">{this.state.current_day}</span>
@@ -151,7 +214,7 @@ class Agenda extends React.Component {
                         })}
                     </div>
                     <div id="time-grid-inner" className="time-grid flex-grow-1">
-                        <BodyContent childElements={this.state.childElementsSpaces} currentDate={`${this.state.current_year}-${this.month}-${this.state.current_day}`}/>
+                        <BodyContent onReservationCreate={(box) => { this.setBoxStatus(box)}} childElements={this.state.childElementsSpaces} currentDate={`${this.state.current_year}-${this.month}-${this.state.current_day}`}/>
                     </div>
                 </div>
             </div>

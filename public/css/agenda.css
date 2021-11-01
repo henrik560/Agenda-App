@@ -12,6 +12,72 @@
   width: 90%;
   flex-direction: column;
 }
+#agenda-wrapper .agenda .reservation-box-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 2800;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-succes-box,
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-error-box {
+  width: 300px;
+  height: 50vh;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2900;
+}
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-succes-box .box-header .fa-times,
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-error-box .box-header .fa-times {
+  color: #8e8e8e;
+  transition: all 0.35s ease-in-out;
+  font-size: 25px;
+}
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-succes-box .box-header .fa-times:hover::before,
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-error-box .box-header .fa-times:hover::before {
+  color: #F27500;
+}
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-succes-box .box-body .box-body-message .box-body-title,
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-error-box .box-body .box-body-message .box-body-title {
+  font-size: 30px;
+  font-weight: bold;
+}
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-succes-box .box-body .box-body-message .box-body-desc,
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-error-box .box-body .box-body-message .box-body-desc {
+  font-size: 20px;
+  color: #5c5c5c;
+  width: 200px;
+  text-align: center;
+  margin-top: 5px;
+}
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-succes-box .box-footer,
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-error-box .box-footer {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-succes-box .box-footer .box-footer-button,
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-error-box .box-footer .box-footer-button {
+  width: 75%;
+  height: 40px;
+  outline: none;
+  border: none;
+  color: white;
+  border-radius: 25px;
+  transition: all 0.35s ease-in-out;
+}
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-succes-box .box-footer .box-footer-button:hover,
+#agenda-wrapper .agenda .reservation-box-wrapper .reservation-error-box .box-footer .box-footer-button:hover {
+  opacity: 0.8;
+}
 #agenda-wrapper .agenda .content-header-wrapper {
   -moz-column-gap: 15px;
        column-gap: 15px;
@@ -213,6 +279,10 @@
   align-items: center;
   box-sizing: border-box;
   border: 1px solid #ddd;
+  border-radius: 5px;
+}
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card .res-details {
+  font-size: 1.5vw;
 }
 #agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card-hover {
   transition: background 0.3s ease-in-out;

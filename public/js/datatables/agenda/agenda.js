@@ -2901,9 +2901,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modals/modal */ "./resources/js/datatables/agenda/components/modals/modal.js");
 /* harmony import */ var _modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modals/contact-person-modal */ "./resources/js/datatables/agenda/components/modals/contact-person-modal.js");
 /* harmony import */ var _modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modals/invoice-address-modal */ "./resources/js/datatables/agenda/components/modals/invoice-address-modal.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _modals_view_reservation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modals/view-reservation */ "./resources/js/datatables/agenda/components/modals/view-reservation.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -2942,6 +2943,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var BodyContent = /*#__PURE__*/function (_React$Component) {
   _inherits(BodyContent, _React$Component);
 
@@ -2960,7 +2962,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_5___default().get('api/users/').then(function (response) {
+              return axios__WEBPACK_IMPORTED_MODULE_6___default().get('api/users/').then(function (response) {
                 var users = [];
                 Object.values(response.data)[0].forEach(function (user) {
                   users.push([user.name]);
@@ -3150,6 +3152,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
         newestReservation.children[0].innerHTML = "".concat(hour, ":").concat(minutes == 3 ? minutes + '0' : minutes);
         newestReservation.children[1].innerHTML = "".concat(endHour, ":").concat(endMinutes == 3 ? endMinutes + '0' : endMinutes);
         this.submitReservationToDB();
+        console.log(this.props);
       }
     }
   }, {
@@ -3158,7 +3161,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       var form = document.getElementById("reservation-form");
 
       if (form) {
-        axios__WEBPACK_IMPORTED_MODULE_5___default()({
+        axios__WEBPACK_IMPORTED_MODULE_6___default()({
           method: 'POST',
           url: '/api/reservations/',
           data: new FormData(form),
@@ -3166,11 +3169,9 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
             "Content-Type": "multipart/form-data"
           }
         }).then(function (response) {
-          //handle success
-          console.log(response);
+          this.props.onReservationCreate("succes");
         })["catch"](function (response) {
-          //handle error
-          console.log(response);
+          this.props.onReservationCreate("error");
         });
       }
     }
@@ -3283,88 +3284,88 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("form", {
         id: "reservation-form",
         method: "post",
         action: "/api/reservations",
         className: "time-grid-item gap-1 d-flex justify-content-between",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           id: "form-starttime",
           type: "hidden",
           name: "starttime"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           id: "form-endtime",
           type: "hidden",
           name: "endtime"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           id: "token",
           type: "hidden",
           name: "_token",
           value: this.state.crsfToken
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "resDate",
           name: "resDate",
           value: this.props.currentDate
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "resSpaceID",
           name: "resSpaceID"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "cName",
           name: "cName"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "cEmail",
           name: "cEmail"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "cPhone",
           name: "cPhone"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "cIban",
           name: "cIban"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "cAddress",
           name: "cAddress"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "cCity",
           name: "cCity"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "cHouseNumber",
           name: "cHouseNumber"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "cPostalCode",
           name: "cPostalCode"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "ivAddress",
           name: "ivAddress"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "ivCity",
           name: "ivCity"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "ivHouseNumber",
           name: "ivHouseNumber"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "ivPostalCode",
           name: "ivPostalCode"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "hidden",
           id: "ivAddressSame",
           name: "ivAddressSame"
         }), this.props.childElements && this.props.childElements.map(function (building, indexBuilding) {
           return building.spaces.map(function (space, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "grid-row",
               onMouseUp: function onMouseUp(e) {
                 return _this3.mouseUpHandler(e);
@@ -3388,8 +3389,23 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                   var cardHeight = ((end[0] - start[0]) * 4 + (Math.round(end[1]) - Math.round(start[1])) / 15) * 9 - 1;
 
                   if (cardHeight < 577) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                      className: "reservation-card reservation-card-hover d-flex flex-column justify-content-around align-items-center",
+                    if (cardHeight < 50) {
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                        className: "reservation-card reservation-card-hover d-flex flex-column justify-content-center gap-2 align-items-center",
+                        id: Math.random().toString(16).slice(2),
+                        "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
+                        "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
+                        style: {
+                          top: cardMarginTop + 1,
+                          width: space.width,
+                          backgroundColor: building.backgroundColor,
+                          height: cardHeight
+                        }
+                      }, space.width + resIndex);
+                    }
+
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                      className: "reservation-card reservation-card-hover d-flex flex-column justify-content-center gap-2 align-items-center",
                       id: Math.random().toString(16).slice(2),
                       "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
                       "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
@@ -3399,16 +3415,20 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                         backgroundColor: building.backgroundColor,
                         height: cardHeight
                       },
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                        className: "res-details text-white text-center text-truncate",
                         style: {
-                          fontSize: '0.6vw'
+                          width: space.width - 20
                         },
-                        children: reservation.title
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("b", {
+                          children: reservation.title
+                        })
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                        className: "res-details text-white text-center text-truncate",
                         style: {
-                          fontSize: '0.6vw'
+                          width: space.width - 20
                         },
-                        children: [reservation.starttime, " - ", reservation.endtime]
+                        children: reservation.reservation_has_user.name
                       })]
                     }, space.width + resIndex);
                   }
@@ -3416,7 +3436,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
               })
             }, space.width + index + building.backgroundColor);
           });
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_modals_modal__WEBPACK_IMPORTED_MODULE_2__.Modal // marginLeft={100} 
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modals_modal__WEBPACK_IMPORTED_MODULE_2__.Modal // marginLeft={100} 
         , {
           marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left : '' // marginTop={100} 
           ,
@@ -3433,7 +3453,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
             return _this3.openModal("person");
           },
           listOfUsers: this.state.listOfUsers
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_3__.ContactPersonModal // openModal={true} 
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_3__.ContactPersonModal // openModal={true} 
         , {
           marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
           ,
@@ -3458,7 +3478,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           inputOnChange: function inputOnChange(value, input) {
             _this3.setFormInputValue(value, input);
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_4__.InvoiceAdressModal // openModal={true} 
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_4__.InvoiceAdressModal // openModal={true} 
         , {
           marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
           ,
@@ -3474,7 +3494,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           inputOnChange: function inputOnChange(value, input) {
             _this3.setFormInputValue(value, input);
           }
-        })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modals_view_reservation__WEBPACK_IMPORTED_MODULE_5__.ViewReservationModal, {})]
       });
     }
   }]);
@@ -4411,6 +4431,42 @@ var Modal = function Modal(_ref) {
           })]
         })
       })]
+    })
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/js/datatables/agenda/components/modals/view-reservation.js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/datatables/agenda/components/modals/view-reservation.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ViewReservationModal": () => (/* binding */ ViewReservationModal)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+
+
+
+var ViewReservationModal = function ViewReservationModal(_ref) {
+  _objectDestructuringEmpty(_ref);
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_2__.AnimatePresence, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.motion.div, {
+      id: "view-reservation-modal",
+      className: "d-flex flex-column position-absolute justify-content-center align-items-center" // initial={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0 }}
+      // animate={{ opacity: 1, top: marginTop + "px", left: marginLeft + "px", scale: 1 }}
+      // exit={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0.25}}
+
     })
   });
 };
@@ -69153,7 +69209,9 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
       day: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"],
       fetchedSpacesFromDom: false,
       childElementsSpaces: [],
-      buildings: []
+      buildings: [],
+      succesBoxOpen: false,
+      errorBoxOpen: false
     };
     _this.renderDaysInMonthArray = _this.renderDaysInMonthArray.bind(_assertThisInitialized(_this));
     _this.changeDate = _this.changeDate.bind(_assertThisInitialized(_this));
@@ -69171,6 +69229,23 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
       }
 
       return daysInMonthArray;
+    }
+  }, {
+    key: "setBoxStatus",
+    value: function setBoxStatus(box) {
+      if (box == "error") {
+        this.setState(function (prev) {
+          return {
+            errorBoxOpen: !prev.errorBoxOpen
+          };
+        });
+      } else if (box == "succes") {
+        this.setState(function (prev) {
+          return {
+            succesBoxOpen: !prev.succesBoxOpen
+          };
+        });
+      }
     }
   }, {
     key: "changeDate",
@@ -69211,9 +69286,91 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "agenda mb-3 d-flex justify-content-center",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        children: [this.state.succesBoxOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          className: "reservation-box-wrapper",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            className: "reservation-succes-box d-flex flex-column",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "box-header w-100 d-flex justify-content-end align-items-end ",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
+                className: "fas fa-times mr-3 mt-3",
+                onClick: this.setBoxStatus("succes")
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "box-body d-flex w-100",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+                className: "box-body-message d-flex flex-column mt-2 w-100 justify-content-center align-items-center",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                  className: "box-body-title",
+                  children: "Succes!"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                  className: "box-body-desc",
+                  children: "Uw reservering is succesvol geplaatst."
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                  className: "body-image d-flex justify-content-center align-items-center mt-4",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
+                    src: "/images/checked.png",
+                    width: "35%"
+                  })
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "box-footer",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+                className: "box-footer-button",
+                onClick: this.setBoxStatus("succes"),
+                style: {
+                  backgroundColor: '#32ba7c'
+                },
+                children: "Doorgaan"
+              })
+            })]
+          })
+        }), this.state.errorBoxOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          className: "reservation-box-wrapper",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            className: "reservation-error-box d-flex flex-column",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "box-header w-100 d-flex justify-content-end align-items-end ",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
+                className: "fas fa-times mr-3 mt-3",
+                onClick: this.setBoxStatus("error")
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "box-body d-flex w-100",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+                className: "box-body-message d-flex flex-column mt-2 w-100 justify-content-center align-items-center",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                  className: "box-body-title",
+                  children: "Error!"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                  className: "box-body-desc",
+                  children: "Er is iets fout gegaan bij het plaatsen van uw reservering."
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                  className: "body-image d-flex justify-content-center align-items-center mt-4",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
+                    src: "/images/cancel.png",
+                    width: "35%"
+                  })
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "box-footer",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+                onClick: this.setBoxStatus("error"),
+                className: "box-footer-button",
+                style: {
+                  backgroundColor: '#e24c4b'
+                },
+                children: "Opnieuw"
+              })
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "content-header-wrapper d-flex justify-content-between",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
             className: "header-date d-flex w-10 width-190px justify-content-center align-items-center h-0 fs-6 fw-bold ",
@@ -69282,6 +69439,9 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               id: "time-grid-inner",
               className: "time-grid flex-grow-1",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_body_content__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                onReservationCreate: function onReservationCreate(box) {
+                  _this2.setBoxStatus(box);
+                },
                 childElements: this.state.childElementsSpaces,
                 currentDate: "".concat(this.state.current_year, "-").concat(this.month, "-").concat(this.state.current_day)
               })

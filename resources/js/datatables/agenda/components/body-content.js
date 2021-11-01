@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal } from './modals/modal'
 import { ContactPersonModal } from './modals/contact-person-modal';
 import { InvoiceAdressModal } from './modals/invoice-address-modal';
+import { ViewReservationModal } from './modals/view-reservation';
 import axios from 'axios';
 
 export default class BodyContent extends React.Component {
@@ -120,6 +121,8 @@ export default class BodyContent extends React.Component {
             newestReservation.children[1].innerHTML = `${endHour}:${endMinutes == 3 ? endMinutes + '0' : endMinutes}`
 
             this.submitReservationToDB()
+            console.log(this.props)
+
         }
     
     }
@@ -133,12 +136,10 @@ export default class BodyContent extends React.Component {
                 data: new FormData(form),
                 headers: { "Content-Type": "multipart/form-data" },
             }).then(function (response) {
-                //handle success
-                console.log(response);
+                this.props.onReservationCreate("succes")
               })
               .catch(function (response) {
-                //handle error
-                console.log(response);
+                this.props.onReservationCreate("error")
               });
         }
     }
@@ -264,10 +265,16 @@ export default class BodyContent extends React.Component {
                                                         var cardMarginTop = ((start[0] -8) * 36) + (Math.round(start[1] / 15) * 9)
                                                         var cardHeight = ((((end[0] - start[0]) * 4) + ((Math.round(end[1]) - Math.round(start[1])) / 15)) * 9) - 1
                                                         if(cardHeight < 577) {
+                                                            if(cardHeight < 50) {
+                                                                return ( 
+                                                                    <div className="reservation-card reservation-card-hover d-flex flex-column justify-content-center gap-2 align-items-center" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
+                                                                    </div>
+                                                                )
+                                                            }
                                                             return ( 
-                                                                <div className="reservation-card reservation-card-hover d-flex flex-column justify-content-around align-items-center" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
-                                                                    <span style={{fontSize: '0.6vw'}}>{reservation.title}</span>
-                                                                    <span style={{fontSize: '0.6vw'}}>{reservation.starttime} - {reservation.endtime}</span>
+                                                                <div className="reservation-card reservation-card-hover d-flex flex-column justify-content-center gap-2 align-items-center" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
+                                                                    <div className="res-details text-white text-center text-truncate" style={{width: space.width - 20}}><b>{reservation.title}</b></div>
+                                                                    <span className="res-details text-white text-center text-truncate" style={{width: space.width - 20}}>{reservation.reservation_has_user.name}</span>
                                                                 </div>
                                                             )
                                                         }
@@ -317,6 +324,7 @@ export default class BodyContent extends React.Component {
                     closeInvoiceAdressModal={() => this.closeModal("invoice")}
                     inputOnChange={(value, input) => {this.setFormInputValue(value, input)}}
                 />
+                <ViewReservationModal/>
             </form>
         )
 
