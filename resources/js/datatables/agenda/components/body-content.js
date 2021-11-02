@@ -17,18 +17,23 @@ export default class BodyContent extends React.Component {
             createReservationPopupOpen: false,
             addContactPersonModalOpen: false,
             invoiceAddressModalOpen: false,
+            viewReservationModalOpen: false,
             listOfUsers: this.fetchUsers(),
-            crsfToken: ''
+            crsfToken: '',
         }
         this.fetchUsers = this.fetchUsers.bind(this);
+        this.handleFormSubmissionStatus = this.handleFormSubmissionStatus.bind(this);
+        this.submitReservationToDB = this.submitReservationToDB.bind(this)
     }
 
     componentDidUpdate() {
-        var userSelection = document.getElementsByClassName('reservation-card');
+            var userSelection = document.getElementsByClassName('reservation-card');
+            // var userSelection = userSelection.parentNode.replaceChild(userSelection.cloneNode(true), userSelection);
 
-        for(let i = 0; i < userSelection.length; i++) {
-          userSelection[i].addEventListener("click", (e) => this.reservationClickHandler(e))
-        }
+            for(let i = 0; i < userSelection.length; i++) {
+                userSelection[i].parentNode.replaceChild(userSelection[i].cloneNode(true), userSelection[i]);
+                userSelection[i].addEventListener("click", (e) => this.reservationClickHandler(e))
+            }
     }
 
     componentDidMount() {
@@ -61,6 +66,8 @@ export default class BodyContent extends React.Component {
             this.setState(prev => ({addContactPersonModalOpen: !prev.addContactPersonModalOpen}))
         }else if(Modal == "invoice") {
             this.setState(prev => ({invoiceAddressModalOpen: !prev.invoiceAddressModalOpen}))
+        }else if(Modal == "viewReservation") {
+            this.setState(prev => ({viewReservationModalOpen: !prev.viewReservationModalOpen}))
         }  
     }
 
@@ -71,7 +78,9 @@ export default class BodyContent extends React.Component {
             this.setState(prev => ({addContactPersonModalOpen: true, invoiceAddressModalOpen: true}))
         }else if(Modal == "invoice") {
             this.setState(prev => ({invoiceAddressModalOpen: true}))
-        }  
+        } else if(Modal == "viewReservation") {
+            this.setState(prev => ({viewReservationModalOpen: true,}))
+        }
     }
 
     closeModal(Modal) {
@@ -82,6 +91,8 @@ export default class BodyContent extends React.Component {
             this.setState(prev => ({addContactPersonModalOpen: false}))
         }else if(Modal == "invoice") {
             this.setState(prev => ({invoiceAddressModalOpen: false}))
+        }else if(Modal == "viewReservation") {
+            this.setState(prev => ({viewReservationModalOpen: false}))
         }
     }
 
@@ -93,14 +104,17 @@ export default class BodyContent extends React.Component {
             this.setState(prev => ({addContactPersonModalOpen: false, invoiceAddressModalOpen: false, modalSaved: true}))
         }else if(Modal == "invoice") {
             this.setState(prev => ({invoiceAddressModalOpen: false, modalSaved: true}))
+        }else if(Modal == "viewReservation") {
+            this.setState(prev => ({viewReservationModalOpen: false, modalSaved: true}))
         }
     }
 
     saveReservationToFrontEnd() {
         var newestReservation = document.getElementById(`${this.state.newestElementID}-reservation`)
-        var form = document.getElementById("reservation-form");
         var starttime = document.getElementById("form-starttime");
         var endtime = document.getElementById("form-endtime");
+        var title = document.getElementById("resTitle");
+        var person = document.getElementById("resCPerson");
         if(newestReservation) {
             //Add Hover class 
             newestReservation.classList.add("reservation-card-hover")
@@ -114,49 +128,60 @@ export default class BodyContent extends React.Component {
             var endTime = ((newestReservation.style.height.split("px")[0] / 36) + (newestReservation.style.top.split("px")[0] / 36) + 8).toString().split(".")
             var endHour = parseInt(endTime[0])
             var endMinutes = endTime[1] ? (parseInt(endTime[1]) / 100) * 60:'00'
-  
-            starttime.setAttribute("value", `${hour}:${minutes == 3 ? minutes + '0' : minutes}`)
-            endtime.setAttribute("value", `${endHour}:${endMinutes == 3 ? endMinutes + '0' : endMinutes}`)
-            newestReservation.children[0].innerHTML = `${hour}:${minutes == 3 ? minutes + '0' : minutes}`
-            newestReservation.children[1].innerHTML = `${endHour}:${endMinutes == 3 ? endMinutes + '0' : endMinutes}`
+            var startTimeString = `${hour}:${minutes == 3 ? minutes + '0' : minutes}`
+            var endTimeString = `${endHour}:${endMinutes == 3 ? endMinutes + '0' : endMinutes}`
+    
+            starttime.setAttribute("value", startTimeString)
+            endtime.setAttribute("value", endTimeString)
+            newestReservation.children[0].innerHTML = title.value
+            newestReservation.children[1].innerHTML = person.value
+            newestReservation.setAttribute("data-starttime", startTimeString)
+            newestReservation.setAttribute("data-endtime", endTimeString)
 
             this.submitReservationToDB()
-            console.log(this.props)
-
+            this.setState({newReservation: true})
         }
-    
     }
 
-    submitReservationToDB() {
+    handleFormSubmissionStatus(status) {
+        this.props.onReservationCreate(status)
+
+    }
+
+    submitReservationToDB= async () => {
         const form = document.getElementById("reservation-form")
+        var postStatus = true
         if(form) {
-            axios({
+            await axios({
                 method: 'POST',
                 url: '/api/reservations/',
                 data: new FormData(form),
                 headers: { "Content-Type": "multipart/form-data" },
             }).then(function (response) {
-                this.props.onReservationCreate("succes")
+                postStatus = true
               })
               .catch(function (response) {
-                this.props.onReservationCreate("error")
+                postStatus = false
               });
+        }
+        if(postStatus) {
+            await this.handleFormSubmissionStatus("succes")
+        }else {
+            await this.handleFormSubmissionStatus("error")
         }
     }
 
     reservationClickHandler(event) {    
         const reservation = document.getElementById(event.target.id)
-        const timepopup = document.getElementById("time-popup")
-        timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime")
+        const timepopup = document.getElementById("view-reservation-modal")
+        this.openModal("viewReservation")
+        console.log(reservation)
+        // timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime")
     }
 
     mouseDownHandler(event) {
-        (event.target.className == "reservation-card" || event.target.className == "grid-row") && this.setState({ mouseDown: true, newestElementID: '', createReservationPopupOpen: false });
-        if(this.state.addContactPersonModalOpen == true) {
-            this.setContactPersonModalState()
-        }else {
-            this.state.modalSaved == false && this.removeChild()
-        }
+        (event.target.className == "reservation-card" || event.target.className == "grid-row") && this.setState({ mouseDown: true, newestElementID: '', createReservationPopupOpen: false, addContactPersonModalOpen: false, invoiceAddressModalOpen: false, });
+        this.state.modalSaved == false && this.removeChild()
     }
 
     mouseUpHandler() {
@@ -195,11 +220,13 @@ export default class BodyContent extends React.Component {
 
         //Card Title
         var cardTitle = document.createElement("div")
-        cardTitle.style.fontSize = '1vw'
-        //Card Time
         var cardTime = document.createElement("div")
-        cardTime.style.fontSize = '1vw'
-
+        
+        //Stlye cards 
+        cardTitle.classList.add("res-details")
+        cardTime.classList.add("res-details")
+        cardTime.style.width = (parentElement.getBoundingClientRect().width - 20) + "px"
+        cardTitle.style.width = (parentElement.getBoundingClientRect().width - 20) + "px"
         //Append Card Details to card
         newReservationElement.appendChild(cardTitle)
         newReservationElement.appendChild(cardTime)
@@ -267,14 +294,14 @@ export default class BodyContent extends React.Component {
                                                         if(cardHeight < 577) {
                                                             if(cardHeight < 50) {
                                                                 return ( 
-                                                                    <div className="reservation-card reservation-card-hover d-flex flex-column justify-content-center gap-2 align-items-center" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
+                                                                    <div className="reservation-card reservation-card-hover" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
                                                                     </div>
                                                                 )
                                                             }
                                                             return ( 
-                                                                <div className="reservation-card reservation-card-hover d-flex flex-column justify-content-center gap-2 align-items-center" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
-                                                                    <div className="res-details text-white text-center text-truncate" style={{width: space.width - 20}}><b>{reservation.title}</b></div>
-                                                                    <span className="res-details text-white text-center text-truncate" style={{width: space.width - 20}}>{reservation.reservation_has_user.name}</span>
+                                                                <div className="reservation-card reservation-card-hover" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
+                                                                    <div className="res-details" style={{width: space.width - 20}}><b>{reservation.title}</b></div>
+                                                                    <span className="res-details" style={{width: space.width - 20}}>{reservation.reservation_has_user.name}</span>
                                                                 </div>
                                                             )
                                                         }
@@ -324,7 +351,16 @@ export default class BodyContent extends React.Component {
                     closeInvoiceAdressModal={() => this.closeModal("invoice")}
                     inputOnChange={(value, input) => {this.setFormInputValue(value, input)}}
                 />
-                <ViewReservationModal/>
+                <ViewReservationModal 
+                    // openModal={true} 
+                    marginTop={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).offsetTop : ''} 
+                    // marginTop={50} 
+                    marginLeft={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).getBoundingClientRect().left + 360: ''}
+                    // marginLeft={600}
+                    modalOpen={this.state.viewReservationModalOpen}
+                    saveModal={() => this.saveModal("viewReservation")}
+                    closeModal={() => this.closeModal("viewReservation")}
+                />
             </form>
         )
 

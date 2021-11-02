@@ -2981,6 +2981,59 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       }, _callee);
     })));
 
+    _defineProperty(_assertThisInitialized(_this), "submitReservationToDB", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      var form, postStatus;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              form = document.getElementById("reservation-form");
+              postStatus = true;
+
+              if (!form) {
+                _context2.next = 5;
+                break;
+              }
+
+              _context2.next = 5;
+              return axios__WEBPACK_IMPORTED_MODULE_6___default()({
+                method: 'POST',
+                url: '/api/reservations/',
+                data: new FormData(form),
+                headers: {
+                  "Content-Type": "multipart/form-data"
+                }
+              }).then(function (response) {
+                postStatus = true;
+              })["catch"](function (response) {
+                postStatus = false;
+              });
+
+            case 5:
+              if (!postStatus) {
+                _context2.next = 10;
+                break;
+              }
+
+              _context2.next = 8;
+              return _this.handleFormSubmissionStatus("succes");
+
+            case 8:
+              _context2.next = 12;
+              break;
+
+            case 10:
+              _context2.next = 12;
+              return _this.handleFormSubmissionStatus("error");
+
+            case 12:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    })));
+
     _this.state = {
       mouseDown: false,
       elementCreated: false,
@@ -2990,10 +3043,13 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       createReservationPopupOpen: false,
       addContactPersonModalOpen: false,
       invoiceAddressModalOpen: false,
+      viewReservationModalOpen: false,
       listOfUsers: _this.fetchUsers(),
       crsfToken: ''
     };
     _this.fetchUsers = _this.fetchUsers.bind(_assertThisInitialized(_this));
+    _this.handleFormSubmissionStatus = _this.handleFormSubmissionStatus.bind(_assertThisInitialized(_this));
+    _this.submitReservationToDB = _this.submitReservationToDB.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3002,9 +3058,10 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     value: function componentDidUpdate() {
       var _this2 = this;
 
-      var userSelection = document.getElementsByClassName('reservation-card');
+      var userSelection = document.getElementsByClassName('reservation-card'); // var userSelection = userSelection.parentNode.replaceChild(userSelection.cloneNode(true), userSelection);
 
       for (var i = 0; i < userSelection.length; i++) {
+        userSelection[i].parentNode.replaceChild(userSelection[i].cloneNode(true), userSelection[i]);
         userSelection[i].addEventListener("click", function (e) {
           return _this2.reservationClickHandler(e);
         });
@@ -3048,6 +3105,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
             invoiceAddressModalOpen: !prev.invoiceAddressModalOpen
           };
         });
+      } else if (Modal == "viewReservation") {
+        this.setState(function (prev) {
+          return {
+            viewReservationModalOpen: !prev.viewReservationModalOpen
+          };
+        });
       }
     }
   }, {
@@ -3072,6 +3135,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
             invoiceAddressModalOpen: true
           };
         });
+      } else if (Modal == "viewReservation") {
+        this.setState(function (prev) {
+          return {
+            viewReservationModalOpen: true
+          };
+        });
       }
     }
   }, {
@@ -3094,6 +3163,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
         this.setState(function (prev) {
           return {
             invoiceAddressModalOpen: false
+          };
+        });
+      } else if (Modal == "viewReservation") {
+        this.setState(function (prev) {
+          return {
+            viewReservationModalOpen: false
           };
         });
       }
@@ -3126,15 +3201,23 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
             modalSaved: true
           };
         });
+      } else if (Modal == "viewReservation") {
+        this.setState(function (prev) {
+          return {
+            viewReservationModalOpen: false,
+            modalSaved: true
+          };
+        });
       }
     }
   }, {
     key: "saveReservationToFrontEnd",
     value: function saveReservationToFrontEnd() {
       var newestReservation = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
-      var form = document.getElementById("reservation-form");
       var starttime = document.getElementById("form-starttime");
       var endtime = document.getElementById("form-endtime");
+      var title = document.getElementById("resTitle");
+      var person = document.getElementById("resCPerson");
 
       if (newestReservation) {
         //Add Hover class 
@@ -3147,40 +3230,32 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
         var endTime = (newestReservation.style.height.split("px")[0] / 36 + newestReservation.style.top.split("px")[0] / 36 + 8).toString().split(".");
         var endHour = parseInt(endTime[0]);
         var endMinutes = endTime[1] ? parseInt(endTime[1]) / 100 * 60 : '00';
-        starttime.setAttribute("value", "".concat(hour, ":").concat(minutes == 3 ? minutes + '0' : minutes));
-        endtime.setAttribute("value", "".concat(endHour, ":").concat(endMinutes == 3 ? endMinutes + '0' : endMinutes));
-        newestReservation.children[0].innerHTML = "".concat(hour, ":").concat(minutes == 3 ? minutes + '0' : minutes);
-        newestReservation.children[1].innerHTML = "".concat(endHour, ":").concat(endMinutes == 3 ? endMinutes + '0' : endMinutes);
+        var startTimeString = "".concat(hour, ":").concat(minutes == 3 ? minutes + '0' : minutes);
+        var endTimeString = "".concat(endHour, ":").concat(endMinutes == 3 ? endMinutes + '0' : endMinutes);
+        starttime.setAttribute("value", startTimeString);
+        endtime.setAttribute("value", endTimeString);
+        newestReservation.children[0].innerHTML = title.value;
+        newestReservation.children[1].innerHTML = person.value;
+        newestReservation.setAttribute("data-starttime", startTimeString);
+        newestReservation.setAttribute("data-endtime", endTimeString);
         this.submitReservationToDB();
-        console.log(this.props);
+        this.setState({
+          newReservation: true
+        });
       }
     }
   }, {
-    key: "submitReservationToDB",
-    value: function submitReservationToDB() {
-      var form = document.getElementById("reservation-form");
-
-      if (form) {
-        axios__WEBPACK_IMPORTED_MODULE_6___default()({
-          method: 'POST',
-          url: '/api/reservations/',
-          data: new FormData(form),
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        }).then(function (response) {
-          this.props.onReservationCreate("succes");
-        })["catch"](function (response) {
-          this.props.onReservationCreate("error");
-        });
-      }
+    key: "handleFormSubmissionStatus",
+    value: function handleFormSubmissionStatus(status) {
+      this.props.onReservationCreate(status);
     }
   }, {
     key: "reservationClickHandler",
     value: function reservationClickHandler(event) {
       var reservation = document.getElementById(event.target.id);
-      var timepopup = document.getElementById("time-popup");
-      timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime");
+      var timepopup = document.getElementById("view-reservation-modal");
+      this.openModal("viewReservation");
+      console.log(reservation); // timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime")
     }
   }, {
     key: "mouseDownHandler",
@@ -3188,14 +3263,11 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       (event.target.className == "reservation-card" || event.target.className == "grid-row") && this.setState({
         mouseDown: true,
         newestElementID: '',
-        createReservationPopupOpen: false
+        createReservationPopupOpen: false,
+        addContactPersonModalOpen: false,
+        invoiceAddressModalOpen: false
       });
-
-      if (this.state.addContactPersonModalOpen == true) {
-        this.setContactPersonModalState();
-      } else {
-        this.state.modalSaved == false && this.removeChild();
-      }
+      this.state.modalSaved == false && this.removeChild();
     }
   }, {
     key: "mouseUpHandler",
@@ -3249,10 +3321,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       if (spaceIDInput) spaceIDInput.setAttribute('value', element.target.id.split("-")[3]); //Card Title
 
       var cardTitle = document.createElement("div");
-      cardTitle.style.fontSize = '1vw'; //Card Time
+      var cardTime = document.createElement("div"); //Stlye cards 
 
-      var cardTime = document.createElement("div");
-      cardTime.style.fontSize = '1vw'; //Append Card Details to card
+      cardTitle.classList.add("res-details");
+      cardTime.classList.add("res-details");
+      cardTime.style.width = parentElement.getBoundingClientRect().width - 20 + "px";
+      cardTitle.style.width = parentElement.getBoundingClientRect().width - 20 + "px"; //Append Card Details to card
 
       newReservationElement.appendChild(cardTitle);
       newReservationElement.appendChild(cardTime); //Style card element
@@ -3391,7 +3465,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                   if (cardHeight < 577) {
                     if (cardHeight < 50) {
                       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-                        className: "reservation-card reservation-card-hover d-flex flex-column justify-content-center gap-2 align-items-center",
+                        className: "reservation-card reservation-card-hover",
                         id: Math.random().toString(16).slice(2),
                         "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
                         "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
@@ -3405,7 +3479,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                     }
 
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-                      className: "reservation-card reservation-card-hover d-flex flex-column justify-content-center gap-2 align-items-center",
+                      className: "reservation-card reservation-card-hover",
                       id: Math.random().toString(16).slice(2),
                       "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
                       "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
@@ -3416,7 +3490,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                         height: cardHeight
                       },
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-                        className: "res-details text-white text-center text-truncate",
+                        className: "res-details",
                         style: {
                           width: space.width - 20
                         },
@@ -3424,7 +3498,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                           children: reservation.title
                         })
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-                        className: "res-details text-white text-center text-truncate",
+                        className: "res-details",
                         style: {
                           width: space.width - 20
                         },
@@ -3494,7 +3568,20 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           inputOnChange: function inputOnChange(value, input) {
             _this3.setFormInputValue(value, input);
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modals_view_reservation__WEBPACK_IMPORTED_MODULE_5__.ViewReservationModal, {})]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modals_view_reservation__WEBPACK_IMPORTED_MODULE_5__.ViewReservationModal // openModal={true} 
+        , {
+          marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
+          ,
+          marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left + 360 : '' // marginLeft={600}
+          ,
+          modalOpen: this.state.viewReservationModalOpen,
+          saveModal: function saveModal() {
+            return _this3.saveModal("viewReservation");
+          },
+          closeModal: function closeModal() {
+            return _this3.closeModal("viewReservation");
+          }
+        })]
       });
     }
   }]);
@@ -3801,6 +3888,7 @@ var AnimatedInput = function AnimatedInput(_ref) {
         onInputChange(e.target.value, inputName);
       },
       name: inputName,
+      id: inputName,
       placeholder: placeholder
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "title-underline-wrapper",
@@ -4312,6 +4400,7 @@ var Modal = function Modal(_ref) {
               required: true,
               minLength: "1",
               name: "resDesc",
+              id: "resDesc",
               placeholder: "Beschrijving"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "title-underline-wrapper",
@@ -4352,7 +4441,7 @@ var Modal = function Modal(_ref) {
                 required: true,
                 minLength: "1",
                 name: "resCPerson",
-                id: "reservation-person-input",
+                id: "resCPerson",
                 placeholder: "Persoon",
                 disabled: addUserModalOpen
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
@@ -4452,21 +4541,120 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
 /* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
 
 var ViewReservationModal = function ViewReservationModal(_ref) {
-  _objectDestructuringEmpty(_ref);
+  var modalOpen = _ref.modalOpen,
+      closeModal = _ref.closeModal,
+      saveModal = _ref.saveModal,
+      marginLeft = _ref.marginLeft,
+      marginTop = _ref.marginTop;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      editRows = _useState2[0],
+      setEditRowsStatus = _useState2[1];
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_2__.AnimatePresence, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.motion.div, {
-      id: "view-reservation-modal",
-      className: "d-flex flex-column position-absolute justify-content-center align-items-center" // initial={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0 }}
+    children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.motion.div, {
+      id: "view-reservation-modal" // initial={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0 }}
       // animate={{ opacity: 1, top: marginTop + "px", left: marginLeft + "px", scale: 1 }}
       // exit={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0.25}}
-
+      ,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "d-flex justify-content-end align-items-end",
+        onClick: function onClick() {
+          closeModal();
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+          className: "fas fa-times"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "body-content",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "body-content-container",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "content-row ".concat(!editRows && 'content-row-border-bottom'),
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "content-column",
+              children: "Begin - Eind Tijd"
+            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "content-column content-value",
+              children: "10:00 - 19:00"
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+              className: "content-column content-value content-input",
+              placeholder: "10:00 - 19:00"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "content-row ".concat(!editRows && 'content-row-border-bottom'),
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "content-column",
+              children: "Titel"
+            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "content-column content-value",
+              children: "Catachasatie Avond"
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+              className: "content-column content-value content-input",
+              placeholder: "Catachasatie Avond"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "content-row ".concat(!editRows && 'content-row-border-bottom'),
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "content-column",
+              children: "Beschrijving"
+            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "content-column content-value",
+              children: "Deze ruimte word verhuurd voor de catachasatie avond"
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("textarea", {
+              className: "content-column content-value content-input",
+              placeholder: "Deze ruimte word verhuurd voor de catachasatie avond"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "content-row ".concat(!editRows && 'content-row-border-bottom'),
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "content-column",
+              children: "Contact Persoon"
+            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "content-column content-value",
+              children: "Henrik Hannewijk"
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+              className: "content-column content-value content-input",
+              placeholder: "Henrik Hannewijk"
+            })]
+          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "view-modal-footer ".concat(editRows && 'margin-top'),
+        children: editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+          onClick: function onClick() {
+            setEditRowsStatus(function (current) {
+              return !current;
+            });
+          },
+          children: "Bewerken"
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+          onClick: function onClick() {
+            setEditRowsStatus(function (current) {
+              return !current;
+            });
+          },
+          children: "Opslaan"
+        })
+      })]
     })
   });
 };
@@ -69298,7 +69486,9 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               className: "box-header w-100 d-flex justify-content-end align-items-end ",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
                 className: "fas fa-times mr-3 mt-3",
-                onClick: this.setBoxStatus("succes")
+                onClick: function onClick() {
+                  return _this2.setBoxStatus("succes");
+                }
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
               className: "box-body d-flex w-100",
@@ -69322,7 +69512,9 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               className: "box-footer",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
                 className: "box-footer-button",
-                onClick: this.setBoxStatus("succes"),
+                onClick: function onClick() {
+                  return _this2.setBoxStatus("succes");
+                },
                 style: {
                   backgroundColor: '#32ba7c'
                 },
@@ -69338,7 +69530,9 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               className: "box-header w-100 d-flex justify-content-end align-items-end ",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
                 className: "fas fa-times mr-3 mt-3",
-                onClick: this.setBoxStatus("error")
+                onClick: function onClick() {
+                  return _this2.setBoxStatus("error");
+                }
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
               className: "box-body d-flex w-100",
@@ -69361,7 +69555,9 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
               className: "box-footer",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
-                onClick: this.setBoxStatus("error"),
+                onClick: function onClick() {
+                  return _this2.setBoxStatus("error");
+                },
                 className: "box-footer-button",
                 style: {
                   backgroundColor: '#e24c4b'
@@ -69440,7 +69636,7 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               className: "time-grid flex-grow-1",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_body_content__WEBPACK_IMPORTED_MODULE_5__["default"], {
                 onReservationCreate: function onReservationCreate(box) {
-                  _this2.setBoxStatus(box);
+                  return _this2.setBoxStatus(box);
                 },
                 childElements: this.state.childElementsSpaces,
                 currentDate: "".concat(this.state.current_year, "-").concat(this.month, "-").concat(this.state.current_day)

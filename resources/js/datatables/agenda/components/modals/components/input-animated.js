@@ -21,6 +21,7 @@ export const AnimatedInput = ({ maxInputLength, required, inputName, placeholder
                     minLength="1" 
                     onChange={(e) => {onInputChange(e.target.value, inputName)}}
                     name={inputName} 
+                    id={inputName}
                     placeholder={placeholder}>
                 </input>
                 <div className="title-underline-wrapper">

@@ -56,7 +56,7 @@ export const Modal = ({ modalOpen, marginTop, marginLeft, saveModal, addContactP
                         <div className="position-relative flex-column d-flex justify-content-center align-items-center w-75">
                             <AnimatedInput onInputChange={() => {}} formName="reservation-form" key="name" maxInputLength="120" required={true} inputName="resTitle" placeholder="Titel"/>
                             <div key="input-description" className="d-flex justify-content-center align-items-center flex-column">
-                                <textarea onFocus={setDesFocusHandler} onBlur={setDesFocusHandler} style={{resize:"none"}} className="title w-100 mt-3 border-none rounded-5" type="text" maxLength="450" required minLength="1" name="resDesc" placeholder="Beschrijving"></textarea>
+                                <textarea onFocus={setDesFocusHandler} onBlur={setDesFocusHandler} style={{resize:"none"}} className="title w-100 mt-3 border-none rounded-5" type="text" maxLength="450" required minLength="1" name="resDesc" id="resDesc" placeholder="Beschrijving"></textarea>
                                 <div className="title-underline-wrapper">
                                     <AnimatePresence >
                                         <motion.div key="gray-line" className="title-underline"></motion.div>
@@ -83,7 +83,7 @@ export const Modal = ({ modalOpen, marginTop, marginLeft, saveModal, addContactP
                                         maxLength="450" 
                                         required minLength="1" 
                                         name="resCPerson" 
-                                        id="reservation-person-input"
+                                        id="resCPerson"
                                         placeholder="Persoon" 
                                         disabled={addUserModalOpen}
                                         ></input>

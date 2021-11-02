@@ -135,7 +135,7 @@ class Agenda extends React.Component {
                         <div className="reservation-box-wrapper">
                             <div className="reservation-succes-box d-flex flex-column">
                                 <div className="box-header w-100 d-flex justify-content-end align-items-end ">
-                                    <i className="fas fa-times mr-3 mt-3" onClick={this.setBoxStatus("succes")}></i>
+                                    <i className="fas fa-times mr-3 mt-3" onClick={() => this.setBoxStatus("succes")}></i>
                                 </div>
                                 <div className="box-body d-flex w-100">
                                     <div className="box-body-message d-flex flex-column mt-2 w-100 justify-content-center align-items-center">
@@ -147,11 +147,10 @@ class Agenda extends React.Component {
                                     </div>
                                 </div>
                                 <div className="box-footer">
-                                    <button className="box-footer-button" onClick={this.setBoxStatus("succes")} style={{backgroundColor: '#32ba7c'}}>Doorgaan</button>
+                                    <button className="box-footer-button" onClick={() => this.setBoxStatus("succes")} style={{backgroundColor: '#32ba7c'}}>Doorgaan</button>
                                 </div>
                             </div>
                         </div>
-
                     )
                 }
                 
@@ -161,7 +160,7 @@ class Agenda extends React.Component {
                         <div className="reservation-box-wrapper">
                             <div className="reservation-error-box d-flex flex-column">
                                 <div className="box-header w-100 d-flex justify-content-end align-items-end ">
-                                    <i className="fas fa-times mr-3 mt-3" onClick={this.setBoxStatus("error")}></i>
+                                    <i className="fas fa-times mr-3 mt-3" onClick={() => this.setBoxStatus("error")}></i>
                                 </div>
                                 <div className="box-body d-flex w-100">
                                     <div className="box-body-message d-flex flex-column mt-2 w-100 justify-content-center align-items-center">
@@ -173,7 +172,7 @@ class Agenda extends React.Component {
                                     </div>
                                 </div>
                                 <div className="box-footer">
-                                    <button onClick={this.setBoxStatus("error")} className="box-footer-button" style={{backgroundColor: '#e24c4b'}}>Opnieuw</button>
+                                    <button onClick={() => this.setBoxStatus("error")} className="box-footer-button" style={{backgroundColor: '#e24c4b'}}>Opnieuw</button>
                                 </div>
                             </div>
                         </div>
@@ -214,7 +213,7 @@ class Agenda extends React.Component {
                         })}
                     </div>
                     <div id="time-grid-inner" className="time-grid flex-grow-1">
-                        <BodyContent onReservationCreate={(box) => { this.setBoxStatus(box)}} childElements={this.state.childElementsSpaces} currentDate={`${this.state.current_year}-${this.month}-${this.state.current_day}`}/>
+                        <BodyContent onReservationCreate={(box) => this.setBoxStatus(box)} childElements={this.state.childElementsSpaces} currentDate={`${this.state.current_year}-${this.month}-${this.state.current_day}`}/>
                     </div>
                 </div>
             </div>
