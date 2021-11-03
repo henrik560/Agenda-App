@@ -7369,6 +7369,7 @@ button.bg-dark:focus {
 }
 
 .position-sticky {
+  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -7388,8 +7389,9 @@ button.bg-dark:focus {
   z-index: 1030;
 }
 
-@supports (position: sticky) {
+@supports ((position: -webkit-sticky) or (position: sticky)) {
   .sticky-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -10002,6 +10004,59 @@ h3 {
     border-color: #dee2e6;
   }
 }
+.color-placeholder {
+  color: #8e8e8e;
+}
+
+.themeColor {
+  color: #F27500;
+}
+
+.edit-input {
+  border: 2px solid #ddd;
+  outline: none;
+  margin-bottom: -1px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.button-hover {
+  color: #F27500;
+  background-color: white;
+  border: 2px solid #F27500;
+  transition: color, background-color 0.35s ease-in-out;
+  border-radius: 5px;
+}
+.button-hover:hover {
+  color: white;
+  background-color: #F27500;
+}
+
+.close-icon {
+  margin-top: 19px;
+  margin-right: 19px;
+}
+
+.fs-20 {
+  font-size: 20px;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.underline-placeholder {
+  border-bottom: 2px solid #ddd;
+  border-radius: 0px;
+}
+
+.themeColor-hover {
+  transition: color 0.35s ease-in-out;
+}
+.themeColor-hover:hover {
+  color: #F27500;
+}
+
 body {
   background-color: #eff0f6 !important;
 }

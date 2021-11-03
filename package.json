@@ -65,6 +65,7 @@
         "react-draggable": "^4.4.4",
         "react-router": "^5.2.1",
         "react-router-dom": "^5.3.0",
-        "text-to-svg": "^3.1.5"
+        "text-to-svg": "^3.1.5",
+        "uuid": "^3.4.0"
     }
 }

@@ -4,6 +4,7 @@ import { ContactPersonModal } from './modals/contact-person-modal';
 import { InvoiceAdressModal } from './modals/invoice-address-modal';
 import { ViewReservationModal } from './modals/view-reservation';
 import axios from 'axios';
+import uuidv4 from 'uuid/v4'
 
 export default class BodyContent extends React.Component {
     constructor(props) {
@@ -20,6 +21,9 @@ export default class BodyContent extends React.Component {
             viewReservationModalOpen: false,
             listOfUsers: this.fetchUsers(),
             crsfToken: '',
+            viewReservationData: '',
+            modalMarginLeft: '',
+            modalMarginTopClickedElement: '',
         }
         this.fetchUsers = this.fetchUsers.bind(this);
         this.handleFormSubmissionStatus = this.handleFormSubmissionStatus.bind(this);
@@ -27,13 +31,6 @@ export default class BodyContent extends React.Component {
     }
 
     componentDidUpdate() {
-            var userSelection = document.getElementsByClassName('reservation-card');
-            // var userSelection = userSelection.parentNode.replaceChild(userSelection.cloneNode(true), userSelection);
-
-            for(let i = 0; i < userSelection.length; i++) {
-                userSelection[i].parentNode.replaceChild(userSelection[i].cloneNode(true), userSelection[i]);
-                userSelection[i].addEventListener("click", (e) => this.reservationClickHandler(e))
-            }
     }
 
     componentDidMount() {
@@ -171,11 +168,32 @@ export default class BodyContent extends React.Component {
         }
     }
 
-    reservationClickHandler(event) {    
+    cardOnClickHandler(event) {   
+        if(this.state.createReservationPopupOpen == true) this.closeModal("reservation") 
         const reservation = document.getElementById(event.target.id)
-        const timepopup = document.getElementById("view-reservation-modal")
+        const reservationParent = reservation.parentNode
+        var agendaGrid = reservation.parentNode.parentNode.cloneNode(true)
+        var marginLeft = 100
+        var continueLoop = true
+        // console.log(agendaGrid)
+        // console.log(agendaGrid.children)
+        for (const child of agendaGrid.children) {
+            if(child.style.width != '' || child.style.width.length > 0) {
+                if(continueLoop)  {
+                    if(marginLeft >= 1000)  {
+                        marginLeft = marginLeft - 445
+                    }else {
+                        marginLeft = parseInt(marginLeft) + Math.round(parseInt(child.style.width.split("px")[0])) + 4.5
+                    }
+                }
+                if(child.id == reservationParent.id) continueLoop = false
+            }
+      
+        }
+        this.setState({modalMarginLeft: marginLeft, modalMarginTopClickedElement: event.target.style.top})
+        // const timepopup = document.getElementById("view-reservation-modal")
         this.openModal("viewReservation")
-        console.log(reservation)
+        // console.log(reservation)
         // timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime")
     }
 
@@ -209,11 +227,12 @@ export default class BodyContent extends React.Component {
     }
 
     createElement(element) {
+        if(this.state.viewReservationModalOpen == true) this.closeModal("viewReservation") 
         if(!element.target.id.startsWith("row") || element.target.className == "reservation-card") return
         var parentElement = document.querySelector(`[data-spaceid='${element.target.id.split("-")[3]}']`)
         var newReservationElement = document.createElement("div")
         var marginTop = (Math.round(element.nativeEvent.offsetY / 9) * 9)
-        var randomID = Math.random().toString(16).slice(2)
+        var randomID = uuidv4()
         //Set spaceID in form for form submission
         var spaceIDInput = document.getElementById("resSpaceID")
         if(spaceIDInput) spaceIDInput.setAttribute('value', element.target.id.split("-")[3])
@@ -236,9 +255,10 @@ export default class BodyContent extends React.Component {
         newReservationElement.style.height = "9px"
         newReservationElement.style.top = marginTop + "px"
         newReservationElement.style.width = parentElement.getBoundingClientRect().width + "px"
+        newReservationElement.onclick = function(e) { this.cardOnClickHandler(e) };
         newReservationElement.classList.add("reservation-card")
-        newReservationElement.id = `${marginTop}${randomID}-reservation`
-        this.setState({newestElementID: `${marginTop}${randomID}`, elementCreated: true})
+        newReservationElement.id = `${randomID}-reservation`
+        this.setState({newestElementID: `${randomID}`, elementCreated: true})
         var appendElement = document.getElementById(element.target.id)
         appendElement.appendChild(newReservationElement)
     }
@@ -253,6 +273,7 @@ export default class BodyContent extends React.Component {
     render() {
         return(
             <form id="reservation-form" method="post" action="/api/reservations" className="time-grid-item gap-1 d-flex justify-content-between">
+                <div id="reservation-form-wrapper-deletable">
                 <input id="form-starttime" type="hidden" name="starttime"></input>
                 <input id="form-endtime" type="hidden" name="endtime"></input>
                 <input id="token" type="hidden" name="_token" value={this.state.crsfToken}></input>
@@ -271,6 +292,7 @@ export default class BodyContent extends React.Component {
                 <input type="hidden" id="ivHouseNumber" name="ivHouseNumber"></input>
                 <input type="hidden" id="ivPostalCode" name="ivPostalCode"></input>
                 <input type="hidden" id="ivAddressSame" name="ivAddressSame"></input>
+                </div>
                 {
                 this.props.childElements && this.props.childElements.map((building, indexBuilding) => {
                     return (
@@ -294,12 +316,12 @@ export default class BodyContent extends React.Component {
                                                         if(cardHeight < 577) {
                                                             if(cardHeight < 50) {
                                                                 return ( 
-                                                                    <div className="reservation-card reservation-card-hover" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
+                                                                    <div className="reservation-card reservation-card-hover" onClick={(e) => this.cardOnClickHandler(e)} id={uuidv4()} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
                                                                     </div>
                                                                 )
                                                             }
                                                             return ( 
-                                                                <div className="reservation-card reservation-card-hover" id={Math.random().toString(16).slice(2)} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
+                                                                <div className="reservation-card reservation-card-hover" onClick={(e) => this.cardOnClickHandler(e)} id={uuidv4()} data-starttime={`${start[0]}-${Math.round(start[1] / 15) * 15}`} data-endtime={`${end[0]}-${Math.round(end[1] / 15) * 15}`} key={space.width + resIndex} style={{top: cardMarginTop + 1, width: space.width, backgroundColor: building.backgroundColor, height: cardHeight}}>
                                                                     <div className="res-details" style={{width: space.width - 20}}><b>{reservation.title}</b></div>
                                                                     <span className="res-details" style={{width: space.width - 20}}>{reservation.reservation_has_user.name}</span>
                                                                 </div>
@@ -353,13 +375,16 @@ export default class BodyContent extends React.Component {
                 />
                 <ViewReservationModal 
                     // openModal={true} 
-                    marginTop={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).offsetTop : ''} 
+                    marginTop={this.state.modalMarginTopClickedElement} 
                     // marginTop={50} 
-                    marginLeft={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).getBoundingClientRect().left + 360: ''}
+                    // marginLeft={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).getBoundingClientRect().left + 360: ''}
+                    marginLeft={this.state.modalMarginLeft}
                     // marginLeft={600}
+                    // modalOpen={true}
                     modalOpen={this.state.viewReservationModalOpen}
                     saveModal={() => this.saveModal("viewReservation")}
                     closeModal={() => this.closeModal("viewReservation")}
+                    reservation={this.state.viewReservationData}
                 />
             </form>
         )

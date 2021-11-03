@@ -5,7 +5,7 @@ import TableContentOverview from './components/overview/table-content';
 import TablePageSelector from './components/page-selector';
 import axios from 'axios';
 import config from "../../tempConfg.json"
-
+import { EditBuildingModal } from './components/modals/edit';
 
 class BuildingsOverview extends React.Component {
     constructor(props) {
@@ -19,6 +19,7 @@ class BuildingsOverview extends React.Component {
             refresh: false,
             noResults: false,
             searchKeyWord: '',
+            EditBuildingModalOpen: false,
         }
     }
 
@@ -93,6 +94,12 @@ class BuildingsOverview extends React.Component {
         this.filterListOnKeyWord(keyWord.target.value.toLocaleLowerCase())
     }
 
+    setPopupStatus(Modal, status) {
+        if(Modal == "edit") {
+            this.setState({EditBuildingModalOpen: status})
+        }
+    }
+
     render() {
         return (
             <div className="d-flex flex-column w-90 h-90" id="container-datatable">
@@ -126,7 +133,7 @@ class BuildingsOverview extends React.Component {
                         </div>
                     </div>
                     <div id="table-body" className="d-flex flex-grow-1 flex-column">
-                        <TableContentOverview loading={this.state.refresh} buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
+                        <TableContentOverview openModal={(Modal, status) => this.setPopupStatus(Modal, status)} loading={this.state.refresh} buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
                     </div>
                     <div id="table-footer" className="mt-3 ml-2 mb-3 d-flex flex-row justify-content-between">
                             <Modal openModal={this.state.openModal} current={this.state.listAmount} setListAmount={(e) => {this.setListAmount(e)}} />
@@ -145,6 +152,7 @@ class BuildingsOverview extends React.Component {
                     </div>
                 </div>
             </div>
+            <EditBuildingModal openModal={this.state.EditBuildingModalOpen} closeModal={(box, status) => this.setPopupStatus(box, status)}/>
         </div>
         )
     }

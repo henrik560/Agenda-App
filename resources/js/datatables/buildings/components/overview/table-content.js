@@ -25,8 +25,10 @@ export default class TableContentOverview extends React.Component {
                         <div id="body-row" className="body-row-added text-white d-flex justify-content-center align-items-center text-center w-full text-truncate">{element.created_at.split("T")[0]}</div>
                         <div id="body-row" className="body-row-edited text-white d-flex justify-content-center align-items-center text-center w-full text-truncate">
                             <div className="d-flex gap-3">
-                                <a className="text-white" href={`${config.baseurl}/buildings/editForm/${element.id}/`}><i className="fas fa-edit"></i></a>
-                                <a className="text-white" href={`${config.baseurl}/buildings/deleteForm/${element.id}/`}><i className="far fa-trash-alt"></i></a>
+                                <a className="text-white" onClick={() => {this.props.openModal("edit", true)}}><i className="fas fa-edit"></i></a>
+                                {/* <a className="text-white" href={`${config.baseurl}/api/buildings/${element.id}/edit`}><i className="fas fa-edit"></i></a> */}
+                                {/* <a className="text-white" href={`${config.baseurl}/api/buildings/${element.id}/delete`}><i className="far fa-trash-alt"></i></a> */}
+                                <a className="text-white"><i className="far fa-trash-alt"></i></a>
                             </div>
                         </div>  
                     </div>)

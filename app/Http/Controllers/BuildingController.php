@@ -70,6 +70,14 @@ class BuildingController extends Controller
      */
     public function edit($id)
     {
+        $building = Building::where("id", $id)->get();
+
+        $data = [
+            "Title" => "Edit gebouw",
+            "Building" => $building
+        ];
+
+        return view('buildings.edit', $data);
     }
 
     /**

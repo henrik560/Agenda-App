@@ -2904,8 +2904,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_view_reservation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modals/view-reservation */ "./resources/js/datatables/agenda/components/modals/view-reservation.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! uuid/v4 */ "./node_modules/uuid/v4.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
 
@@ -2934,6 +2942,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -3045,7 +3054,10 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       invoiceAddressModalOpen: false,
       viewReservationModalOpen: false,
       listOfUsers: _this.fetchUsers(),
-      crsfToken: ''
+      crsfToken: '',
+      viewReservationData: '',
+      modalMarginLeft: '',
+      modalMarginTopClickedElement: ''
     };
     _this.fetchUsers = _this.fetchUsers.bind(_assertThisInitialized(_this));
     _this.handleFormSubmissionStatus = _this.handleFormSubmissionStatus.bind(_assertThisInitialized(_this));
@@ -3055,18 +3067,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
 
   _createClass(BodyContent, [{
     key: "componentDidUpdate",
-    value: function componentDidUpdate() {
-      var _this2 = this;
-
-      var userSelection = document.getElementsByClassName('reservation-card'); // var userSelection = userSelection.parentNode.replaceChild(userSelection.cloneNode(true), userSelection);
-
-      for (var i = 0; i < userSelection.length; i++) {
-        userSelection[i].parentNode.replaceChild(userSelection[i].cloneNode(true), userSelection[i]);
-        userSelection[i].addEventListener("click", function (e) {
-          return _this2.reservationClickHandler(e);
-        });
-      }
-    }
+    value: function componentDidUpdate() {}
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
@@ -3250,12 +3251,48 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       this.props.onReservationCreate(status);
     }
   }, {
-    key: "reservationClickHandler",
-    value: function reservationClickHandler(event) {
+    key: "cardOnClickHandler",
+    value: function cardOnClickHandler(event) {
+      if (this.state.createReservationPopupOpen == true) this.closeModal("reservation");
       var reservation = document.getElementById(event.target.id);
-      var timepopup = document.getElementById("view-reservation-modal");
-      this.openModal("viewReservation");
-      console.log(reservation); // timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime")
+      var reservationParent = reservation.parentNode;
+      var agendaGrid = reservation.parentNode.parentNode.cloneNode(true);
+      var marginLeft = 100;
+      var continueLoop = true; // console.log(agendaGrid)
+      // console.log(agendaGrid.children)
+
+      var _iterator = _createForOfIteratorHelper(agendaGrid.children),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var child = _step.value;
+
+          if (child.style.width != '' || child.style.width.length > 0) {
+            if (continueLoop) {
+              if (marginLeft >= 1000) {
+                marginLeft = marginLeft - 445;
+              } else {
+                marginLeft = parseInt(marginLeft) + Math.round(parseInt(child.style.width.split("px")[0])) + 4.5;
+              }
+            }
+
+            if (child.id == reservationParent.id) continueLoop = false;
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      this.setState({
+        modalMarginLeft: marginLeft,
+        modalMarginTopClickedElement: event.target.style.top
+      }); // const timepopup = document.getElementById("view-reservation-modal")
+
+      this.openModal("viewReservation"); // console.log(reservation)
+      // timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime")
     }
   }, {
     key: "mouseDownHandler",
@@ -3311,11 +3348,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "createElement",
     value: function createElement(element) {
+      if (this.state.viewReservationModalOpen == true) this.closeModal("viewReservation");
       if (!element.target.id.startsWith("row") || element.target.className == "reservation-card") return;
       var parentElement = document.querySelector("[data-spaceid='".concat(element.target.id.split("-")[3], "']"));
       var newReservationElement = document.createElement("div");
       var marginTop = Math.round(element.nativeEvent.offsetY / 9) * 9;
-      var randomID = Math.random().toString(16).slice(2); //Set spaceID in form for form submission
+      var randomID = uuid_v4__WEBPACK_IMPORTED_MODULE_7___default()(); //Set spaceID in form for form submission
 
       var spaceIDInput = document.getElementById("resSpaceID");
       if (spaceIDInput) spaceIDInput.setAttribute('value', element.target.id.split("-")[3]); //Card Title
@@ -3335,10 +3373,15 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       newReservationElement.style.height = "9px";
       newReservationElement.style.top = marginTop + "px";
       newReservationElement.style.width = parentElement.getBoundingClientRect().width + "px";
+
+      newReservationElement.onclick = function (e) {
+        this.cardOnClickHandler(e);
+      };
+
       newReservationElement.classList.add("reservation-card");
-      newReservationElement.id = "".concat(marginTop).concat(randomID, "-reservation");
+      newReservationElement.id = "".concat(randomID, "-reservation");
       this.setState({
-        newestElementID: "".concat(marginTop).concat(randomID),
+        newestElementID: "".concat(randomID),
         elementCreated: true
       });
       var appendElement = document.getElementById(element.target.id);
@@ -3356,99 +3399,102 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("form", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("form", {
         id: "reservation-form",
         method: "post",
         action: "/api/reservations",
         className: "time-grid-item gap-1 d-flex justify-content-between",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          id: "form-starttime",
-          type: "hidden",
-          name: "starttime"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          id: "form-endtime",
-          type: "hidden",
-          name: "endtime"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          id: "token",
-          type: "hidden",
-          name: "_token",
-          value: this.state.crsfToken
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "resDate",
-          name: "resDate",
-          value: this.props.currentDate
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "resSpaceID",
-          name: "resSpaceID"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "cName",
-          name: "cName"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "cEmail",
-          name: "cEmail"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "cPhone",
-          name: "cPhone"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "cIban",
-          name: "cIban"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "cAddress",
-          name: "cAddress"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "cCity",
-          name: "cCity"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "cHouseNumber",
-          name: "cHouseNumber"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "cPostalCode",
-          name: "cPostalCode"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "ivAddress",
-          name: "ivAddress"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "ivCity",
-          name: "ivCity"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "ivHouseNumber",
-          name: "ivHouseNumber"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "ivPostalCode",
-          name: "ivPostalCode"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-          type: "hidden",
-          id: "ivAddressSame",
-          name: "ivAddressSame"
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          id: "reservation-form-wrapper-deletable",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            id: "form-starttime",
+            type: "hidden",
+            name: "starttime"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            id: "form-endtime",
+            type: "hidden",
+            name: "endtime"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            id: "token",
+            type: "hidden",
+            name: "_token",
+            value: this.state.crsfToken
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "resDate",
+            name: "resDate",
+            value: this.props.currentDate
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "resSpaceID",
+            name: "resSpaceID"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "cName",
+            name: "cName"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "cEmail",
+            name: "cEmail"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "cPhone",
+            name: "cPhone"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "cIban",
+            name: "cIban"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "cAddress",
+            name: "cAddress"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "cCity",
+            name: "cCity"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "cHouseNumber",
+            name: "cHouseNumber"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "cPostalCode",
+            name: "cPostalCode"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "ivAddress",
+            name: "ivAddress"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "ivCity",
+            name: "ivCity"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "ivHouseNumber",
+            name: "ivHouseNumber"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "ivPostalCode",
+            name: "ivPostalCode"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            type: "hidden",
+            id: "ivAddressSame",
+            name: "ivAddressSame"
+          })]
         }), this.props.childElements && this.props.childElements.map(function (building, indexBuilding) {
           return building.spaces.map(function (space, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
               className: "grid-row",
               onMouseUp: function onMouseUp(e) {
-                return _this3.mouseUpHandler(e);
+                return _this2.mouseUpHandler(e);
               },
               onMouseDown: function onMouseDown(e) {
-                return _this3.mouseDownHandler(e);
+                return _this2.mouseDownHandler(e);
               },
               onPointerMoveCapture: function onPointerMoveCapture(e) {
-                return _this3.mouseEvent(e);
+                return _this2.mouseEvent(e);
               },
               id: "row-".concat(index, "-spaceID-").concat(space.spaceID),
               style: {
@@ -3456,7 +3502,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                 height: 576
               },
               children: space.reservations.map(function (reservation, resIndex) {
-                if (reservation.date == _this3.props.currentDate || reservation.starttime < reservation.endtime) {
+                if (reservation.date == _this2.props.currentDate || reservation.starttime < reservation.endtime) {
                   var start = reservation.starttime.split(":");
                   var end = reservation.endtime.split(":");
                   var cardMarginTop = (start[0] - 8) * 36 + Math.round(start[1] / 15) * 9;
@@ -3464,9 +3510,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
 
                   if (cardHeight < 577) {
                     if (cardHeight < 50) {
-                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                         className: "reservation-card reservation-card-hover",
-                        id: Math.random().toString(16).slice(2),
+                        onClick: function onClick(e) {
+                          return _this2.cardOnClickHandler(e);
+                        },
+                        id: uuid_v4__WEBPACK_IMPORTED_MODULE_7___default()(),
                         "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
                         "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
                         style: {
@@ -3478,9 +3527,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                       }, space.width + resIndex);
                     }
 
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
                       className: "reservation-card reservation-card-hover",
-                      id: Math.random().toString(16).slice(2),
+                      onClick: function onClick(e) {
+                        return _this2.cardOnClickHandler(e);
+                      },
+                      id: uuid_v4__WEBPACK_IMPORTED_MODULE_7___default()(),
                       "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
                       "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
                       style: {
@@ -3489,15 +3541,15 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                         backgroundColor: building.backgroundColor,
                         height: cardHeight
                       },
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                         className: "res-details",
                         style: {
                           width: space.width - 20
                         },
-                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("b", {
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("b", {
                           children: reservation.title
                         })
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
                         className: "res-details",
                         style: {
                           width: space.width - 20
@@ -3510,7 +3562,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
               })
             }, space.width + index + building.backgroundColor);
           });
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modals_modal__WEBPACK_IMPORTED_MODULE_2__.Modal // marginLeft={100} 
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_modal__WEBPACK_IMPORTED_MODULE_2__.Modal // marginLeft={100} 
         , {
           marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left : '' // marginTop={100} 
           ,
@@ -3518,16 +3570,16 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           ,
           modalOpen: this.state.createReservationPopupOpen,
           saveModal: function saveModal() {
-            return _this3.saveModal("reservation");
+            return _this2.saveModal("reservation");
           },
           closeModal: function closeModal() {
-            return _this3.closeModal("reservation");
+            return _this2.closeModal("reservation");
           },
           addContactPerson: function addContactPerson() {
-            return _this3.openModal("person");
+            return _this2.openModal("person");
           },
           listOfUsers: this.state.listOfUsers
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_3__.ContactPersonModal // openModal={true} 
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_3__.ContactPersonModal // openModal={true} 
         , {
           marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
           ,
@@ -3535,24 +3587,24 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           ,
           modalOpen: this.state.addContactPersonModalOpen,
           saveModal: function saveModal() {
-            return _this3.saveModal("person");
+            return _this2.saveModal("person");
           },
           closePersonModal: function closePersonModal() {
-            return _this3.closeModal("person");
+            return _this2.closeModal("person");
           },
           closeInvoiceAdressModal: function closeInvoiceAdressModal() {
-            return _this3.closeModal("invoice");
+            return _this2.closeModal("invoice");
           },
           openInvoiceAdressModal: function openInvoiceAdressModal() {
-            return _this3.openModal("invoice");
+            return _this2.openModal("invoice");
           },
           toggleInvoiceModal: function toggleInvoiceModal() {
-            return _this3.toggleModal("invoice");
+            return _this2.toggleModal("invoice");
           },
           inputOnChange: function inputOnChange(value, input) {
-            _this3.setFormInputValue(value, input);
+            _this2.setFormInputValue(value, input);
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_4__.InvoiceAdressModal // openModal={true} 
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_4__.InvoiceAdressModal // openModal={true} 
         , {
           marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
           ,
@@ -3560,27 +3612,30 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           ,
           modalOpen: this.state.invoiceAddressModalOpen,
           saveModal: function saveModal() {
-            return _this3.saveModal("invoice");
+            return _this2.saveModal("invoice");
           },
           closeInvoiceAdressModal: function closeInvoiceAdressModal() {
-            return _this3.closeModal("invoice");
+            return _this2.closeModal("invoice");
           },
           inputOnChange: function inputOnChange(value, input) {
-            _this3.setFormInputValue(value, input);
+            _this2.setFormInputValue(value, input);
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modals_view_reservation__WEBPACK_IMPORTED_MODULE_5__.ViewReservationModal // openModal={true} 
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_view_reservation__WEBPACK_IMPORTED_MODULE_5__.ViewReservationModal // openModal={true} 
         , {
-          marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
+          marginTop: this.state.modalMarginTopClickedElement // marginTop={50} 
+          // marginLeft={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).getBoundingClientRect().left + 360: ''}
           ,
-          marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left + 360 : '' // marginLeft={600}
+          marginLeft: this.state.modalMarginLeft // marginLeft={600}
+          // modalOpen={true}
           ,
           modalOpen: this.state.viewReservationModalOpen,
           saveModal: function saveModal() {
-            return _this3.saveModal("viewReservation");
+            return _this2.saveModal("viewReservation");
           },
           closeModal: function closeModal() {
-            return _this3.closeModal("viewReservation");
-          }
+            return _this2.closeModal("viewReservation");
+          },
+          reservation: this.state.viewReservationData
         })]
       });
     }
@@ -4571,10 +4626,25 @@ var ViewReservationModal = function ViewReservationModal(_ref) {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_2__.AnimatePresence, {
     children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.motion.div, {
-      id: "view-reservation-modal" // initial={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0 }}
-      // animate={{ opacity: 1, top: marginTop + "px", left: marginLeft + "px", scale: 1 }}
-      // exit={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0.25}}
-      ,
+      id: "view-reservation-modal",
+      initial: {
+        opacity: 0,
+        top: 100,
+        left: 100 + 'px',
+        scale: 0
+      },
+      animate: {
+        opacity: 1,
+        top: marginTop + "px",
+        left: marginLeft + "px",
+        scale: 1
+      },
+      exit: {
+        opacity: 0,
+        top: 100,
+        left: 100,
+        scale: 0.25
+      },
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "d-flex justify-content-end align-items-end",
         onClick: function onClick() {
@@ -4621,7 +4691,10 @@ var ViewReservationModal = function ViewReservationModal(_ref) {
               children: "Deze ruimte word verhuurd voor de catachasatie avond"
             }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("textarea", {
               className: "content-column content-value content-input",
-              placeholder: "Deze ruimte word verhuurd voor de catachasatie avond"
+              placeholder: "Deze ruimte word verhuurd voor de catachasatie avond",
+              style: {
+                resize: 'none'
+              }
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
             className: "content-row ".concat(!editRows && 'content-row-border-bottom'),
@@ -69133,6 +69206,125 @@ function __classPrivateFieldSet(receiver, state, value, kind, f) {
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/uuid/lib/bytesToUuid.js":
+/*!**********************************************!*\
+  !*** ./node_modules/uuid/lib/bytesToUuid.js ***!
+  \**********************************************/
+/***/ ((module) => {
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+var byteToHex = [];
+for (var i = 0; i < 256; ++i) {
+  byteToHex[i] = (i + 0x100).toString(16).substr(1);
+}
+
+function bytesToUuid(buf, offset) {
+  var i = offset || 0;
+  var bth = byteToHex;
+  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
+  return ([
+    bth[buf[i++]], bth[buf[i++]],
+    bth[buf[i++]], bth[buf[i++]], '-',
+    bth[buf[i++]], bth[buf[i++]], '-',
+    bth[buf[i++]], bth[buf[i++]], '-',
+    bth[buf[i++]], bth[buf[i++]], '-',
+    bth[buf[i++]], bth[buf[i++]],
+    bth[buf[i++]], bth[buf[i++]],
+    bth[buf[i++]], bth[buf[i++]]
+  ]).join('');
+}
+
+module.exports = bytesToUuid;
+
+
+/***/ }),
+
+/***/ "./node_modules/uuid/lib/rng-browser.js":
+/*!**********************************************!*\
+  !*** ./node_modules/uuid/lib/rng-browser.js ***!
+  \**********************************************/
+/***/ ((module) => {
+
+// Unique ID creation requires a high quality random # generator.  In the
+// browser this is a little complicated due to unknown quality of Math.random()
+// and inconsistent support for the `crypto` API.  We do the best we can via
+// feature-detection
+
+// getRandomValues needs to be invoked in a context where "this" is a Crypto
+// implementation. Also, find the complete implementation of crypto on IE11.
+var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
+                      (typeof(msCrypto) != 'undefined' && typeof window.msCrypto.getRandomValues == 'function' && msCrypto.getRandomValues.bind(msCrypto));
+
+if (getRandomValues) {
+  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
+  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
+
+  module.exports = function whatwgRNG() {
+    getRandomValues(rnds8);
+    return rnds8;
+  };
+} else {
+  // Math.random()-based (RNG)
+  //
+  // If all else fails, use Math.random().  It's fast, but is of unspecified
+  // quality.
+  var rnds = new Array(16);
+
+  module.exports = function mathRNG() {
+    for (var i = 0, r; i < 16; i++) {
+      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+    }
+
+    return rnds;
+  };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/uuid/v4.js":
+/*!*********************************!*\
+  !*** ./node_modules/uuid/v4.js ***!
+  \*********************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var rng = __webpack_require__(/*! ./lib/rng */ "./node_modules/uuid/lib/rng-browser.js");
+var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ "./node_modules/uuid/lib/bytesToUuid.js");
+
+function v4(options, buf, offset) {
+  var i = buf && offset || 0;
+
+  if (typeof(options) == 'string') {
+    buf = options === 'binary' ? new Array(16) : null;
+    options = null;
+  }
+  options = options || {};
+
+  var rnds = options.random || (options.rng || rng)();
+
+  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+  rnds[6] = (rnds[6] & 0x0f) | 0x40;
+  rnds[8] = (rnds[8] & 0x3f) | 0x80;
+
+  // Copy bytes to buffer, if provided
+  if (buf) {
+    for (var ii = 0; ii < 16; ++ii) {
+      buf[i + ii] = rnds[ii];
+    }
+  }
+
+  return buf || bytesToUuid(rnds);
+}
+
+module.exports = v4;
 
 
 /***/ }),

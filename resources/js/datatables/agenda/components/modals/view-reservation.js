@@ -9,9 +9,9 @@ export const ViewReservationModal = ({modalOpen, closeModal, saveModal, marginLe
             { modalOpen && 
                 <motion.div 
                     id="view-reservation-modal" 
-                    // initial={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0 }}
-                    // animate={{ opacity: 1, top: marginTop + "px", left: marginLeft + "px", scale: 1 }}
-                    // exit={{ opacity: 0, top : marginTop - 20 + 'px', left: marginLeft - 20 + 'px', scale: 0.25}}
+                    initial={{ opacity: 0, top : 100, left: 100 + 'px', scale: 0 }}
+                    animate={{ opacity: 1, top: marginTop + "px", left: marginLeft + "px", scale: 1 }}
+                    exit={{ opacity: 0, top : 100, left: 100, scale: 0.25}}
                 >   
                     <div className="d-flex justify-content-end align-items-end" onClick={() => {closeModal()}}>
                         <i className="fas fa-times"></i>
@@ -28,7 +28,7 @@ export const ViewReservationModal = ({modalOpen, closeModal, saveModal, marginLe
                             </div>
                             <div className={`content-row ${!editRows && 'content-row-border-bottom'}`}>
                                 <div className="content-column">Beschrijving</div>
-                                { editRows == false ? <div className="content-column content-value">Deze ruimte word verhuurd voor de catachasatie avond</div> : <textarea className="content-column content-value content-input" placeholder="Deze ruimte word verhuurd voor de catachasatie avond"></textarea>} 
+                                { editRows == false ? <div className="content-column content-value">Deze ruimte word verhuurd voor de catachasatie avond</div> : <textarea className="content-column content-value content-input" placeholder="Deze ruimte word verhuurd voor de catachasatie avond" style={{resize: 'none'}}></textarea>} 
                             </div>
                             <div className={`content-row ${!editRows && 'content-row-border-bottom'}`}>
                                 <div className="content-column">Contact Persoon</div>
