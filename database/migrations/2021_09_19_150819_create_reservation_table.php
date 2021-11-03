@@ -25,6 +25,7 @@ class CreateReservationTable extends Migration
             $table->integer("reserved_by_user_id");
             $table->integer("approved_by_user_id")->nullable();
             $table->dateTime("approved_on")->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

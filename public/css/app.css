@@ -10012,6 +10012,20 @@ h3 {
   color: #F27500;
 }
 
+.danger-on-hover {
+  transition: all 0.35s ease-in-out;
+}
+.danger-on-hover:hover {
+  background-color: rgba(220, 53, 69, 0.7) !important;
+}
+
+.succes-on-hover {
+  transition: all 0.35s ease-in-out;
+}
+.succes-on-hover:hover {
+  background-color: rgba(40, 167, 69, 0.7) !important;
+}
+
 .edit-input {
   border: 2px solid #ddd;
   outline: none;
@@ -10032,7 +10046,7 @@ h3 {
   background-color: #F27500;
 }
 
-.close-icon {
+.close-icon-modal {
   margin-top: 19px;
   margin-right: 19px;
 }

@@ -15,6 +15,22 @@
     color: $themeColor;
 }
 
+.danger-on-hover {
+    transition: all .35s ease-in-out;
+
+    &:hover {
+        background-color: rgba($color: #dc3545, $alpha: 0.7) !important;
+    }
+}
+
+.succes-on-hover {
+    transition: all .35s ease-in-out;
+
+    &:hover {
+        background-color: rgba($color: #28a745, $alpha: 0.7) !important;
+    }
+}
+
 .edit-input {
     border: 2px solid #ddd;
     outline: none;
@@ -36,7 +52,7 @@
     }
 }
 
-.close-icon {
+.close-icon-modal {
     margin-top: 19px;
     margin-right: 19px;
 }

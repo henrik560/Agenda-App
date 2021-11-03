@@ -17,6 +17,7 @@ class CreateChurchTable extends Migration
             $table->id();
             $table->string("name", 45);
             $table->integer("user_id");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

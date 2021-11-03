@@ -16,6 +16,7 @@ class CreateReservationHasResourcesTable extends Migration
         Schema::create('reservation_has_resources', function (Blueprint $table) {
             $table->integer("reservation_id");
             $table->integer("resources_id");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

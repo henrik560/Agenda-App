@@ -16,6 +16,7 @@ class CreateUserHasBuildingTable extends Migration
         Schema::create('user_has_buildings', function (Blueprint $table) {
             $table->integer("user_id");
             $table->integer("building_id");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

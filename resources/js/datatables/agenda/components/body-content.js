@@ -147,6 +147,8 @@ export default class BodyContent extends React.Component {
 
     submitReservationToDB= async () => {
         const form = document.getElementById("reservation-form")
+        console.log(form);
+        console.log(new FormData(form));
         var postStatus = true
         if(form) {
             await axios({
@@ -165,6 +167,7 @@ export default class BodyContent extends React.Component {
             await this.handleFormSubmissionStatus("succes")
         }else {
             await this.handleFormSubmissionStatus("error")
+            await this.removeChild()
         }
     }
 

@@ -19,6 +19,7 @@ class CreateAddressTable extends Migration
             $table->string("house_number", 45);
             $table->string("city", 45);
             $table->string("postal_code", 45);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

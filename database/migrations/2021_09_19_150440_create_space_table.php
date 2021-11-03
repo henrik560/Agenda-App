@@ -21,6 +21,7 @@ class CreateSpaceTable extends Migration
             $table->integer("max_amount_of_persons");
             $table->float("price_ex_vat");
             $table->tinyInteger("used_for_external_use")->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

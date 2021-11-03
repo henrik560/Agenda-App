@@ -6,6 +6,7 @@ import TablePageSelector from './components/page-selector';
 import axios from 'axios';
 import config from "../../tempConfg.json"
 import { EditBuildingModal } from './components/modals/edit';
+import { DeleteBuildingModal } from './components/modals/delete';
 
 class BuildingsOverview extends React.Component {
     constructor(props) {
@@ -20,6 +21,15 @@ class BuildingsOverview extends React.Component {
             noResults: false,
             searchKeyWord: '',
             EditBuildingModalOpen: false,
+            deleteBuildingModalOpen: false,
+            editModalData: {
+                name: '',
+                hex: '',
+            },
+            deleteModalData: {
+                name: '',
+                id: ''
+            }
         }
     }
 
@@ -45,7 +55,7 @@ class BuildingsOverview extends React.Component {
 
     fetchBuildings = async () => {
         this.setState({ refresh: true, buildingsInChunks: [] })
-        if(localStorage.getItem("buildings")) {
+        if(localStorage.getItem("buildingsaa")) {
             this.setState({buildings: JSON.parse(localStorage.getItem("buildings")), buildingsInChunks: this.splitInChunks(JSON.parse(localStorage.getItem("buildings")), this.state.listAmount)})
         }else {
             await axios.get(`${config.baseurl}/api/buildings/`).then(response => {
@@ -53,7 +63,7 @@ class BuildingsOverview extends React.Component {
                 Object.values(response.data).flat().map((el, id) => buildings.push(el));
                 this.setState({ buildingsInChunks: this.splitInChunks(buildings, this.state.listAmount), buildings });
                 try {
-                    localStorage.setItem("buildings", JSON.stringify(buildings))
+                    // localStorage.setItem("buildings", JSON.stringify(buildings))
                 }catch(e) {
                     console.log("LocaleStorage is full!");
                 }
@@ -95,9 +105,24 @@ class BuildingsOverview extends React.Component {
     }
 
     setPopupStatus(Modal, status) {
+        console.log(`${Modal} : ${status}`)
         if(Modal == "edit") {
             this.setState({EditBuildingModalOpen: status})
+        }else if(Modal == "delete") {
+            this.setState({deleteBuildingModalOpen: status})
         }
+    }
+
+    handleSetModalData(Modal, Data) {
+        if(Modal == 'edit') {
+            this.setState({editModalData: Data})
+        }else if (Modal == "delete") {
+            this.setState({deleteModalData: Data})
+        }
+    }
+
+    buildingSuccesfullyDeleted() {
+        this.refreshData()
     }
 
     render() {
@@ -133,7 +158,7 @@ class BuildingsOverview extends React.Component {
                         </div>
                     </div>
                     <div id="table-body" className="d-flex flex-grow-1 flex-column">
-                        <TableContentOverview openModal={(Modal, status) => this.setPopupStatus(Modal, status)} loading={this.state.refresh} buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
+                        <TableContentOverview setModalData={(modal ,data) => {this.handleSetModalData(modal, data)}} openModal={(Modal, status) => this.setPopupStatus(Modal, status)} loading={this.state.refresh} buildings={ this.state.buildingsInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
                     </div>
                     <div id="table-footer" className="mt-3 ml-2 mb-3 d-flex flex-row justify-content-between">
                             <Modal openModal={this.state.openModal} current={this.state.listAmount} setListAmount={(e) => {this.setListAmount(e)}} />
@@ -152,7 +177,8 @@ class BuildingsOverview extends React.Component {
                     </div>
                 </div>
             </div>
-            <EditBuildingModal openModal={this.state.EditBuildingModalOpen} closeModal={(box, status) => this.setPopupStatus(box, status)}/>
+            <EditBuildingModal modalData={this.state.editModalData} openModal={this.state.EditBuildingModalOpen} closeModal={(box, status) => this.setPopupStatus(box, status)}/>
+            <DeleteBuildingModal deleteSucces={() => this.buildingSuccesfullyDeleted()} modalData={this.state.deleteModalData} openModal={this.state.deleteBuildingModalOpen} closeModal={(box, status) => this.setPopupStatus(box, status)}/>
         </div>
         )
     }

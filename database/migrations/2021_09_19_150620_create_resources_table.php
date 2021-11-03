@@ -19,6 +19,7 @@ class CreateResourcesTable extends Migration
             $table->integer("space_id");
             $table->float("price_ex_vat")->nullable();
             $table->tinyInteger("used_for_external_use");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

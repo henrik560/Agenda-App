@@ -2958,6 +2958,172 @@ var Modal = function Modal(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/datatables/buildings/components/modals/delete.js":
+/*!***********************************************************************!*\
+  !*** ./resources/js/datatables/buildings/components/modals/delete.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DeleteBuildingModal": () => (/* binding */ DeleteBuildingModal)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+
+
+var DeleteBuildingModal = function DeleteBuildingModal(_ref) {
+  var openModal = _ref.openModal,
+      closeModal = _ref.closeModal,
+      modalData = _ref.modalData,
+      deleteSucces = _ref.deleteSucces;
+  var csrf_token = '';
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    csrf_token = document.getElementById("csrf_Token");
+  }, []);
+
+  function handleCancelButton(box, status) {
+    closeModal(box, status);
+  }
+
+  function handleContinueButton() {
+    return _handleContinueButton.apply(this, arguments);
+  }
+
+  function _handleContinueButton() {
+    _handleContinueButton = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var form;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              form = document.getElementById("deleteForm");
+              _context.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default()({
+                method: 'DELETE',
+                url: "/api/buildings/".concat(modalData.id),
+                data: new FormData(form),
+                headers: {
+                  "Content-Type": "multipart/form-data"
+                }
+              }).then(function (response) {
+                console.log(response);
+              })["catch"](function (response) {
+                console.log(response);
+              });
+
+            case 3:
+              handleCancelButton('delete', false);
+              deleteSucces();
+
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+    return _handleContinueButton.apply(this, arguments);
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.AnimatePresence, {
+    children: openModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_5__.motion.div, {
+      id: "edit-modal",
+      className: "position-absolute d-flex justify-content-center align-items-center w-100 h-100 top-0 start-0",
+      style: {
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        zIndex: 1050
+      },
+      initial: {
+        opacity: 0
+      },
+      animate: {
+        opacity: 1
+      },
+      exit: {
+        opacity: 0
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "position-relative w-25 h-25 bg-light rounded",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+          method: "POST",
+          id: "deleteForm",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "hidden",
+            name: "_method",
+            value: "DELETE"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            id: "token",
+            type: "hidden",
+            name: "_token",
+            value: csrf_token
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "position-relative",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "d-flex justify-content-end align-items-center",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+              onClick: function onClick() {
+                return closeModal("delete", false);
+              },
+              className: "fas fa-times color-placeholder themeColor-hover close-icon-modal fs-20"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "d-flex flex-column w-100 mt-4 justify-content-center align-items-center gap-3",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "ml-5 mr-5 fs-5",
+              children: ["Weet u zeker dat u de ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("b", {
+                children: modalData.name
+              }), " wilt verwijderen?"]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "d-flex position-relative justify-content-center w-100",
+            style: {
+              marginTop: '40px'
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "ml-5 w-100 mr-5 d-flex justify-content-around align-items-center gap-5 text-white",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                id: "cancel",
+                onClick: function onClick() {
+                  return handleCancelButton('delete', false);
+                },
+                className: "position-relative d-flex justify-content-center align-items-center bg-danger w-50 rounded p-2 danger-on-hover border border-5 border-danger",
+                children: "Annuleren"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                id: "continue",
+                onClick: function onClick() {
+                  return handleContinueButton();
+                },
+                className: "position-relative d-flex justify-content-center align-items-center bg-success w-50 rounded p-2 succes-on-hover border border-5 border-succes",
+                children: "Doorgaan"
+              })]
+            })
+          })]
+        })]
+      })
+    })
+  });
+};
+
+/***/ }),
+
 /***/ "./resources/js/datatables/buildings/components/modals/edit.js":
 /*!*********************************************************************!*\
   !*** ./resources/js/datatables/buildings/components/modals/edit.js ***!
@@ -2992,12 +3158,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var EditBuildingModal = function EditBuildingModal(_ref) {
   var openModal = _ref.openModal,
       saveModalData = _ref.saveModalData,
-      closeModal = _ref.closeModal;
+      closeModal = _ref.closeModal,
+      modalData = _ref.modalData;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       edit = _useState2[0],
       setEdit = _useState2[1];
+
+  var hexInputRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
 
   function setEditHandler() {
     setEdit(function (prev) {
@@ -3010,6 +3179,11 @@ var EditBuildingModal = function EditBuildingModal(_ref) {
 
   function buttonOnClickHandler(id) {
     id == true ? saveData() : setEditHandler();
+  }
+
+  function handleHexColorChange() {
+    if (hexInputRef.current.value == '') hexInputRef.current.value = '#';
+    document.getElementById("hexColorDisplayer").style.backgroundColor = hexInputRef.current.value;
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_2__.AnimatePresence, {
@@ -3055,10 +3229,10 @@ var EditBuildingModal = function EditBuildingModal(_ref) {
                 className: "d-flex w-100 justify-content-start align-items-center",
                 children: edit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
                   className: "edit-input",
-                  placeholder: "Cunera Kerk"
+                  placeholder: modalData.name
                 }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                   className: "d-flex fs-5",
-                  children: "Cunera Kerk"
+                  children: modalData.name
                 })
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -3069,15 +3243,30 @@ var EditBuildingModal = function EditBuildingModal(_ref) {
                   className: "color-placeholder fs-5 fw-500",
                   children: "Hex Kleur"
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: "d-flex w-100 justify-content-start align-items-center",
-                children: edit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+                children: [edit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
                   className: "edit-input",
-                  placeholder: "#abcdef"
+                  ref: hexInputRef,
+                  onFocus: function onFocus() {
+                    return handleHexColorChange();
+                  },
+                  onChange: function onChange() {
+                    handleHexColorChange();
+                  },
+                  placeholder: "#".concat(modalData.hex)
                 }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                   className: "d-flex fs-5",
-                  children: "#abcdef"
-                })
+                  children: "#".concat(modalData.hex)
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                  className: "ml-2",
+                  id: "hexColorDisplayer",
+                  style: {
+                    backgroundColor: "#".concat(modalData.hex),
+                    width: 15,
+                    height: 15
+                  }
+                })]
               })]
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -3162,6 +3351,12 @@ var TableContentOverview = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(TableContentOverview, [{
+    key: "handleEditClick",
+    value: function handleEditClick(box, Data) {
+      this.props.setModalData(box, Data);
+      this.props.openModal(box, true);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -3206,13 +3401,22 @@ var TableContentOverview = /*#__PURE__*/function (_React$Component) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
                     className: "text-white",
                     onClick: function onClick() {
-                      _this2.props.openModal("edit", true);
+                      _this2.handleEditClick('edit', {
+                        name: element.name,
+                        hex: element.color_hex
+                      });
                     },
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                       className: "fas fa-edit"
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
                     className: "text-white",
+                    onClick: function onClick() {
+                      _this2.handleEditClick('delete', {
+                        name: element.name,
+                        id: element.id
+                      });
+                    },
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                       className: "far fa-trash-alt"
                     })
@@ -46531,7 +46735,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _tempConfg_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../tempConfg.json */ "./resources/js/tempConfg.json");
 /* harmony import */ var _components_modals_edit__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/modals/edit */ "./resources/js/datatables/buildings/components/modals/edit.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _components_modals_delete__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/modals/delete */ "./resources/js/datatables/buildings/components/modals/delete.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -46561,6 +46766,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -46636,7 +46842,7 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
                 buildingsInChunks: []
               });
 
-              if (!localStorage.getItem("buildings")) {
+              if (!localStorage.getItem("buildingsaa")) {
                 _context2.next = 5;
                 break;
               }
@@ -46662,8 +46868,7 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
                   buildings: buildings
                 });
 
-                try {
-                  localStorage.setItem("buildings", JSON.stringify(buildings));
+                try {// localStorage.setItem("buildings", JSON.stringify(buildings))
                 } catch (e) {
                   console.log("LocaleStorage is full!");
                 }
@@ -46691,7 +46896,16 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
       refresh: false,
       noResults: false,
       searchKeyWord: '',
-      EditBuildingModalOpen: false
+      EditBuildingModalOpen: false,
+      deleteBuildingModalOpen: false,
+      editModalData: {
+        name: '',
+        hex: ''
+      },
+      deleteModalData: {
+        name: '',
+        id: ''
+      }
     };
     return _this;
   }
@@ -46767,95 +46981,122 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "setPopupStatus",
     value: function setPopupStatus(Modal, status) {
+      console.log("".concat(Modal, " : ").concat(status));
+
       if (Modal == "edit") {
         this.setState({
           EditBuildingModalOpen: status
         });
+      } else if (Modal == "delete") {
+        this.setState({
+          deleteBuildingModalOpen: status
+        });
       }
+    }
+  }, {
+    key: "handleSetModalData",
+    value: function handleSetModalData(Modal, Data) {
+      if (Modal == 'edit') {
+        this.setState({
+          editModalData: Data
+        });
+      } else if (Modal == "delete") {
+        this.setState({
+          deleteModalData: Data
+        });
+      }
+    }
+  }, {
+    key: "buildingSuccesfullyDeleted",
+    value: function buildingSuccesfullyDeleted() {
+      this.refreshData();
     }
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
         className: "d-flex flex-column w-90 h-90",
         id: "container-datatable",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
           id: "table-head",
           className: "mt-3 w-full d-flex justify-content-end align-items-end",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
             id: "table-buttons-container",
             className: "d-flex justify-content-end align-items-end gap-3 pr-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
               placeholder: "Zoeken",
               onChange: function onChange(e) {
                 return _this2.searchbar(e);
               },
               className: "border-white-1 text-white",
               id: "searchbbar-input"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
               id: "refresh-datatable",
               onClick: this.refreshData,
               className: "d-flex transition-350ms justify-content-center align-items-center border-white-1 text-white ".concat(this.state.refresh ? "rotate-360-linair" : ""),
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("i", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("i", {
                 className: "fas fa-sync-alt"
               })
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
           id: "table-content",
           className: "mt-2",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
             id: "table-data",
             className: "d-flex flex-grow-1 flex-column",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
               id: "table-content-head",
               className: "d-flex flex-grow-1",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                 id: "table-head-row",
                 className: "d-flex flex-grow-1 justify-content-around align-items-center",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                   id: "head-row",
                   className: "head-row-id text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                     className: "font-weight-bold",
                     children: "ID"
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                   id: "head-row",
                   className: "head-row-name text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                     className: "font-weight-bold",
                     children: "Naam"
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                   id: "head-row",
                   className: "head-row-hex text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                     className: "font-weight-bold",
                     children: "Hex"
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                   id: "head-row",
                   className: "head-row-added text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center gap-3",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                     className: "font-weight-bold",
                     children: "Toegevoed op"
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                   id: "head-row",
                   className: "head-row-edited text-white d-flex flex-grow-1 flex-row justify-content-center align-items-center",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                     className: "font-weight-bold",
                     children: "Acties"
                   })
                 })]
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
               id: "table-body",
               className: "d-flex flex-grow-1 flex-column",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_overview_table_content__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_overview_table_content__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                setModalData: function setModalData(modal, data) {
+                  _this2.handleSetModalData(modal, data);
+                },
                 openModal: function openModal(Modal, status) {
                   return _this2.setPopupStatus(Modal, status);
                 },
@@ -46865,40 +47106,40 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
                 listAmount: this.state.listAmount,
                 currentPage: this.state.currentPage - 1
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
               id: "table-footer",
               className: "mt-3 ml-2 mb-3 d-flex flex-row justify-content-between",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_modal__WEBPACK_IMPORTED_MODULE_3__.Modal, {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_modal__WEBPACK_IMPORTED_MODULE_3__.Modal, {
                 openModal: this.state.openModal,
                 current: this.state.listAmount,
                 setListAmount: function setListAmount(e) {
                   _this2.setListAmount(e);
                 }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                 id: "rows-visible",
                 className: "d-flex flex-row",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                   id: "rows-visible-container",
                   className: "d-flex flex-row gap-2 justify-content-center align-items-center text-white",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                     id: "toggle-rows-button",
                     className: "border-white-1 gap-1",
                     onClick: this.setModalState,
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                       className: "text-white",
                       id: "number",
                       children: this.state.listAmount
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("i", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("i", {
                       className: "fas fa-sort-down text-white mt-n1 transition-250ms ".concat(this.state.openModal ? 'rotate-180deg mt-1' : '')
                     })]
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                     children: "Aantal per pagina"
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                 id: "pages-icons",
                 className: "d-flex",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_page_selector__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_page_selector__WEBPACK_IMPORTED_MODULE_5__["default"], {
                   buildings: this.state.buildingsInChunks,
                   searchError: this.state.noResults,
                   currentPage: this.state.currentPage,
@@ -46909,8 +47150,18 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
               })]
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_modals_edit__WEBPACK_IMPORTED_MODULE_8__.EditBuildingModal, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_modals_edit__WEBPACK_IMPORTED_MODULE_8__.EditBuildingModal, {
+          modalData: this.state.editModalData,
           openModal: this.state.EditBuildingModalOpen,
+          closeModal: function closeModal(box, status) {
+            return _this2.setPopupStatus(box, status);
+          }
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_modals_delete__WEBPACK_IMPORTED_MODULE_9__.DeleteBuildingModal, {
+          deleteSucces: function deleteSucces() {
+            return _this2.buildingSuccesfullyDeleted();
+          },
+          modalData: this.state.deleteModalData,
+          openModal: this.state.deleteBuildingModalOpen,
           closeModal: function closeModal(box, status) {
             return _this2.setPopupStatus(box, status);
           }
@@ -46923,7 +47174,7 @@ var BuildingsOverview = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
 if (document.getElementById("content-wrapper")) {
-  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(BuildingsOverview, {}), document.getElementById("content-wrapper"));
+  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(BuildingsOverview, {}), document.getElementById("content-wrapper"));
 }
 })();
 

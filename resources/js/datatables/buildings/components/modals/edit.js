@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 
-export const EditBuildingModal = ({ openModal, saveModalData, closeModal}) => {
+export const EditBuildingModal = ({ openModal, saveModalData, closeModal, modalData}) => {
     const [edit, setEdit] = useState(false);
+    const hexInputRef = useRef()
 
     function setEditHandler() {
         setEdit(prev => !prev)
@@ -14,6 +15,11 @@ export const EditBuildingModal = ({ openModal, saveModalData, closeModal}) => {
 
     function buttonOnClickHandler(id) {
         id == true ? saveData() : setEditHandler()
+    }
+
+    function handleHexColorChange() {
+        if(hexInputRef.current.value == '') hexInputRef.current.value = '#'
+        document.getElementById("hexColorDisplayer").style.backgroundColor = hexInputRef.current.value
     }
 
     return (
@@ -40,7 +46,7 @@ export const EditBuildingModal = ({ openModal, saveModalData, closeModal}) => {
                                     </div>
                                     <div className="d-flex w-100 justify-content-start align-items-center">
                                         {
-                                            edit ? <input className="edit-input" placeholder="Cunera Kerk"></input> : <div className="d-flex fs-5">Cunera Kerk</div>
+                                            edit ? <input className="edit-input" placeholder={modalData.name}></input> : <div className="d-flex fs-5">{modalData.name}</div>
                                         }
                                     </div>
                                 </div>
@@ -50,8 +56,9 @@ export const EditBuildingModal = ({ openModal, saveModalData, closeModal}) => {
                                     </div>
                                     <div className="d-flex w-100 justify-content-start align-items-center">
                                         {
-                                            edit ? <input className="edit-input" placeholder="#abcdef"></input> : <div className="d-flex fs-5">#abcdef</div>
+                                            edit ? <input className="edit-input" ref={hexInputRef} onFocus={() => handleHexColorChange()} onChange={() => { handleHexColorChange()}} placeholder={`#${modalData.hex}`}></input> : <div className="d-flex fs-5">{`#${modalData.hex}`}</div>
                                         }
+                                        <div className="ml-2" id="hexColorDisplayer" style={{backgroundColor: `#${modalData.hex}`, width: 15, height: 15}}></div>
                                     </div>
                                 </div>
                             </div>

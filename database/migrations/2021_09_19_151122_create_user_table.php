@@ -23,6 +23,7 @@ class CreateUserTable extends Migration
             $table->string("iban", 34)->nullable();
             $table->integer("address_id")->nullable();
             $table->integer("invoice_address_id")->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

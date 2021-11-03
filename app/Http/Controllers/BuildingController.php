@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Building;
 use App\Models\Space;
+use Error;
 use Illuminate\Database\Eloquent\Builder;
 
 class BuildingController extends Controller
@@ -33,7 +34,6 @@ class BuildingController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -44,7 +44,6 @@ class BuildingController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -89,7 +88,6 @@ class BuildingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
     }
 
     /**
@@ -100,8 +98,10 @@ class BuildingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Building::find($id)->delete();
+        return response($content = "succes", $status = "200");
     }
+
     public function getAllBuildings()
     {
         $buildings = Building::all();

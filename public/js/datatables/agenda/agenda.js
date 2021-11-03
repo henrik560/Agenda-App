@@ -2997,14 +2997,16 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
           switch (_context2.prev = _context2.next) {
             case 0:
               form = document.getElementById("reservation-form");
+              console.log(form);
+              console.log(new FormData(form));
               postStatus = true;
 
               if (!form) {
-                _context2.next = 5;
+                _context2.next = 7;
                 break;
               }
 
-              _context2.next = 5;
+              _context2.next = 7;
               return axios__WEBPACK_IMPORTED_MODULE_6___default()({
                 method: 'POST',
                 url: '/api/reservations/',
@@ -3018,24 +3020,28 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                 postStatus = false;
               });
 
-            case 5:
+            case 7:
               if (!postStatus) {
-                _context2.next = 10;
+                _context2.next = 12;
                 break;
               }
 
-              _context2.next = 8;
+              _context2.next = 10;
               return _this.handleFormSubmissionStatus("succes");
 
-            case 8:
-              _context2.next = 12;
+            case 10:
+              _context2.next = 16;
               break;
 
-            case 10:
-              _context2.next = 12;
+            case 12:
+              _context2.next = 14;
               return _this.handleFormSubmissionStatus("error");
 
-            case 12:
+            case 14:
+              _context2.next = 16;
+              return _this.removeChild();
+
+            case 16:
             case "end":
               return _context2.stop();
           }
