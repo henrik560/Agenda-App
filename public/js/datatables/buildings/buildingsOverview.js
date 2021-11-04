@@ -3014,30 +3014,36 @@ var DeleteBuildingModal = function DeleteBuildingModal(_ref) {
           switch (_context.prev = _context.next) {
             case 0:
               form = document.getElementById("deleteForm");
-              _context.next = 3;
+              _context.prev = 1;
+              _context.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_2___default()({
                 method: 'DELETE',
                 url: "/api/buildings/".concat(modalData.id),
                 data: new FormData(form),
-                headers: {
-                  "Content-Type": "multipart/form-data"
-                }
+                headers: {}
               }).then(function (response) {
-                console.log(response);
-              })["catch"](function (response) {
                 console.log(response);
               });
 
-            case 3:
-              handleCancelButton('delete', false);
+            case 4:
               deleteSucces();
+              _context.next = 10;
+              break;
 
-            case 5:
+            case 7:
+              _context.prev = 7;
+              _context.t0 = _context["catch"](1);
+              console.log(_context.t0);
+
+            case 10:
+              handleCancelButton('delete', false);
+
+            case 11:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee);
+      }, _callee, null, [[1, 7]]);
     }));
     return _handleContinueButton.apply(this, arguments);
   }

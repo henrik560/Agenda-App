@@ -4,7 +4,6 @@
     @endpush
 @section('content')
 <div id="agenda-wrapper" class="agenda-container">
-    
 </div>
 <input type="hidden" name="userID" id="userID" value="{{ auth()->user()->id }}"></input>
 <input type="hidden" name="csrf_Token" id="csrf_Token" value="{{ csrf_token() }}"></input>

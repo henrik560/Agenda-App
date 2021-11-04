@@ -15,19 +15,21 @@ export const DeleteBuildingModal = ({ openModal, closeModal, modalData, deleteSu
 
     async function handleContinueButton() {
         var form = document.getElementById("deleteForm")
-        await axios({
-            method: 'DELETE',
-            url: `/api/buildings/${modalData.id}`,
-            data: new FormData(form),
-            headers: { "Content-Type": "multipart/form-data" },
-        }).then(function (response) {
-            console.log(response)
-        })
-          .catch(function (response) {
-            console.log(response)
-        });
+        try {
+            await axios({
+                method: 'DELETE',
+                url: `/api/buildings/${modalData.id}`,
+                data: new FormData(form),
+                headers: {},
+            }).then(function (response) {
+                console.log(response)
+            })
+            deleteSucces()
+
+        }catch(e) {
+            console.log(e)
+        }
         handleCancelButton('delete', false)
-        deleteSucces()
     }
 
     return (

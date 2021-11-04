@@ -2974,7 +2974,10 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
               return axios__WEBPACK_IMPORTED_MODULE_6___default().get('api/users/').then(function (response) {
                 var users = [];
                 Object.values(response.data)[0].forEach(function (user) {
-                  users.push([user.name]);
+                  users.push({
+                    name: user.name,
+                    role: user.role
+                  });
                 });
 
                 _this.setState({
@@ -2991,21 +2994,21 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     })));
 
     _defineProperty(_assertThisInitialized(_this), "submitReservationToDB", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-      var form, postStatus;
+      var form, reservation, postStatus;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               form = document.getElementById("reservation-form");
-              console.log(form);
-              console.log(new FormData(form));
+              reservation = document.getElementById("".concat(_this.state.newestElementID, "-reservation"));
               postStatus = true;
 
               if (!form) {
-                _context2.next = 7;
+                _context2.next = 12;
                 break;
               }
 
+              _context2.prev = 4;
               _context2.next = 7;
               return axios__WEBPACK_IMPORTED_MODULE_6___default()({
                 method: 'POST',
@@ -3016,37 +3019,48 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                 }
               }).then(function (response) {
                 postStatus = true;
+                console.log(response);
+                if (reservation) reservation.setAttribute("data-reservationid", response.data.lastID);
               })["catch"](function (response) {
                 postStatus = false;
               });
 
             case 7:
+              _context2.next = 12;
+              break;
+
+            case 9:
+              _context2.prev = 9;
+              _context2.t0 = _context2["catch"](4);
+              console.log(_context2.t0);
+
+            case 12:
               if (!postStatus) {
-                _context2.next = 12;
+                _context2.next = 17;
                 break;
               }
 
-              _context2.next = 10;
+              _context2.next = 15;
               return _this.handleFormSubmissionStatus("succes");
 
-            case 10:
-              _context2.next = 16;
+            case 15:
+              _context2.next = 21;
               break;
 
-            case 12:
-              _context2.next = 14;
+            case 17:
+              _context2.next = 19;
               return _this.handleFormSubmissionStatus("error");
 
-            case 14:
-              _context2.next = 16;
-              return _this.removeChild();
+            case 19:
+              _context2.next = 21;
+              return _this.removeChild(document.getElementById("".concat(_this.state.newestElementID, "-reservation")));
 
-            case 16:
+            case 21:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2);
+      }, _callee2, null, [[4, 9]]);
     })));
 
     _this.state = {
@@ -3060,7 +3074,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       invoiceAddressModalOpen: false,
       viewReservationModalOpen: false,
       listOfUsers: _this.fetchUsers(),
-      crsfToken: '',
+      csrftoken: '',
       viewReservationData: '',
       modalMarginLeft: '',
       modalMarginTopClickedElement: ''
@@ -3068,6 +3082,8 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     _this.fetchUsers = _this.fetchUsers.bind(_assertThisInitialized(_this));
     _this.handleFormSubmissionStatus = _this.handleFormSubmissionStatus.bind(_assertThisInitialized(_this));
     _this.submitReservationToDB = _this.submitReservationToDB.bind(_assertThisInitialized(_this));
+    _this.deleteReservation = _this.deleteReservation.bind(_assertThisInitialized(_this));
+    _this.removeChild = _this.removeChild.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3079,14 +3095,12 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var token = document.getElementById("csrf_Token");
       this.setState({
-        crsfToken: token.getAttribute("value")
+        csrftoken: token.getAttribute("value")
       });
     }
   }, {
     key: "removeChild",
-    value: function removeChild() {
-      var child = document.getElementById("".concat(this.state.newestElementID, "-reservation"));
-
+    value: function removeChild(child) {
       if (child) {
         child.parentNode.removeChild(child);
       }
@@ -3154,7 +3168,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     key: "closeModal",
     value: function closeModal(Modal) {
       if (Modal == "reservation") {
-        this.removeChild();
+        this.removeChild(document.getElementById("".concat(this.state.newestElementID, "-reservation")));
         this.setState(function (prev) {
           return {
             createReservationPopupOpen: false
@@ -3257,49 +3271,114 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       this.props.onReservationCreate(status);
     }
   }, {
-    key: "cardOnClickHandler",
-    value: function cardOnClickHandler(event) {
-      if (this.state.createReservationPopupOpen == true) this.closeModal("reservation");
-      var reservation = document.getElementById(event.target.id);
-      var reservationParent = reservation.parentNode;
-      var agendaGrid = reservation.parentNode.parentNode.cloneNode(true);
-      var marginLeft = 100;
-      var continueLoop = true; // console.log(agendaGrid)
-      // console.log(agendaGrid.children)
+    key: "fetchReservationData",
+    value: function () {
+      var _fetchReservationData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(id) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                return _context3.abrupt("return", new Promise(function (resolve, reject) {
+                  axios__WEBPACK_IMPORTED_MODULE_6___default().get("/api/reservations/".concat(id)).then(function (res) {
+                    resolve(res.data.reservation[0]);
+                  })["catch"](function (err) {
+                    return reject(err);
+                  });
+                }));
 
-      var _iterator = _createForOfIteratorHelper(agendaGrid.children),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var child = _step.value;
-
-          if (child.style.width != '' || child.style.width.length > 0) {
-            if (continueLoop) {
-              if (marginLeft >= 1000) {
-                marginLeft = marginLeft - 445;
-              } else {
-                marginLeft = parseInt(marginLeft) + Math.round(parseInt(child.style.width.split("px")[0])) + 4.5;
-              }
+              case 1:
+              case "end":
+                return _context3.stop();
             }
-
-            if (child.id == reservationParent.id) continueLoop = false;
           }
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
+        }, _callee3);
+      }));
+
+      function fetchReservationData(_x) {
+        return _fetchReservationData.apply(this, arguments);
       }
 
-      this.setState({
-        modalMarginLeft: marginLeft,
-        modalMarginTopClickedElement: event.target.style.top
-      }); // const timepopup = document.getElementById("view-reservation-modal")
+      return fetchReservationData;
+    }()
+  }, {
+    key: "cardOnClickHandler",
+    value: function () {
+      var _cardOnClickHandler = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(event) {
+        var reservation, viewReservationData, reservationParent, agendaGrid, marginLeft, continueLoop, _iterator, _step, child;
 
-      this.openModal("viewReservation"); // console.log(reservation)
-      // timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime")
-    }
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                if (this.state.createReservationPopupOpen == true) this.closeModal("reservation");
+                reservation = document.getElementById(event.target.id);
+                _context4.next = 4;
+                return this.fetchReservationData(reservation.getAttribute("data-reservationid"));
+
+              case 4:
+                viewReservationData = _context4.sent;
+                viewReservationData["reservationElementID"] = reservation.id;
+
+                if (!(viewReservationData == "error")) {
+                  _context4.next = 8;
+                  break;
+                }
+
+                return _context4.abrupt("return", handleFormSubmissionStatus("error"));
+
+              case 8:
+                reservationParent = reservation.parentNode;
+                agendaGrid = reservation.parentNode.parentNode.cloneNode(true);
+                marginLeft = 100;
+                continueLoop = true;
+                _iterator = _createForOfIteratorHelper(agendaGrid.children);
+
+                try {
+                  for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                    child = _step.value;
+
+                    if (child.style.width != '' || child.style.width.length > 0) {
+                      if (continueLoop) {
+                        if (marginLeft >= 1000) {
+                          marginLeft = marginLeft - 445;
+                        } else {
+                          marginLeft = parseInt(marginLeft) + Math.round(parseInt(child.style.width.split("px")[0])) + 4.5;
+                        }
+                      }
+
+                      if (child.id == reservationParent.id) continueLoop = false;
+                    }
+                  } // const timepopup = document.getElementById("view-reservation-modal")
+
+                } catch (err) {
+                  _iterator.e(err);
+                } finally {
+                  _iterator.f();
+                }
+
+                this.setState({
+                  modalMarginLeft: marginLeft,
+                  modalMarginTopClickedElement: event.target.style.top,
+                  viewReservationData: viewReservationData
+                });
+                this.openModal("viewReservation");
+                console.log(viewReservationData); // console.log(reservation)
+                // timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime")
+
+              case 17:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function cardOnClickHandler(_x2) {
+        return _cardOnClickHandler.apply(this, arguments);
+      }
+
+      return cardOnClickHandler;
+    }()
   }, {
     key: "mouseDownHandler",
     value: function mouseDownHandler(event) {
@@ -3310,7 +3389,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
         addContactPersonModalOpen: false,
         invoiceAddressModalOpen: false
       });
-      this.state.modalSaved == false && this.removeChild();
+      this.state.modalSaved == false && this.removeChild(document.getElementById("".concat(this.state.newestElementID, "-reservation")));
     }
   }, {
     key: "mouseUpHandler",
@@ -3352,6 +3431,24 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "deleteReservation",
+    value: function deleteReservation(reservationID, elementID) {
+      var form = document.getElementById("deleteReservationForm");
+      this.closeModal("viewReservation");
+      new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_6___default()({
+          method: 'DELETE',
+          url: "/api/reservations/".concat(reservationID),
+          data: new FormData(form),
+          headers: {}
+        }).then(function (res) {
+          location.reload(true);
+        })["catch"](function (err) {
+          return succes = false;
+        });
+      });
+    }
+  }, {
     key: "createElement",
     value: function createElement(element) {
       if (this.state.viewReservationModalOpen == true) this.closeModal("viewReservation");
@@ -3378,11 +3475,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
       newReservationElement.style.backgroundColor = parentElement.style.backgroundColor;
       newReservationElement.style.height = "9px";
       newReservationElement.style.top = marginTop + "px";
-      newReservationElement.style.width = parentElement.getBoundingClientRect().width + "px";
-
-      newReservationElement.onclick = function (e) {
-        this.cardOnClickHandler(e);
-      };
+      newReservationElement.style.width = parentElement.getBoundingClientRect().width + "px"; // newReservationElement.onclick = async function(e) { await cardOnClickHandler(e) };
 
       newReservationElement.classList.add("reservation-card");
       newReservationElement.id = "".concat(randomID, "-reservation");
@@ -3407,121 +3500,197 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("form", {
-        id: "reservation-form",
-        method: "post",
-        action: "/api/reservations",
-        className: "time-grid-item gap-1 d-flex justify-content-between",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-          id: "reservation-form-wrapper-deletable",
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        className: "time-grid-item-wrapper",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("form", {
+          id: "deleteReservationForm",
+          method: "post",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            id: "form-starttime",
             type: "hidden",
-            name: "starttime"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            id: "form-endtime",
-            type: "hidden",
-            name: "endtime"
+            name: "_method",
+            value: "DELETE"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
             id: "token",
             type: "hidden",
             name: "_token",
-            value: this.state.crsfToken
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "resDate",
-            name: "resDate",
-            value: this.props.currentDate
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "resSpaceID",
-            name: "resSpaceID"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "cName",
-            name: "cName"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "cEmail",
-            name: "cEmail"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "cPhone",
-            name: "cPhone"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "cIban",
-            name: "cIban"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "cAddress",
-            name: "cAddress"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "cCity",
-            name: "cCity"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "cHouseNumber",
-            name: "cHouseNumber"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "cPostalCode",
-            name: "cPostalCode"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "ivAddress",
-            name: "ivAddress"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "ivCity",
-            name: "ivCity"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "ivHouseNumber",
-            name: "ivHouseNumber"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "ivPostalCode",
-            name: "ivPostalCode"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-            type: "hidden",
-            id: "ivAddressSame",
-            name: "ivAddressSame"
+            value: this.state.csrftoken
           })]
-        }), this.props.childElements && this.props.childElements.map(function (building, indexBuilding) {
-          return building.spaces.map(function (space, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-              className: "grid-row",
-              onMouseUp: function onMouseUp(e) {
-                return _this2.mouseUpHandler(e);
-              },
-              onMouseDown: function onMouseDown(e) {
-                return _this2.mouseDownHandler(e);
-              },
-              onPointerMoveCapture: function onPointerMoveCapture(e) {
-                return _this2.mouseEvent(e);
-              },
-              id: "row-".concat(index, "-spaceID-").concat(space.spaceID),
-              style: {
-                width: space.width,
-                height: 576
-              },
-              children: space.reservations.map(function (reservation, resIndex) {
-                if (reservation.date == _this2.props.currentDate || reservation.starttime < reservation.endtime) {
-                  var start = reservation.starttime.split(":");
-                  var end = reservation.endtime.split(":");
-                  var cardMarginTop = (start[0] - 8) * 36 + Math.round(start[1] / 15) * 9;
-                  var cardHeight = ((end[0] - start[0]) * 4 + (Math.round(end[1]) - Math.round(start[1])) / 15) * 9 - 1;
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("form", {
+          id: "reservation-form",
+          method: "post",
+          action: "/api/reservations",
+          className: "time-grid-item gap-1 d-flex justify-content-between",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            id: "reservation-form-wrapper-deletable",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              id: "form-starttime",
+              type: "hidden",
+              name: "starttime"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              id: "form-endtime",
+              type: "hidden",
+              name: "endtime"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              id: "token",
+              type: "hidden",
+              name: "_token",
+              value: this.state.csrftoken
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "resDate",
+              name: "resDate",
+              value: this.props.currentDate
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "resSpaceID",
+              name: "resSpaceID"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "cName",
+              name: "cName"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "cEmail",
+              name: "cEmail"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "cPhone",
+              name: "cPhone"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "cIban",
+              name: "cIban"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "cAddress",
+              name: "cAddress"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "cCity",
+              name: "cCity"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "cHouseNumber",
+              name: "cHouseNumber"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "cPostalCode",
+              name: "cPostalCode"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "ivAddress",
+              name: "ivAddress"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "ivCity",
+              name: "ivCity"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "ivHouseNumber",
+              name: "ivHouseNumber"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "ivPostalCode",
+              name: "ivPostalCode"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "hidden",
+              id: "ivAddressSame",
+              name: "ivAddressSame"
+            })]
+          }), this.props.childElements && this.props.childElements.map(function (building, indexBuilding) {
+            return building.spaces.map(function (space, index) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                className: "grid-row",
+                onMouseUp: function onMouseUp(e) {
+                  return _this2.mouseUpHandler(e);
+                },
+                onMouseDown: function onMouseDown(e) {
+                  return _this2.mouseDownHandler(e);
+                },
+                onPointerMoveCapture: function onPointerMoveCapture(e) {
+                  return _this2.mouseEvent(e);
+                },
+                id: "row-".concat(index, "-spaceID-").concat(space.spaceID),
+                style: {
+                  width: space.width,
+                  height: 576
+                },
+                children: space.reservations.map(function (reservation, resIndex) {
+                  if (reservation.date == _this2.props.currentDate || reservation.starttime < reservation.endtime) {
+                    var start = reservation.starttime.split(":");
+                    var end = reservation.endtime.split(":");
+                    var cardMarginTop = (start[0] - 8) * 36 + Math.round(start[1] / 15) * 9;
+                    var cardHeight = ((end[0] - start[0]) * 4 + (Math.round(end[1]) - Math.round(start[1])) / 15) * 9 - 1;
 
-                  if (cardHeight < 577) {
-                    if (cardHeight < 50) {
-                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                    if (cardHeight < 577) {
+                      if (cardHeight < 50) {
+                        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                          className: "reservation-card reservation-card-hover",
+                          onClick: /*#__PURE__*/function () {
+                            var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(e) {
+                              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+                                while (1) {
+                                  switch (_context5.prev = _context5.next) {
+                                    case 0:
+                                      _context5.next = 2;
+                                      return _this2.cardOnClickHandler(e);
+
+                                    case 2:
+                                      return _context5.abrupt("return", _context5.sent);
+
+                                    case 3:
+                                    case "end":
+                                      return _context5.stop();
+                                  }
+                                }
+                              }, _callee5);
+                            }));
+
+                            return function (_x3) {
+                              return _ref3.apply(this, arguments);
+                            };
+                          }(),
+                          id: uuid_v4__WEBPACK_IMPORTED_MODULE_7___default()(),
+                          "data-reservationid": reservation.id,
+                          "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
+                          "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
+                          style: {
+                            top: cardMarginTop + 1,
+                            width: space.width,
+                            backgroundColor: building.backgroundColor,
+                            height: cardHeight
+                          }
+                        }, space.width + resIndex);
+                      }
+
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
                         className: "reservation-card reservation-card-hover",
-                        onClick: function onClick(e) {
-                          return _this2.cardOnClickHandler(e);
-                        },
+                        onClick: /*#__PURE__*/function () {
+                          var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6(e) {
+                            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+                              while (1) {
+                                switch (_context6.prev = _context6.next) {
+                                  case 0:
+                                    _context6.next = 2;
+                                    return _this2.cardOnClickHandler(e);
+
+                                  case 2:
+                                    return _context6.abrupt("return", _context6.sent);
+
+                                  case 3:
+                                  case "end":
+                                    return _context6.stop();
+                                }
+                              }
+                            }, _callee6);
+                          }));
+
+                          return function (_x4) {
+                            return _ref4.apply(this, arguments);
+                          };
+                        }(),
                         id: uuid_v4__WEBPACK_IMPORTED_MODULE_7___default()(),
+                        "data-reservationid": reservation.id,
                         "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
                         "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
                         style: {
@@ -3529,119 +3698,106 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                           width: space.width,
                           backgroundColor: building.backgroundColor,
                           height: cardHeight
-                        }
+                        },
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                          className: "res-details",
+                          style: {
+                            width: space.width - 20
+                          },
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("b", {
+                            children: reservation.title
+                          })
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                          className: "res-details",
+                          style: {
+                            width: space.width - 20
+                          },
+                          children: reservation.reservation_has_user.name
+                        })]
                       }, space.width + resIndex);
                     }
-
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-                      className: "reservation-card reservation-card-hover",
-                      onClick: function onClick(e) {
-                        return _this2.cardOnClickHandler(e);
-                      },
-                      id: uuid_v4__WEBPACK_IMPORTED_MODULE_7___default()(),
-                      "data-starttime": "".concat(start[0], "-").concat(Math.round(start[1] / 15) * 15),
-                      "data-endtime": "".concat(end[0], "-").concat(Math.round(end[1] / 15) * 15),
-                      style: {
-                        top: cardMarginTop + 1,
-                        width: space.width,
-                        backgroundColor: building.backgroundColor,
-                        height: cardHeight
-                      },
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-                        className: "res-details",
-                        style: {
-                          width: space.width - 20
-                        },
-                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("b", {
-                          children: reservation.title
-                        })
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-                        className: "res-details",
-                        style: {
-                          width: space.width - 20
-                        },
-                        children: reservation.reservation_has_user.name
-                      })]
-                    }, space.width + resIndex);
                   }
-                }
-              })
-            }, space.width + index + building.backgroundColor);
-          });
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_modal__WEBPACK_IMPORTED_MODULE_2__.Modal // marginLeft={100} 
-        , {
-          marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left : '' // marginTop={100} 
-          ,
-          marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // openModal={true}
-          ,
-          modalOpen: this.state.createReservationPopupOpen,
-          saveModal: function saveModal() {
-            return _this2.saveModal("reservation");
-          },
-          closeModal: function closeModal() {
-            return _this2.closeModal("reservation");
-          },
-          addContactPerson: function addContactPerson() {
-            return _this2.openModal("person");
-          },
-          listOfUsers: this.state.listOfUsers
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_3__.ContactPersonModal // openModal={true} 
-        , {
-          marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
-          ,
-          marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left + 155 : '' // marginLeft={400}
-          ,
-          modalOpen: this.state.addContactPersonModalOpen,
-          saveModal: function saveModal() {
-            return _this2.saveModal("person");
-          },
-          closePersonModal: function closePersonModal() {
-            return _this2.closeModal("person");
-          },
-          closeInvoiceAdressModal: function closeInvoiceAdressModal() {
-            return _this2.closeModal("invoice");
-          },
-          openInvoiceAdressModal: function openInvoiceAdressModal() {
-            return _this2.openModal("invoice");
-          },
-          toggleInvoiceModal: function toggleInvoiceModal() {
-            return _this2.toggleModal("invoice");
-          },
-          inputOnChange: function inputOnChange(value, input) {
-            _this2.setFormInputValue(value, input);
-          }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_4__.InvoiceAdressModal // openModal={true} 
-        , {
-          marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
-          ,
-          marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left + 360 : '' // marginLeft={600}
-          ,
-          modalOpen: this.state.invoiceAddressModalOpen,
-          saveModal: function saveModal() {
-            return _this2.saveModal("invoice");
-          },
-          closeInvoiceAdressModal: function closeInvoiceAdressModal() {
-            return _this2.closeModal("invoice");
-          },
-          inputOnChange: function inputOnChange(value, input) {
-            _this2.setFormInputValue(value, input);
-          }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_view_reservation__WEBPACK_IMPORTED_MODULE_5__.ViewReservationModal // openModal={true} 
-        , {
-          marginTop: this.state.modalMarginTopClickedElement // marginTop={50} 
-          // marginLeft={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).getBoundingClientRect().left + 360: ''}
-          ,
-          marginLeft: this.state.modalMarginLeft // marginLeft={600}
-          // modalOpen={true}
-          ,
-          modalOpen: this.state.viewReservationModalOpen,
-          saveModal: function saveModal() {
-            return _this2.saveModal("viewReservation");
-          },
-          closeModal: function closeModal() {
-            return _this2.closeModal("viewReservation");
-          },
-          reservation: this.state.viewReservationData
+                })
+              }, space.width + index + building.backgroundColor);
+            });
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_modal__WEBPACK_IMPORTED_MODULE_2__.Modal // marginLeft={100} 
+          , {
+            marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left : '' // marginTop={100} 
+            ,
+            marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // openModal={true}
+            ,
+            modalOpen: this.state.createReservationPopupOpen,
+            saveModal: function saveModal() {
+              return _this2.saveModal("reservation");
+            },
+            closeModal: function closeModal() {
+              return _this2.closeModal("reservation");
+            },
+            addContactPerson: function addContactPerson() {
+              return _this2.openModal("person");
+            },
+            listOfUsers: this.state.listOfUsers
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_contact_person_modal__WEBPACK_IMPORTED_MODULE_3__.ContactPersonModal // openModal={true} 
+          , {
+            marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
+            ,
+            marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left + 155 : '' // marginLeft={400}
+            ,
+            modalOpen: this.state.addContactPersonModalOpen,
+            saveModal: function saveModal() {
+              return _this2.saveModal("person");
+            },
+            closePersonModal: function closePersonModal() {
+              return _this2.closeModal("person");
+            },
+            closeInvoiceAdressModal: function closeInvoiceAdressModal() {
+              return _this2.closeModal("invoice");
+            },
+            openInvoiceAdressModal: function openInvoiceAdressModal() {
+              return _this2.openModal("invoice");
+            },
+            toggleInvoiceModal: function toggleInvoiceModal() {
+              return _this2.toggleModal("invoice");
+            },
+            inputOnChange: function inputOnChange(value, input) {
+              _this2.setFormInputValue(value, input);
+            }
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_invoice_address_modal__WEBPACK_IMPORTED_MODULE_4__.InvoiceAdressModal // openModal={true} 
+          , {
+            marginTop: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).offsetTop : '' // marginTop={50} 
+            ,
+            marginLeft: document.getElementById("".concat(this.state.newestElementID, "-reservation")) ? document.getElementById("".concat(this.state.newestElementID, "-reservation")).getBoundingClientRect().left + 360 : '' // marginLeft={600}
+            ,
+            modalOpen: this.state.invoiceAddressModalOpen,
+            saveModal: function saveModal() {
+              return _this2.saveModal("invoice");
+            },
+            closeInvoiceAdressModal: function closeInvoiceAdressModal() {
+              return _this2.closeModal("invoice");
+            },
+            inputOnChange: function inputOnChange(value, input) {
+              _this2.setFormInputValue(value, input);
+            }
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modals_view_reservation__WEBPACK_IMPORTED_MODULE_5__.ViewReservationModal // openModal={true} 
+          , {
+            marginTop: this.state.modalMarginTopClickedElement // marginTop={50} 
+            // marginLeft={document.getElementById(`${this.state.newestElementID}-reservation`) ? document.getElementById(`${this.state.newestElementID}-reservation`).getBoundingClientRect().left + 360: ''}
+            ,
+            marginLeft: this.state.modalMarginLeft // marginLeft={600}
+            // modalOpen={true}
+            ,
+            modalOpen: this.state.viewReservationModalOpen,
+            saveModal: function saveModal() {
+              return _this2.saveModal("viewReservation");
+            },
+            closeModal: function closeModal() {
+              return _this2.closeModal("viewReservation");
+            },
+            reservation: this.state.viewReservationData,
+            deleteReservation: function deleteReservation(reservationID, elementID) {
+              _this2.deleteReservation(reservationID, elementID);
+            }
+          })]
         })]
       });
     }
@@ -4309,10 +4465,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Modal": () => (/* binding */ Modal)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
-/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
 /* harmony import */ var _components_input_animated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/input-animated */ "./resources/js/datatables/agenda/components/modals/components/input-animated.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -4324,6 +4482,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -4406,8 +4565,8 @@ var Modal = function Modal(_ref) {
     });
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
-    children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.AnimatePresence, {
+    children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_5__.motion.div, {
       id: "reservation-modal",
       className: "d-flex flex-column position-absolute justify-content-center align-items-center",
       initial: {
@@ -4428,28 +4587,28 @@ var Modal = function Modal(_ref) {
         left: marginLeft - 20 + 'px',
         scale: 0.25
       },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "close-icon",
         onClick: function onClick() {
           closeModal();
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
           className: "fas fa-times"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "reservation-form position-relative d-flex justify-content-center align-items-center w-60 rounded-5",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "position-relative flex-column d-flex justify-content-center align-items-center w-75",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_input_animated__WEBPACK_IMPORTED_MODULE_1__.AnimatedInput, {
             onInputChange: function onInputChange() {},
             formName: "reservation-form",
             maxInputLength: "120",
             required: true,
             inputName: "resTitle",
             placeholder: "Titel"
-          }, "name"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          }, "name"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "d-flex justify-content-center align-items-center flex-column",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("textarea", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("textarea", {
               onFocus: setDesFocusHandler,
               onBlur: setDesFocusHandler,
               style: {
@@ -4463,12 +4622,12 @@ var Modal = function Modal(_ref) {
               name: "resDesc",
               id: "resDesc",
               placeholder: "Beschrijving"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "title-underline-wrapper",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.AnimatePresence, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_5__.motion.div, {
                   className: "title-underline"
-                }, "gray-line"), inputFocussedDesc && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+                }, "gray-line"), inputFocussedDesc && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_5__.motion.div, {
                   className: "title-underline-themeColor title-underline",
                   initial: {
                     scaleX: 0.1
@@ -4485,11 +4644,11 @@ var Modal = function Modal(_ref) {
                 }, "orange-line")]
               })
             })]
-          }, "input-description"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          }, "input-description"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "d-flex justify-content-center align-items-center flex-column",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
               className: "d-flex justify-content-between align-items-center flex-row",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
                 form: "reservation-form",
                 onFocus: setPersonFocusHandler,
                 onBlur: setPersonFocusHandler,
@@ -4505,25 +4664,25 @@ var Modal = function Modal(_ref) {
                 id: "resCPerson",
                 placeholder: "Persoon",
                 disabled: addUserModalOpen
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                 onClick: setUserListState,
                 className: "fas fa-sort-down",
                 style: {
                   color: '#8e8e8e'
                 }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                 onClick: toggleAddPersonModal,
                 className: "fas fa-plus mt-3 w-25 d-flex justify-content-end align-items-center",
                 style: {
                   color: '#8e8e8e'
                 }
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "title-underline-wrapper",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.AnimatePresence, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_5__.motion.div, {
                   className: "title-person-underline title-underline ".concat(selectedUserChanged == true && 'title-underline-green')
-                }, "gray-line"), inputFocussedPerson && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+                }, "gray-line"), inputFocussedPerson && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_5__.motion.div, {
                   className: "title-underline-themeColor title-underline",
                   initial: {
                     scaleX: 0.1
@@ -4540,12 +4699,12 @@ var Modal = function Modal(_ref) {
                 }, "orange-line")]
               })
             })]
-          }, "input-person"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+          }, "input-person"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             style: {
               fontSize: '.8rem'
             },
             className: "form-footer d-flex justify-content-end align-items-center flex-row mt-5 w-75",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               onClick: function onClick(e) {
                 saveModal();
               },
@@ -4553,8 +4712,8 @@ var Modal = function Modal(_ref) {
               className: "",
               children: "Opslaan"
             }, "save-reservation")
-          }, "form-footer"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.AnimatePresence, {
-            children: userListOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.motion.div, {
+          }, "form-footer"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.AnimatePresence, {
+            children: userListOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_5__.motion.div, {
               className: "usersList",
               initial: {
                 height: 0,
@@ -4568,14 +4727,14 @@ var Modal = function Modal(_ref) {
                 height: 0,
                 opacity: 0
               },
-              children: listOfUsers.map(function (user) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              children: listOfUsers.map(function (user, index) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                   onClick: function onClick() {
                     return setSelectedUserHandler(user);
                   },
                   className: "user-item",
-                  children: user
-                }, user);
+                  children: user.name
+                }, user.name);
               })
             }, "usersList")
           })]
@@ -4598,10 +4757,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ViewReservationModal": () => (/* binding */ ViewReservationModal)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
-/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/components/AnimatePresence/index.js");
+/* harmony import */ var framer_motion__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! framer-motion */ "./node_modules/framer-motion/dist/es/render/dom/motion.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -4618,20 +4787,65 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var ViewReservationModal = function ViewReservationModal(_ref) {
   var modalOpen = _ref.modalOpen,
       closeModal = _ref.closeModal,
-      saveModal = _ref.saveModal,
+      reservation = _ref.reservation,
       marginLeft = _ref.marginLeft,
-      marginTop = _ref.marginTop;
+      marginTop = _ref.marginTop,
+      deleteReservation = _ref.deleteReservation;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
-      editRows = _useState2[0],
-      setEditRowsStatus = _useState2[1];
+      userRole = _useState2[0],
+      setUserRole = _useState2[1];
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_2__.AnimatePresence, {
-    children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_3__.motion.div, {
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      editRows = _useState4[0],
+      setEditRowsStatus = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      deleteConfirm = _useState6[0],
+      setDeleteConfirmOpen = _useState6[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+    var userID;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            userID = document.getElementById("userID");
+
+            if (userID) {
+              _context.next = 3;
+              break;
+            }
+
+            return _context.abrupt("return");
+
+          case 3:
+            _context.next = 5;
+            return axios__WEBPACK_IMPORTED_MODULE_2___default().get("api/users/".concat(userID.value)).then(function (response) {
+              setUserRole(response.data.user[0].role);
+            });
+
+          case 5:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  })), []);
+
+  function handleDeleteReservationClick(reservationID, reservationElementID) {
+    setDeleteConfirmOpen(true); // deleteReservation(reservationID, reservationElementID)
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.AnimatePresence, {
+    children: modalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(framer_motion__WEBPACK_IMPORTED_MODULE_5__.motion.div, {
       id: "view-reservation-modal",
       initial: {
         opacity: 0,
@@ -4651,87 +4865,157 @@ var ViewReservationModal = function ViewReservationModal(_ref) {
         left: 100,
         scale: 0.25
       },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "d-flex justify-content-end align-items-end",
         onClick: function onClick() {
           closeModal();
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
           className: "fas fa-times"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "body-content",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "body-content-container",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "content-row ".concat(!editRows && 'content-row-border-bottom'),
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "content-column",
               children: "Begin - Eind Tijd"
-            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "content-column content-value",
-              children: "10:00 - 19:00"
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+              children: "".concat(reservation.starttime.split(":")[0], ":").concat(reservation.starttime.split(":")[1], " - ").concat(reservation.endtime.split(":")[0], ":").concat(reservation.endtime.split(":")[1])
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
               className: "content-column content-value content-input",
-              placeholder: "10:00 - 19:00"
+              placeholder: "".concat(reservation.starttime.split(":")[0], ":").concat(reservation.starttime.split(":")[1], " - ").concat(reservation.endtime.split(":")[0], ":").concat(reservation.endtime.split(":")[1])
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "content-row ".concat(!editRows && 'content-row-border-bottom'),
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "content-column",
               children: "Titel"
-            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "content-column content-value",
-              children: "Catachasatie Avond"
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+              children: "".concat(reservation.title)
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
               className: "content-column content-value content-input",
-              placeholder: "Catachasatie Avond"
+              placeholder: "".concat(reservation.title)
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "content-row ".concat(!editRows && 'content-row-border-bottom'),
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "content-column",
               children: "Beschrijving"
-            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "content-column content-value",
-              children: "Deze ruimte word verhuurd voor de catachasatie avond"
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("textarea", {
+              children: "".concat(reservation.description)
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("textarea", {
               className: "content-column content-value content-input",
-              placeholder: "Deze ruimte word verhuurd voor de catachasatie avond",
+              placeholder: "".concat(reservation.description),
               style: {
                 resize: 'none'
               }
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "content-row ".concat(!editRows && 'content-row-border-bottom'),
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "content-column",
               children: "Contact Persoon"
-            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            }), editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "content-column content-value",
-              children: "Henrik Hannewijk"
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+              children: "".concat(reservation.reservation_has_user.name)
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
               className: "content-column content-value content-input",
-              placeholder: "Henrik Hannewijk"
+              placeholder: "".concat(reservation.reservation_has_user.name)
             })]
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: "view-modal-footer ".concat(editRows && 'margin-top'),
-        children: editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-          onClick: function onClick() {
-            setEditRowsStatus(function (current) {
-              return !current;
-            });
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "d-flex w-100 justify-content-center align-items-center ".concat(editRows && 'margin-top'),
+        style: {
+          marginTop: '30px'
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "d-flex w-75 gap-5 justify-content-between align-items-center text-white",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "p-2 w-50 rounded d-flex justify-content-center align-items-center bg-danger danger-on-hover",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              onClick: function onClick() {
+                handleDeleteReservationClick(reservation.id, reservation.reservationElementID);
+              },
+              children: "Verwijderen"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "p-2 w-50 rounded d-flex justify-content-center align-items-center bg-themeColor themeColor-on-hover",
+            children: editRows == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              onClick: function onClick() {
+                setEditRowsStatus(function (current) {
+                  return !current;
+                });
+              },
+              children: "Bewerken"
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              onClick: function onClick() {
+                setEditRowsStatus(function (current) {
+                  return !current;
+                });
+              },
+              children: "Opslaan"
+            })
+          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.AnimatePresence, {
+        children: deleteConfirm && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_5__.motion.div, {
+          id: "edit-modal",
+          className: "position-absolute d-flex justify-content-center align-items-center w-100 h-100 top-0 start-0",
+          style: {
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            zIndex: 1050
           },
-          children: "Bewerken"
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-          onClick: function onClick() {
-            setEditRowsStatus(function (current) {
-              return !current;
-            });
+          initial: {
+            opacity: 0
           },
-          children: "Opslaan"
+          animate: {
+            opacity: 1
+          },
+          exit: {
+            opacity: 0
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "position-relative w-25 h-25 bg-light rounded",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "position-relative",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "d-flex justify-content-end align-items-center",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                  className: "fas fa-times color-placeholder themeColor-hover close-icon-modal fs-20"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "d-flex flex-column w-100 mt-4 justify-content-center align-items-center gap-3",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "ml-5 mr-5 fs-5",
+                  children: "Weet u zeker dat u de reservering wilt verwijderen?"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "d-flex position-relative justify-content-center w-100",
+                style: {
+                  marginTop: '40px'
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                  className: "ml-5 w-100 mr-5 d-flex justify-content-around align-items-center gap-5 text-white",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    id: "cancel",
+                    className: "position-relative d-flex justify-content-center align-items-center bg-danger w-50 rounded p-2 danger-on-hover border border-5 border-danger",
+                    children: "Annuleren"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    id: "continue",
+                    className: "position-relative d-flex justify-content-center align-items-center bg-success w-50 rounded p-2 succes-on-hover border border-5 border-succes",
+                    children: "Doorgaan"
+                  })]
+                })
+              })]
+            })
+          })
         })
       })]
     })
@@ -69626,6 +69910,12 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
           };
         });
       } else if (box == "succes") {
+        if (this.state.succesBoxOpen == true) {
+          setTimeout(function () {
+            location.reload(false);
+          }, 300);
+        }
+
         this.setState(function (prev) {
           return {
             succesBoxOpen: !prev.succesBoxOpen

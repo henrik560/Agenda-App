@@ -23,6 +23,14 @@
     }
 }
 
+.themeColor-on-hover {
+    transition: all .35s ease-in-out;
+
+    &:hover {
+        background-color: rgba($color: #F27500, $alpha: 0.7) !important;
+    }
+}
+
 .succes-on-hover {
     transition: all .35s ease-in-out;
 

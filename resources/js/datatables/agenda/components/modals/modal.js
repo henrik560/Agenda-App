@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
-import { AnimatedInput } from './components/input-animated'
+import { AnimatedInput } from './components/input-animated';
+import axios from 'axios';
 
 export const Modal = ({ modalOpen, marginTop, marginLeft, saveModal, addContactPerson, closeModal, listOfUsers }) => {
     const [ inputFocussedDesc, setDesFocus ] = useState(false);
@@ -120,9 +121,9 @@ export const Modal = ({ modalOpen, marginTop, marginLeft, saveModal, addContactP
                                             >
 
                                                 {
-                                                  listOfUsers.map((user) => {
+                                                  listOfUsers.map((user, index) => {
                                                       return ( 
-                                                          <div onClick={() => setSelectedUserHandler(user)} className="user-item" key={user}>{user}</div>
+                                                          <div onClick={() => setSelectedUserHandler(user)} className="user-item" key={user.name}>{user.name}</div>
                                                       )
                                                   })  
                                                 }

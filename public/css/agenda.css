@@ -256,14 +256,14 @@
   left: 83px;
   pointer-events: none;
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item {
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item-wrapper .time-grid-item {
   width: 100%;
   display: flex;
   flex-direction: row;
   flex-grow: 1;
   gap: 4px;
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row {
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item-wrapper .time-grid-item .grid-row {
   display: flex;
   flex-grow: 1;
   background-color: transparent;
@@ -271,7 +271,7 @@
   flex-direction: column;
   align-items: center;
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card {
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item-wrapper .time-grid-item .grid-row .reservation-card {
   position: absolute;
   display: flex;
   min-height: 9px;
@@ -283,7 +283,7 @@
   border-radius: 5px;
   gap: 0.5rem !important;
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card .res-details {
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item-wrapper .time-grid-item .grid-row .reservation-card .res-details {
   font-size: 0.85vw;
   color: white;
   text-align: center;
@@ -292,13 +292,13 @@
   white-space: nowrap;
   pointer-events: none;
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card-hover {
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item-wrapper .time-grid-item .grid-row .reservation-card-hover {
   transition: background 0.3s ease-in-out;
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item .grid-row .reservation-card-hover:hover {
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item-wrapper .time-grid-item .grid-row .reservation-card-hover:hover {
   background: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25));
 }
-#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item #create-reservation-popup {
+#agenda-wrapper .agenda .agenda-child-container .content-container .time-grid .time-grid-item-wrapper .time-grid-item #create-reservation-popup {
   width: 100px;
   height: 200px;
   background-color: red;
@@ -505,24 +505,25 @@
   color: #F27500;
 }
 #view-reservation-modal .body-content {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 #view-reservation-modal .body-content .body-content-container {
   display: flex;
   flex-direction: column;
   width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 #view-reservation-modal .body-content .body-content-container .content-row {
   display: flex;
   flex-direction: row;
   gap: 2rem;
-  margin-left: 50px;
   margin-top: 7px;
   position: relative;
-  width: 350px;
+  width: 75%;
 }
 #view-reservation-modal .body-content .body-content-container .content-row .content-column {
-  width: 159px;
+  width: 50%;
 }
 #view-reservation-modal .body-content .body-content-container .content-row .content-input {
   border: 2px solid #ddd;
@@ -560,5 +561,5 @@
   background-color: white;
 }
 #view-reservation-modal .margin-top {
-  margin-top: 10px;
+  margin-top: 10px !important;
 }

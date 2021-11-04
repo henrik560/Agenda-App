@@ -294,61 +294,64 @@
                 }
 
                 .time-grid {
-                    .time-grid-item {
-                        width: 100%;
-                        display: flex;
-                        flex-direction: row;
-                        flex-grow: 1;
-                        gap: 4px;
-
-                        .grid-row {
+                    .time-grid-item-wrapper {
+                        .time-grid-item {
+                            width: 100%;
                             display: flex;
+                            flex-direction: row;
                             flex-grow: 1;
-                            background-color: transparent;
-                            height: 100%;
-                            flex-direction: column;
-                            align-items: center;
+                            gap: 4px;
 
-                            .reservation-card {
-                                position: absolute;
+                            .grid-row {
                                 display: flex;
-                                min-height: 9px;
+                                flex-grow: 1;
+                                background-color: transparent;
+                                height: 100%;
                                 flex-direction: column;
-                                justify-content: center;
                                 align-items: center;
-                                box-sizing: border-box;
-                                border: 1px solid #ddd;
-                                border-radius: 5px;
-                                gap: 0.5rem !important;
 
-                                .res-details {
-                                    font-size: .85vw;
-                                    color: white;
-                                    text-align: center;
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
-                                    white-space: nowrap;
-                                    pointer-events: none;
+                                .reservation-card {
+                                    position: absolute;
+                                    display: flex;
+                                    min-height: 9px;
+                                    flex-direction: column;
+                                    justify-content: center;
+                                    align-items: center;
+                                    box-sizing: border-box;
+                                    border: 1px solid #ddd;
+                                    border-radius: 5px;
+                                    gap: 0.5rem !important;
+
+                                    .res-details {
+                                        font-size: .85vw;
+                                        color: white;
+                                        text-align: center;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                        pointer-events: none;
+                                    }
+
+                                    // pointer-events: none;
                                 }
 
-                                // pointer-events: none;
-                            }
+                                .reservation-card-hover {
+                                    transition: background .3s ease-in-out;
 
-                            .reservation-card-hover {
-                                transition: background .3s ease-in-out;
-
-                                &:hover {
-                                    background: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25));
+                                    &:hover {
+                                        background: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25));
+                                    }
                                 }
                             }
-                        }
 
-                        #create-reservation-popup {
-                            width: 100px;
-                            height: 200px;
-                            background-color: red;
+                            #create-reservation-popup {
+                                width: 100px;
+                                height: 200px;
+                                background-color: red;
+                            }
                         }
                     }
+
                 }
             }
         }
@@ -607,24 +610,25 @@
     }
 
     .body-content {
-        margin-top: 15px;
+        margin-top: 10px;
 
         .body-content-container {
             display: flex;
             flex-direction: column;
             width: 100%;
+            justify-content: center;
+            align-items: center;
 
             .content-row {
                 display: flex;
                 flex-direction: row;
                 gap: 2rem;
-                margin-left: 50px;
                 margin-top: 7px;
                 position: relative;
-                width: 350px;
+                width: 75%;
 
                 .content-column {
-                    width: 159px;
+                    width: 50%;
                 }
 
                 .content-input {
@@ -673,6 +677,6 @@
     }
 
     .margin-top {
-        margin-top: 10px;
+        margin-top: 10px !important;
     }
 }

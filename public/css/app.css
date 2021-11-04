@@ -10019,6 +10019,13 @@ h3 {
   background-color: rgba(220, 53, 69, 0.7) !important;
 }
 
+.themeColor-on-hover {
+  transition: all 0.35s ease-in-out;
+}
+.themeColor-on-hover:hover {
+  background-color: rgba(242, 117, 0, 0.7) !important;
+}
+
 .succes-on-hover {
   transition: all 0.35s ease-in-out;
 }

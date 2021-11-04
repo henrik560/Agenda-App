@@ -40,7 +40,8 @@ class ReservationController extends Controller
         $reservation->reserved_by_user_id = auth()->user()->id;
         $reservation->save();
 
-        return response($content = 'SUCCESSS!', $status = 201);
+        return response()->json(['lastID' => $reservation->id]);
+        // return response()->json(['data' => $reservation->id]);
         // return $request;
 
         // return response($content = 'Succesfully!');
@@ -54,6 +55,9 @@ class ReservationController extends Controller
      */
     public function show($id)
     {
+        $reservation = Reservation::where('id', $id)->with('reservationHasUser')->get();
+
+        return response()->json(["reservation" => $reservation]);
     }
 
     /**
@@ -86,6 +90,7 @@ class ReservationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Reservation::find($id)->delete();
+        return response($content = "succes", $status = "200");
     }
 }

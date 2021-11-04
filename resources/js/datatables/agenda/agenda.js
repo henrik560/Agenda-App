@@ -52,6 +52,11 @@ class Agenda extends React.Component {
         if(box == "error") {
             this.setState(prev => ({errorBoxOpen: !prev.errorBoxOpen}))
         }else if (box== "succes") {
+            if(this.state.succesBoxOpen == true) {
+                setTimeout(() => {
+                    location.reload(false);
+                }, 300);
+            }
             this.setState(prev => ({succesBoxOpen: !prev.succesBoxOpen}))
         }
     }
