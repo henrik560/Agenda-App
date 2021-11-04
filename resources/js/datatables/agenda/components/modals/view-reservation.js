@@ -6,7 +6,6 @@ import axios from 'axios';
 export const ViewReservationModal = ({modalOpen, closeModal, reservation, marginLeft, marginTop, deleteReservation}) => {
     const [ userRole, setUserRole ] = useState() 
     const [ editRows, setEditRowsStatus ] = useState(false)
-    const [ deleteConfirm, setDeleteConfirmOpen ] = useState(false)
 
     useEffect(async() => {
         var userID = document.getElementById("userID")
@@ -17,8 +16,7 @@ export const ViewReservationModal = ({modalOpen, closeModal, reservation, margin
     }, [])
 
     function handleDeleteReservationClick(reservationID, reservationElementID) {
-        setDeleteConfirmOpen(true);
-        // deleteReservation(reservationID, reservationElementID)
+        deleteReservation(reservationID, reservationElementID)
     }
 
     return (
@@ -63,38 +61,6 @@ export const ViewReservationModal = ({modalOpen, closeModal, reservation, margin
                             </div>
                         </div>
                     </div>
-                    <AnimatePresence >
-            {
-                deleteConfirm && (
-                    <motion.div 
-                    id="edit-modal" 
-                    className="position-absolute d-flex justify-content-center align-items-center w-100 h-100 top-0 start-0" 
-                    style={{backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 1050}}
-                    initial={{opacity: 0}}
-                    animate={{opacity: 1}}
-                    exit={{opacity: 0}}
-                    >
-                    <div className="position-relative w-25 h-25 bg-light rounded">
-                        <div className="position-relative">
-                            <div className="d-flex justify-content-end align-items-center">
-                                <i className="fas fa-times color-placeholder themeColor-hover close-icon-modal fs-20"></i>
-                            </div>
-                            <div className="d-flex flex-column w-100 mt-4 justify-content-center align-items-center gap-3">
-                                <div className="ml-5 mr-5 fs-5">Weet u zeker dat u de reservering wilt verwijderen?</div>
-                            </div>
-                            <div className="d-flex position-relative justify-content-center w-100" style={{marginTop: '40px'}}>
-                                <div className="ml-5 w-100 mr-5 d-flex justify-content-around align-items-center gap-5 text-white">
-                                    <div id="cancel"  className="position-relative d-flex justify-content-center align-items-center bg-danger w-50 rounded p-2 danger-on-hover border border-5 border-danger">Annuleren</div>
-                                    <div id="continue" className="position-relative d-flex justify-content-center align-items-center bg-success w-50 rounded p-2 succes-on-hover border border-5 border-succes">Doorgaan</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </motion.div>
-                )
-            }
-    
-        </AnimatePresence>
                 </motion.div>
             }
         </AnimatePresence>

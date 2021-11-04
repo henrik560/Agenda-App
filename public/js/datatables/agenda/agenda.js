@@ -3089,7 +3089,8 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
 
   _createClass(BodyContent, [{
     key: "componentDidUpdate",
-    value: function componentDidUpdate() {}
+    value: function componentDidUpdate() {// console.log(this.props.currentDate)
+    }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
@@ -3311,22 +3312,23 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 if (this.state.createReservationPopupOpen == true) this.closeModal("reservation");
+                console.log(event.target.id);
                 reservation = document.getElementById(event.target.id);
-                _context4.next = 4;
+                _context4.next = 5;
                 return this.fetchReservationData(reservation.getAttribute("data-reservationid"));
 
-              case 4:
+              case 5:
                 viewReservationData = _context4.sent;
                 viewReservationData["reservationElementID"] = reservation.id;
 
                 if (!(viewReservationData == "error")) {
-                  _context4.next = 8;
+                  _context4.next = 9;
                   break;
                 }
 
                 return _context4.abrupt("return", handleFormSubmissionStatus("error"));
 
-              case 8:
+              case 9:
                 reservationParent = reservation.parentNode;
                 agendaGrid = reservation.parentNode.parentNode.cloneNode(true);
                 marginLeft = 100;
@@ -3365,7 +3367,7 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                 console.log(viewReservationData); // console.log(reservation)
                 // timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime")
 
-              case 17:
+              case 18:
               case "end":
                 return _context4.stop();
             }
@@ -3616,7 +3618,10 @@ var BodyContent = /*#__PURE__*/function (_React$Component) {
                   height: 576
                 },
                 children: space.reservations.map(function (reservation, resIndex) {
-                  if (reservation.date == _this2.props.currentDate || reservation.starttime < reservation.endtime) {
+                  console.log(reservation.date);
+                  console.log(_this2.props.currentDate);
+
+                  if (reservation.date == _this2.props.currentDate && reservation.starttime < reservation.endtime) {
                     var start = reservation.starttime.split(":");
                     var end = reservation.endtime.split(":");
                     var cardMarginTop = (start[0] - 8) * 36 + Math.round(start[1] / 15) * 9;
@@ -4806,11 +4811,6 @@ var ViewReservationModal = function ViewReservationModal(_ref) {
       editRows = _useState4[0],
       setEditRowsStatus = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      deleteConfirm = _useState6[0],
-      setDeleteConfirmOpen = _useState6[1];
-
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
     var userID;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -4841,7 +4841,7 @@ var ViewReservationModal = function ViewReservationModal(_ref) {
   })), []);
 
   function handleDeleteReservationClick(reservationID, reservationElementID) {
-    setDeleteConfirmOpen(true); // deleteReservation(reservationID, reservationElementID)
+    deleteReservation(reservationID, reservationElementID);
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.AnimatePresence, {
@@ -4963,59 +4963,6 @@ var ViewReservationModal = function ViewReservationModal(_ref) {
               children: "Opslaan"
             })
           })]
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_4__.AnimatePresence, {
-        children: deleteConfirm && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(framer_motion__WEBPACK_IMPORTED_MODULE_5__.motion.div, {
-          id: "edit-modal",
-          className: "position-absolute d-flex justify-content-center align-items-center w-100 h-100 top-0 start-0",
-          style: {
-            backgroundColor: 'rgba(0,0,0,0.6)',
-            zIndex: 1050
-          },
-          initial: {
-            opacity: 0
-          },
-          animate: {
-            opacity: 1
-          },
-          exit: {
-            opacity: 0
-          },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "position-relative w-25 h-25 bg-light rounded",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              className: "position-relative",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: "d-flex justify-content-end align-items-center",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-                  className: "fas fa-times color-placeholder themeColor-hover close-icon-modal fs-20"
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: "d-flex flex-column w-100 mt-4 justify-content-center align-items-center gap-3",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: "ml-5 mr-5 fs-5",
-                  children: "Weet u zeker dat u de reservering wilt verwijderen?"
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: "d-flex position-relative justify-content-center w-100",
-                style: {
-                  marginTop: '40px'
-                },
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                  className: "ml-5 w-100 mr-5 d-flex justify-content-around align-items-center gap-5 text-white",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    id: "cancel",
-                    className: "position-relative d-flex justify-content-center align-items-center bg-danger w-50 rounded p-2 danger-on-hover border border-5 border-danger",
-                    children: "Annuleren"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    id: "continue",
-                    className: "position-relative d-flex justify-content-center align-items-center bg-success w-50 rounded p-2 succes-on-hover border border-5 border-succes",
-                    children: "Doorgaan"
-                  })]
-                })
-              })]
-            })
-          })
         })
       })]
     })
@@ -69727,9 +69674,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_body_content__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/body-content */ "./resources/js/datatables/agenda/components/body-content.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -69781,7 +69726,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
 moment.locale("nl");
@@ -69803,20 +69747,20 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!(localStorage.getItem("agendaBuildings") && localStorage.getItem("agendaChildElementsSpaces"))) {
+              if (!(localStorage.getItem("agendaApp.agendaBuildings") && localStorage.getItem("agendaApp.agendaChildElementsSpaces"))) {
                 _context.next = 5;
                 break;
               }
 
-              if (localStorage.getItem("agendaBuildings")) {
+              if (localStorage.getItem("agendaApp.agendaBuildings")) {
                 _this.setState({
-                  buildings: JSON.parse(localStorage.getItem("agendaBuildings"))
+                  buildings: JSON.parse(localStorage.getItem("agendaApp.agendaBuildings"))
                 });
               }
 
               if (localStorage.getItem("agendaChildElementsSpaces")) {
                 _this.setState({
-                  childElementsSpaces: JSON.parse(localStorage.getItem("agendaChildElementsSpaces"))
+                  childElementsSpaces: JSON.parse(localStorage.getItem("agendaApp.agendaChildElementsSpaces"))
                 });
               }
 
@@ -69855,8 +69799,9 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
                 _this.setState({
                   buildings: buildings,
                   childElementsSpaces: childElementsSpaces
-                }); // localStorage.setItem("agendaBuildings", JSON.stringify(this.state.buildings))
+                });
 
+                localStorage.setItem("agendaApp.agendaBuildings", JSON.stringify(_this.state.buildings));
               });
 
             case 7:
@@ -69867,12 +69812,38 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
       }, _callee);
     })));
 
+    _defineProperty(_assertThisInitialized(_this), "getDateFromLocaleStorage", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      var savedDate;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (localStorage.getItem("agendaApp.lastSavedDate")) {
+                savedDate = JSON.parse(localStorage.getItem("agendaApp.lastSavedDate"));
+                setTimeout(function () {
+                  _this.setState({
+                    current_year: savedDate.year,
+                    current_month: savedDate.month,
+                    current_day: savedDate.day,
+                    month: moment().month(savedDate.month).format("M")
+                  });
+                }, 500);
+              }
+
+            case 1:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    })));
+
     _this.date = new Date(), _this.month = _this.date.getMonth() + 1, _this.year = _this.date.getFullYear(), _this.state = {
       current_year: _this.date.getFullYear(),
       current_month: _this.date.toLocaleString('default', {
         month: 'long'
       }),
-      current_day: _this.date.getDate(),
+      current_day: _this.date.toISOString().split('T')[0].split("-")[2],
       list_year: [_this.date.getFullYear(), _this.date.getFullYear() + 1, _this.date.getFullYear() + 2, _this.date.getFullYear() + 3],
       list_month: moment.months(),
       list_day: _this.renderDaysInMonthArray(),
@@ -69895,7 +69866,7 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
       var daysInMonthArray = [];
 
       for (var i = 1; i <= new Date(this.year, this.month + 1, 0).getDate(); i++) {
-        daysInMonthArray.push(i);
+        i < 10 ? daysInMonthArray.push("0".concat(i)) : daysInMonthArray.push(i);
       }
 
       return daysInMonthArray;
@@ -69926,15 +69897,29 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "changeDate",
     value: function changeDate(dateType, newDate) {
+      var _this2 = this;
+
       var validTypes = ["current_year", "current_month", "current_day"];
 
       if (validTypes.includes(dateType.toLowerCase()) && typeof newDate == "string") {
-        this.setState(_defineProperty({}, dateType, newDate));
+        var _this$setState;
+
+        dateType == "current_month" ? this.setState((_this$setState = {}, _defineProperty(_this$setState, dateType, newDate), _defineProperty(_this$setState, "month", moment().month(newDate).format("M")), _this$setState)) : this.setState(_defineProperty({}, dateType, newDate));
       }
+
+      setTimeout(function () {
+        localStorage.removeItem("agendaApp.lastSavedDate");
+        localStorage.setItem("agendaApp.lastSavedDate", JSON.stringify({
+          year: _this2.state.current_year,
+          month: _this2.state.current_month,
+          day: _this2.state.current_day
+        }));
+      }, 100);
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
+      this.getDateFromLocaleStorage();
       this.fetchBuildings();
     }
   }, {
@@ -69955,53 +69940,54 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
           childElementsSpaces: childElementsSpaces,
           fetchedSpacesFromDom: true
         });
-        setTimeout(function () {// localStorage.setItem("agendaChildElementsSpaces", JSON.stringify(childElementsSpaces))
+        setTimeout(function () {
+          localStorage.setItem("agendaChildElementsSpaces", JSON.stringify(childElementsSpaces));
         }, 100);
       }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "agenda mb-3 d-flex justify-content-center",
-        children: [this.state.succesBoxOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        children: [this.state.succesBoxOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "reservation-box-wrapper",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "reservation-succes-box d-flex flex-column",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "box-header w-100 d-flex justify-content-end align-items-end ",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                 className: "fas fa-times mr-3 mt-3",
                 onClick: function onClick() {
-                  return _this2.setBoxStatus("succes");
+                  return _this3.setBoxStatus("succes");
                 }
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "box-body d-flex w-100",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
                 className: "box-body-message d-flex flex-column mt-2 w-100 justify-content-center align-items-center",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
                   className: "box-body-title",
                   children: "Succes!"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
                   className: "box-body-desc",
                   children: "Uw reservering is succesvol geplaatst."
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
                   className: "body-image d-flex justify-content-center align-items-center mt-4",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
                     src: "/images/checked.png",
                     width: "35%"
                   })
                 })]
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "box-footer",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
                 className: "box-footer-button",
                 onClick: function onClick() {
-                  return _this2.setBoxStatus("succes");
+                  return _this3.setBoxStatus("succes");
                 },
                 style: {
                   backgroundColor: '#32ba7c'
@@ -70010,41 +69996,41 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               })
             })]
           })
-        }), this.state.errorBoxOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        }), this.state.errorBoxOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "reservation-box-wrapper",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "reservation-error-box d-flex flex-column",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "box-header w-100 d-flex justify-content-end align-items-end ",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                 className: "fas fa-times mr-3 mt-3",
                 onClick: function onClick() {
-                  return _this2.setBoxStatus("error");
+                  return _this3.setBoxStatus("error");
                 }
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "box-body d-flex w-100",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
                 className: "box-body-message d-flex flex-column mt-2 w-100 justify-content-center align-items-center",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
                   className: "box-body-title",
                   children: "Error!"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
                   className: "box-body-desc",
                   children: "Er is iets fout gegaan bij het plaatsen van uw reservering."
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
                   className: "body-image d-flex justify-content-center align-items-center mt-4",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
                     src: "/images/cancel.png",
                     width: "35%"
                   })
                 })]
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "box-footer",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
                 onClick: function onClick() {
-                  return _this2.setBoxStatus("error");
+                  return _this3.setBoxStatus("error");
                 },
                 className: "box-footer-button",
                 style: {
@@ -70054,35 +70040,35 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               })
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "content-header-wrapper d-flex justify-content-between",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "header-date d-flex w-10 width-190px justify-content-center align-items-center h-0 fs-6 fw-bold ",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
               className: "day mr-2 d-flex justify-content-center align-items-center",
               children: this.state.current_day
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
               className: "month mr-2 d-flex justify-content-center align-items-center",
               children: this.state.current_month
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
               className: "year d-flex justify-content-center align-items-center",
               children: this.state.current_year
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "content-header d-flex flex-row justify-content-between",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
               list: this.state.list_year,
               changeData: this.changeDate,
               dataTarget: "year-dropdown",
               dateType: "current_year",
               titleName: "Jaar"
-            }, "year"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            }, "year"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
               list: this.state.list_month,
               changeData: this.changeDate,
               dataTarget: "month-dropdown",
               dateType: "current_month",
               titleName: "Maand"
-            }, "month"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            }, "month"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
               list: this.state.list_day,
               changeData: this.changeDate,
               dataTarget: "day-dropdown",
@@ -70090,41 +70076,41 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
               titleName: "Dag"
             }, "day")]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "agenda-child-container",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "header-container",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "fake-header-time-item"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "sticky-header",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_header__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_header__WEBPACK_IMPORTED_MODULE_4__["default"], {
                 buildings: this.state.buildings
               })
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "content-container",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "time-line-end-disabler"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "time-container",
               children: this.state.day.map(function (time, index) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
                   className: "time-item",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
                     className: "time-item-container",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
                       children: "".concat(time, ":00")
                     }, time)
                   }, time + index)
                 }, time + time);
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               id: "time-grid-inner",
               className: "time-grid flex-grow-1",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_body_content__WEBPACK_IMPORTED_MODULE_5__["default"], {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_body_content__WEBPACK_IMPORTED_MODULE_5__["default"], {
                 onReservationCreate: function onReservationCreate(box) {
-                  return _this2.setBoxStatus(box);
+                  return _this3.setBoxStatus(box);
                 },
                 childElements: this.state.childElementsSpaces,
                 currentDate: "".concat(this.state.current_year, "-").concat(this.month, "-").concat(this.state.current_day)
@@ -70140,7 +70126,7 @@ var Agenda = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
 if (document.getElementById("agenda-wrapper")) {
-  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(Agenda, {}), document.getElementById("agenda-wrapper"));
+  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Agenda, {}), document.getElementById("agenda-wrapper"));
 }
 })();
 

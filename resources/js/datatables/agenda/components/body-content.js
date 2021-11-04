@@ -33,6 +33,7 @@ export default class BodyContent extends React.Component {
     }
 
     componentDidUpdate() {
+        // console.log(this.props.currentDate)
     }
 
     componentDidMount() {
@@ -189,6 +190,7 @@ export default class BodyContent extends React.Component {
 
     async cardOnClickHandler(event) {   
         if(this.state.createReservationPopupOpen == true) this.closeModal("reservation") 
+        console.log(event.target.id)
         const reservation = document.getElementById(event.target.id)
         var viewReservationData = await this.fetchReservationData(reservation.getAttribute("data-reservationid"))
         viewReservationData["reservationElementID"] = reservation.id
@@ -349,7 +351,9 @@ export default class BodyContent extends React.Component {
                                             style={{width: space.width, height: 576}}>
                                                 {
                                                     space.reservations.map((reservation, resIndex) => {
-                                                        if(reservation.date == this.props.currentDate || reservation.starttime < reservation.endtime) {
+                                                        console.log(reservation.date)
+                                                        console.log(this.props.currentDate)
+                                                        if(reservation.date == this.props.currentDate && reservation.starttime < reservation.endtime) {
                                                             var start = reservation.starttime.split(":")
                                                             var end = reservation.endtime.split(":")
                                                             var cardMarginTop = ((start[0] -8) * 36) + (Math.round(start[1] / 15) * 9)

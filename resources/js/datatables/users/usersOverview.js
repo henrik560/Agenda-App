@@ -4,7 +4,6 @@ import { Modal } from './components/modal'
 import TableContent from './components/table-content';
 import TablePageSelector from './components/page-selector';
 import axios from 'axios';
-import config from "../../tempConfg.json"
 
 
 class Users extends React.Component {
@@ -23,32 +22,32 @@ class Users extends React.Component {
     }
 
     componentDidMount() {
-        this.setModalState = this.setModalState.bind(this)
-        this.fetchUsers = this.fetchUsers.bind(this);
-        this.setCurrentPage = this.setCurrentPage.bind(this);
-        this.fetchUsers();
+        this.fetchusers()
+        // this.setModalState = this.setModalState.bind(this)
+        // this.fetchUsers = this.fetchUsers.bind(this);
+        // this.setCurrentPage = this.setCurrentPage.bind(this);
+        // this.fetchUsers();
     }
 
-    setModalState() {
-        this.setState({openModal : this.state.openModal ? !this.state.openModal : true})
-    }
+    // setModalState() {
+    //     this.setState({openModal : this.state.openModal ? !this.state.openModal : true})
+    // }
 
-    setListAmount = async (e) => {
-        var newAmount = parseInt(e.target.innerHTML)
-        await this.setModalState()
-        var usersInChunks = await this.splitInChunks(this.state.users, newAmount)
-        await this.setState({usersInChunks: usersInChunks, listAmount: newAmount, currentPage: this.state.currentPage <= usersInChunks.length ? this.state.currentPage : usersInChunks.length})
-        await this.filterListOnKeyWord(this.state.searchKeyWord)
-    }
+    // setListAmount = async (e) => {
+    //     var newAmount = parseInt(e.target.innerHTML)
+    //     await this.setModalState()
+    //     var usersInChunks = await this.splitInChunks(this.state.users, newAmount)
+    //     await this.setState({usersInChunks: usersInChunks, listAmount: newAmount, currentPage: this.state.currentPage <= usersInChunks.length ? this.state.currentPage : usersInChunks.length})
+    //     await this.filterListOnKeyWord(this.state.searchKeyWord)
+    // }
 
     fetchusers = async () => {
         this.setState({ refresh: true, usersInChunks: [] })
-        await axios.get(`${config.baseurl}/api/users/`).then(response => {
-            var users = [];
+        await axios.get(`/api/users/`).then(response => {
+            var users = []
             Object.values(response.data).flat().map((el, id) => users.push(el))
-            this.setState({ usersInChunks: this.splitInChunks(users, this.state.listAmount), users })
+            this.setState({ usersInChunks: this.splitInChunks(users, this.state.listAmount), users, refresh: false })
         })
-        this.setState({refresh: false})
     }
 
     splitInChunks(array, size) {
@@ -59,24 +58,24 @@ class Users extends React.Component {
         return results;
     };
 
-    setCurrentPage(newPage) {
-        var newPage = parseInt(newPage)
-        this.setState({currentPage: newPage})
-    }
+    // setCurrentPage(newPage) {
+    //     var newPage = parseInt(newPage)
+    //     this.setState({currentPage: newPage})
+    // }
 
-    filterListOnKeyWord(keyWord) {
-        var usersArray = this.splitInChunks(this.state.users.filter((word) => word.name.toLocaleLowerCase().includes(keyWord.toLocaleLowerCase())), this.state.listAmount)
-        if(usersArray.length == 0) {
-            this.setState({noResults: true, usersInChunks: usersArray, searchKeyWord: keyWord})
-        }else {
-            this.setState({noResults: false, usersInChunks: usersArray, currentPage: this.state.currentPage <= usersArray.length ? this.state.currentPage : usersArray.length})
-        }
-    }
+    // filterListOnKeyWord(keyWord) {
+    //     var usersArray = this.splitInChunks(this.state.users.filter((word) => word.name.toLocaleLowerCase().includes(keyWord.toLocaleLowerCase())), this.state.listAmount)
+    //     if(usersArray.length == 0) {
+    //         this.setState({noResults: true, usersInChunks: usersArray, searchKeyWord: keyWord})
+    //     }else {
+    //         this.setState({noResults: false, usersInChunks: usersArray, currentPage: this.state.currentPage <= usersArray.length ? this.state.currentPage : usersArray.length})
+    //     }
+    // }
 
-    searchbar(keyWord) {
-        if(this.state.refresh == true) return
-        this.filterListOnKeyWord(keyWord.target.value)
-    }
+    // searchbar(keyWord) {
+    //     if(this.state.refresh == true) return
+    //     this.filterListOnKeyWord(keyWord.target.value)
+    // }
 
     render() {
         return (
@@ -111,7 +110,7 @@ class Users extends React.Component {
                         </div>
                     </div>
                     <div id="table-body" className="d-flex flex-grow-1 flex-column">
-                        {/* <TableContent loading={this.state.refresh} users={ this.state.usersInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} /> */}
+                        <TableContent loading={this.state.refresh} users={ this.state.usersInChunks } searchError={this.state.noResults} listAmount={this.state.listAmount} currentPage={this.state.currentPage -1} />
                     </div>
                     <div id="table-footer" className="mt-3 ml-2 mb-3 d-flex flex-row justify-content-between">
                             <Modal openModal={this.state.openModal} current={this.state.listAmount} setListAmount={(e) => {this.setListAmount(e)}} />
@@ -125,7 +124,7 @@ class Users extends React.Component {
                             </div>
                         </div>
                         <div id="pages-icons" className="d-flex">
-                            {/* <TablePageSelector users={ this.state.usersInChunks } searchError={this.state.noResults} currentPage={this.state.currentPage} setCurrentPage={(e) => { this.setCurrentPage(e) }} /> */}
+                            <TablePageSelector users={ this.state.usersInChunks } searchError={this.state.noResults} currentPage={this.state.currentPage} setCurrentPage={(e) => { this.setCurrentPage(e) }} />
                         </div>
                     </div>
                 </div>

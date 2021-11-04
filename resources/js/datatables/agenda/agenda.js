@@ -4,7 +4,6 @@ import Dropdown  from './components/dropdown';
 import Header from './components/header';
 import BodyContent from './components/body-content';
 import axios from 'axios';
-import { locale } from 'moment';
 const moment = require('moment');
 moment.locale("nl")
 
@@ -19,7 +18,7 @@ class Agenda extends React.Component {
         this.state = {
             current_year: this.date.getFullYear(),
             current_month: this.date.toLocaleString('default', { month: 'long' }),
-            current_day: this.date.getDate(),
+            current_day: this.date.toISOString().split('T')[0].split("-")[2],
             list_year : [
                 this.date.getFullYear(),
                 this.date.getFullYear() + 1,
@@ -43,7 +42,7 @@ class Agenda extends React.Component {
     renderDaysInMonthArray() {
         var daysInMonthArray = []
         for (let i = 1; i <= new Date(this.year, this.month + 1, 0).getDate(); i++) {
-            daysInMonthArray.push(i) 
+            i < 10 ? daysInMonthArray.push(`0${i}`) : daysInMonthArray.push(i)  
         }
         return daysInMonthArray
     }
@@ -62,14 +61,12 @@ class Agenda extends React.Component {
     }
 
     fetchBuildings = async () => {
-        //agendaChildElementsSpaces
-        //agendaBuildings
-        if(localStorage.getItem("agendaBuildings") && localStorage.getItem("agendaChildElementsSpaces")) {
-            if(localStorage.getItem("agendaBuildings")) {
-                this.setState({buildings: JSON.parse(localStorage.getItem("agendaBuildings"))})
+        if(localStorage.getItem("agendaApp.agendaBuildings") && localStorage.getItem("agendaApp.agendaChildElementsSpaces")) {
+            if(localStorage.getItem("agendaApp.agendaBuildings")) {
+                this.setState({buildings: JSON.parse(localStorage.getItem("agendaApp.agendaBuildings"))})
             }
             if(localStorage.getItem("agendaChildElementsSpaces")) {
-                this.setState({childElementsSpaces: JSON.parse(localStorage.getItem("agendaChildElementsSpaces"))})
+                this.setState({childElementsSpaces: JSON.parse(localStorage.getItem("agendaApp.agendaChildElementsSpaces"))})
             }
         }else {
             await axios.get(`api/users/${document.getElementById("userID") ? document.getElementById("userID").value : ''}`).then(response => {
@@ -95,7 +92,7 @@ class Agenda extends React.Component {
                         }
                     })
                 this.setState({ buildings, childElementsSpaces })
-                // localStorage.setItem("agendaBuildings", JSON.stringify(this.state.buildings))
+                localStorage.setItem("agendaApp.agendaBuildings", JSON.stringify(this.state.buildings))
             });
         }
     }
@@ -103,12 +100,25 @@ class Agenda extends React.Component {
     changeDate(dateType, newDate) {
         var validTypes = ["current_year", "current_month", "current_day"]
         if(validTypes.includes(dateType.toLowerCase()) && typeof newDate == "string") {
-            this.setState({[dateType]: newDate})
+            dateType == "current_month" ? this.setState({[dateType]: newDate, month: moment().month(newDate).format("M")}) : this.setState({[dateType]: newDate})
+        }
+        setTimeout(() => {
+            localStorage.removeItem("agendaApp.lastSavedDate");
+            localStorage.setItem("agendaApp.lastSavedDate", JSON.stringify({year:this.state.current_year, month: this.state.current_month, day: this.state.current_day}))
+        }, 100);
+    }
+
+    getDateFromLocaleStorage = async () => {
+        if(localStorage.getItem("agendaApp.lastSavedDate")) {
+            var savedDate = JSON.parse(localStorage.getItem("agendaApp.lastSavedDate"))
+            setTimeout(() => {
+                this.setState({current_year: savedDate.year, current_month: savedDate.month, current_day: savedDate.day, month: moment().month(savedDate.month).format("M")})
+            }, 500);
         }
     }
 
-
     componentDidMount() {
+        this.getDateFromLocaleStorage()
         this.fetchBuildings()
     }
 
@@ -124,7 +134,7 @@ class Agenda extends React.Component {
             })
             this.setState({childElementsSpaces, fetchedSpacesFromDom: true})
             setTimeout(() => {
-                // localStorage.setItem("agendaChildElementsSpaces", JSON.stringify(childElementsSpaces))
+                localStorage.setItem("agendaChildElementsSpaces", JSON.stringify(childElementsSpaces))
             }, 100);
         }
         
