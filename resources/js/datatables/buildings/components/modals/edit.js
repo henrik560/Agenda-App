@@ -37,7 +37,7 @@ export const EditBuildingModal = ({ openModal, saveModalData, closeModal, modalD
                     <div className="position-relative w-25 h-25 bg-light rounded">
                         <div className="position-relative">
                             <div className="d-flex justify-content-end align-items-center">
-                                <i onClick={() => closeModal("edit", false)} className="fas fa-times color-placeholder themeColor-hover close-icon fs-20"></i>
+                                <i onClick={() => closeModal("edit", false)} className="fas fa-times color-placeholder themeColor-hover close-icon-modal fs-20"></i>
                             </div>
                             <div className="d-flex flex-column w-100 mt-4 justify-content-center align-items-center gap-3">
                                 <div className={`d-flex flex-row w-75 ${!edit&& 'underline-placeholder'}`}>

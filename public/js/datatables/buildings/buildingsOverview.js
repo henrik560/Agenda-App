@@ -3219,7 +3219,7 @@ var EditBuildingModal = function EditBuildingModal(_ref) {
               onClick: function onClick() {
                 return closeModal("edit", false);
               },
-              className: "fas fa-times color-placeholder themeColor-hover close-icon fs-20"
+              className: "fas fa-times color-placeholder themeColor-hover close-icon-modal fs-20"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
             className: "d-flex flex-column w-100 mt-4 justify-content-center align-items-center gap-3",

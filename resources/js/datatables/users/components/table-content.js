@@ -8,8 +8,6 @@ export default class TableContent extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log(this.props)
-        if(!this.props.loading) console.log(this.props.users)
     }
 
     render() {

@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import { Modal } from './components/modal'
 import TableContent from './components/table-content';
 import TablePageSelector from './components/page-selector';
+import { EditUserModal } from './components/modals/edit';
 import axios from 'axios';
 
 
@@ -18,6 +19,7 @@ class Users extends React.Component {
             refresh: false,
             noResults: false,
             searchKeyWord: '',
+            editUserModalOpen: false,
         }
     }
 
@@ -129,6 +131,7 @@ class Users extends React.Component {
                     </div>
                 </div>
             </div>
+            <EditUserModal openModal={this.state.editUserModalOpen}/>
         </div>
         )
     }
