@@ -19,7 +19,7 @@ export default class BodyContent extends React.Component {
             addContactPersonModalOpen: false,
             invoiceAddressModalOpen: false,
             viewReservationModalOpen: false,
-            listOfUsers: this.fetchUsers(),
+            listOfUsers: [],
             csrftoken: '',
             viewReservationData: '',
             modalMarginLeft: '',
@@ -37,19 +37,26 @@ export default class BodyContent extends React.Component {
     }
 
     componentDidMount() {
-        var token = document.getElementById("csrf_Token");
-        this.setState({csrftoken: token.getAttribute("value")});
+     
     }
 
+    async componentDidMount() {  
+        var token = document.getElementById("csrf_Token");
+        this.setState({csrftoken: token.getAttribute("value")});
+        try {
+            await this.fetchUsers()  // it will wait here untill function a finishes
+        } catch(err) {}
+    }
     
     fetchUsers = async () => {
-        await axios.get('api/users/').then(response => {
-            var users = [];
-            Object.values(response.data)[0].forEach((user) => {
-                users.push({name: user.name, role: user.role});
+        try {
+            await axios.get('api/users/').then((response) => {
+                this.setState({listOfUsers: response.data})
             })
-            this.setState({listOfUsers: users})
-        });
+        }catch(e) {
+            console.log(`Error fetching users: ${e}`)
+        }
+       
     }
 
     removeChild(child) {
@@ -133,7 +140,7 @@ export default class BodyContent extends React.Component {
             starttime.setAttribute("value", startTimeString)
             endtime.setAttribute("value", endTimeString)
             newestReservation.children[0].innerHTML = title.value
-            newestReservation.children[1].innerHTML = person.value
+            newestReservation.children[1].innerHTML = person.innerHTML
             newestReservation.setAttribute("data-starttime", startTimeString)
             newestReservation.setAttribute("data-endtime", endTimeString)
 
@@ -160,13 +167,11 @@ export default class BodyContent extends React.Component {
                     headers: { "Content-Type": "multipart/form-data" },
                 }).then(function (response) {
                     postStatus = true
-                    console.log(response)
                     if(reservation) reservation.setAttribute("data-reservationid", response.data.lastID)
                   }).catch(function (response) {
                     postStatus = false
                   });
             }catch(e) {
-                console.log(e)
             }
         }
         if(postStatus) {
@@ -190,7 +195,6 @@ export default class BodyContent extends React.Component {
 
     async cardOnClickHandler(event) {   
         if(this.state.createReservationPopupOpen == true) this.closeModal("reservation") 
-        console.log(event.target.id)
         const reservation = document.getElementById(event.target.id)
         var viewReservationData = await this.fetchReservationData(reservation.getAttribute("data-reservationid"))
         viewReservationData["reservationElementID"] = reservation.id
@@ -215,8 +219,6 @@ export default class BodyContent extends React.Component {
         // const timepopup = document.getElementById("view-reservation-modal")
         this.setState({modalMarginLeft: marginLeft, modalMarginTopClickedElement: event.target.style.top, viewReservationData})
         this.openModal("viewReservation")
-        console.log(viewReservationData)
-        // console.log(reservation)
         // timepopup.innerHTML = reservation.getAttribute("data-starttime") + ' - ' + reservation.getAttribute("data-endtime")
     }
 
@@ -271,6 +273,7 @@ export default class BodyContent extends React.Component {
         var newReservationElement = document.createElement("div")
         var marginTop = (Math.round(element.nativeEvent.offsetY / 9) * 9)
         var randomID = uuidv4()
+        if(!parentElement) return 
         //Set spaceID in form for form submission
         var spaceIDInput = document.getElementById("resSpaceID")
         if(spaceIDInput) spaceIDInput.setAttribute('value', element.target.id.split("-")[3])
@@ -351,8 +354,6 @@ export default class BodyContent extends React.Component {
                                             style={{width: space.width, height: 576}}>
                                                 {
                                                     space.reservations.map((reservation, resIndex) => {
-                                                        console.log(reservation.date)
-                                                        console.log(this.props.currentDate)
                                                         if(reservation.date == this.props.currentDate && reservation.starttime < reservation.endtime) {
                                                             var start = reservation.starttime.split(":")
                                                             var end = reservation.endtime.split(":")
@@ -430,6 +431,7 @@ export default class BodyContent extends React.Component {
                         saveModal={() => this.saveModal("viewReservation")}
                         closeModal={() => this.closeModal("viewReservation")}
                         reservation={this.state.viewReservationData}
+                        listOfUsers={this.state.listOfUsers}
                         deleteReservation={(reservationID, elementID) => {this.deleteReservation(reservationID, elementID)}}
                     />
                 </form>

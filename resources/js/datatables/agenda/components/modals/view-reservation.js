@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios';
 
 
-export const ViewReservationModal = ({modalOpen, closeModal, reservation, marginLeft, marginTop, deleteReservation}) => {
+export const ViewReservationModal = ({modalOpen, closeModal, reservation, marginLeft, marginTop, deleteReservation, listOfUsers}) => {
     const [ userRole, setUserRole ] = useState() 
     const [ editRows, setEditRowsStatus ] = useState(false)
 
@@ -47,7 +47,11 @@ export const ViewReservationModal = ({modalOpen, closeModal, reservation, margin
                             </div>
                             <div className={`content-row ${!editRows && 'content-row-border-bottom'}`}>
                                 <div className="content-column">Contact Persoon</div>
-                                { editRows == false ? <div className="content-column content-value">{`${reservation.reservation_has_user.name}`}</div> : <input className="content-column content-value content-input" placeholder={`${reservation.reservation_has_user.name}`}></input>} 
+                                <div className="content-input d-flex w-50">
+                                    <span>Klik om te openen</span>
+                                    <i className="fas fa-sort-down" style={{color: '#8e8e8e'}}></i>
+                                </div>
+                                {/* { editRows == false ? <div className="content-column content-value">{`${reservation.reservation_has_user.name}`}</div> : <input className="content-column content-value content-input" placeholder={`${reservation.reservation_has_user.name}`}></input>}  */}
                             </div>
                         </div>
                     </div>
